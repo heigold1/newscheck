@@ -1,0 +1,637 @@
+		body{
+		font-family: arial;
+		margin:0;			
+		background-color:#f2f2f2;
+		}
+		#header{
+			width:100%;  
+			height:50px;
+			background-color:#333; 
+			box-shadow: 0px 4px 2px #333; 
+		}
+
+		#header>h1{
+			padding:10px;
+			text-indent: 40px; 
+			width: 1024px;
+			margin:0px auto;  
+			color:white;
+		}
+
+		#mainDiv{
+			position: absolute;
+			background-color: blue; 
+		}
+
+		#addSymbolButton{
+			position: absolute;  
+			height: 40px;	
+			width: 150px;
+			margin:0px auto;
+			top: 7px;
+			left: 260px;
+			background-color: #EBEBE0; 
+			border: 1px solid #333;
+			border-radius: 10px;
+			font-size: 20px; 
+		}
+
+		#startStopTimerButton{
+			position: absolute;  
+			height: 40px;	
+			width: 140px;
+			margin:0px auto;
+			top: 7px;
+/*			left: 427px; right above the panel */  
+			left: 415px;
+			background-color: #EBEBE0; 
+			border: 1px solid #333;
+			border-radius: 10px;
+			font-size: 20px; 
+/*			display:none;  */
+		}
+
+		#expandAllButton{
+			position: absolute;  
+			height: 40px;	
+			width: 140px;
+			margin:0px auto;
+			top: 7px;
+			left: 560px;
+			background-color: #EBEBE0; 
+			border: 1px solid #333;
+			border-radius: 10px;
+			font-size: 20px; 
+/*			display:none;  */
+		}
+
+		#collapseAllButton{
+			position: absolute;  
+			height: 40px;	
+			width: 160px;
+			margin:0px auto;
+			top: 7px;
+			left: 705px;
+			background-color: #EBEBE0; 
+			border: 1px solid #333;
+			border-radius: 10px;
+			font-size: 20px; 
+/*			display:none;  */
+		}
+
+
+
+
+		#container{
+			position: absolute;   
+			height: 20000px;	
+			width: 1160px;
+/*			margin:0px auto;  */
+			top: 50px;
+			left: 10px;
+			background-color: white; 
+			border: 1px solid #333;
+/*			border-radius: 10px;  */ 
+/*			overflow-y: scroll; */ 
+		}
+
+		.allDivs{
+			position: relative; 
+			border: 1px solid #333;
+			margin-left: 1px; 
+			margin-top: 1px; 
+			height: 28px; 
+/*			border-radius: 10px;  */ 
+			width: 1155px;
+			background-color: #ADAD85;
+			overflow: hidden;
+		}
+
+		.symbolInfo{
+			vertical-align: top;
+			position: relative;
+			border: 1px solid #333;
+			margin-left: 1px; 
+			margin-top: 0.5px; 
+			height: 25px; 
+/*			border-radius: 10px;  */ 
+			width: 530px;
+			display: inline-block;
+			background-color: #EBEBE0;
+		}
+
+		.controlButtonDiv{
+			vertical-align: top;
+			position: relative;
+			border: 1px solid #333;
+			margin-left: 0px; 
+			margin-top: 0.5px; 
+			height: 24px; 
+			border-radius: 10px;
+			width: 70px;
+			display: inline-block;
+			background-color: #EBEBE0;
+		}		
+
+
+		.controlButton{
+			margin-top: 1px;
+			margin-left: 0px;
+			border-radius: 10px;
+			width: 70px;
+			display: inline-block;
+			background-color: #E0E0D1;
+			height: 23px; 		
+			font-size: 15px;
+			vertical-align: top; 
+		}
+
+
+		.textLabel{
+			position: relative;
+			height: 20px;
+			width: 65px;
+			margin-top: 1.5px;
+			margin-left: 5px ;
+			display: inline-block;
+			font-size: 18px;
+			vertical-align: top;
+
+		}
+
+		.symbolTextInput{
+			margin-top: 1.5px;
+			margin-left: 0px;
+			border-radius: 5px;
+			width: 100px;
+			display: inline-block;
+			background-color: #00FF00;
+			height: 23px; 		
+			font-size: 16px;
+			vertical-align: top; 
+		}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
+}
+
+		.orderInput{
+			margin-top: 1.5px;
+			margin-left: 0px;
+			border-radius: 5px;
+			width: 350px;
+			display: inline-block;
+			background-color: #00FF00;
+			height: 23px; 		
+			font-size: 16px;
+			vertical-align: top; 
+			font-family: "arial";  
+		}
+
+
+		#controls{
+			width: 700px;
+			margin: 0px auto;
+		}
+
+		.newsResultsDiv{
+			vertical-align: top;
+			position: relative;
+			border: 1px solid #333;
+			margin-left: 0px; 
+			margin-top: 0.5px; 
+			height: 25px; 
+/*			border-radius: 10px;  */ 
+			width: 382px;
+			display: inline-block;
+			background-color: #EBEBE0;
+			font-size: 10px;
+		}		
+
+		textarea{
+			resize:none;
+			width:400px;
+		}
+
+		.newsStatusLabel{
+			position: relative;
+			height: 20px;
+			width: 380px;
+			margin-top: 3px;
+			margin-left: 2px ;
+			display: inline-block;
+			font-size: 10px;
+			vertical-align: top;
+
+		}		
+
+		.closeNewsEntry{
+			position: relative;
+			height: 25;
+			width: 25;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+			border-radius: 20px;
+/*	font-size: 35px; */ 
+			background-color: #EBEBE0;			
+			font-weight: bold;  
+		}				
+
+
+		.expandContractNews{
+			position: relative;
+			height: 25px;
+			width: 25px;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			font-size: 12px;
+			vertical-align: top;
+			border-radius: 20px;
+			font-size: 10px;
+			background-color: #EBEBE0;
+			font-weight: bold;
+		}
+
+		.refresh{
+			position: relative;
+			height: 25px;
+			width: 25px;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			font-size: 12px;
+			vertical-align: top;
+			border-radius: 20px;
+			font-size: 30px;
+			background-color: #EBEBE0;
+			font-weight: bold;
+		}
+
+		.refresh:hover{
+			background-color: #BFBFB6; 
+			cursor: pointer;
+		}
+
+		.refreshImage{
+			margin-top: 6px;
+			margin-left: 6px; 
+		}
+
+		.expandContractNews:hover{
+			cursor: pointer;
+			background-color: #BFBFB6; 
+		}
+
+		.closeNewsX{
+			position: relative;
+			height: 25px;
+			width: 25px;
+			margin-top: 2px;
+			margin-left: 7px ;
+			display: inline-block;
+			font-size: 17px;   
+			vertical-align: top;
+		}
+
+		.closeNewsEntry:hover{
+			background-color: #BFBFB6; 
+			cursor: pointer;
+
+		}
+
+
+		.importantDiv{
+			position: relative;
+			height: 24;
+			width: 24;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+/*	font-size: 35px; */ 
+			background-color: #EBEBE0;   
+/*			background-color: #FF0000;	 */ 
+			font-weight: bold;  
+		}			
+
+		.importantSpan{
+			position: relative;
+			height: 22px;
+			width: 21px;
+			margin-top: 1px;
+			margin-left: 8px ;
+			display: inline-block;
+			font-size: 20px;   
+			vertical-align: top;
+			font-weight: bold;			
+		}
+
+		.volumeDiv{
+			position: relative;
+			height: 24;
+			width: 24;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+/*	font-size: 35px; */ 
+			background-color: #EBEBE0;   
+/*			background-color: #FF0000;	 */ 
+			font-weight: bold;  
+		}			
+
+		.volumeSpan{
+			position: relative;
+			height: 22px;
+			width: 21px;
+			margin-top: 1px;
+			margin-left: 5px ;
+			display: inline-block;
+			font-size: 20px;   
+			vertical-align: top;
+			font-weight: bold;			
+		}
+
+
+		.importantDiv:hover{
+/*			background-color: #BFBFB6;  */ 
+			cursor: pointer;
+		}
+
+
+		.hasNews{
+
+		}
+
+
+		.newsLinks{
+/*			vertical-align: top;  */
+			position: relative;
+			border: 1px solid #333;
+			margin-left: 0px; 
+			margin-top: 2px;   
+			height: 35px; 
+/*			border-radius: 10px;   */ 
+			width: 770px;
+			background-color: #EBEBE0;
+			font-size: 10px;
+			visibility: invisible;
+			overflow: hidden; 
+		}		
+
+		.storedLinkLabel{
+			margin-top: 3px; 
+			margin-left: 10px;
+			font-size: 12px; 
+			height: 10px ;
+			background-color: #E0E0D1;
+
+		}
+
+
+		.storedLink{
+			margin-top: 3px; 
+			margin-left: 10px;
+			font-size: 15px; 
+			height: 10px ;
+			background-color: #E0E0D1;
+			display: inline-block;
+		}
+
+		.arrowImages{
+			margin-top: 4px;
+			margin-left: 7px; 
+		}
+
+
+		.symbolCheckBox{
+/*			vertical-align: top;  */
+			position: relative;
+			border: 1px solid #333;  
+			margin-left: 0px; 
+			margin-top: 2px;   
+			height: 25px; 
+/*			border-radius: 10px;  */ 
+			width: 770px;
+			background-color: #EBEBE0;
+			font-size: 10px;
+			visibility: invisible;
+			overflow: hidden; 
+			font-size: 15px; 
+		}		
+
+		.symbolCheckBoxLabel{
+			margin-top: 3px; 
+			margin-left: 10px;
+			font-size: 15px; 
+			height: 10px ;
+			background-color: #E0E0D1;
+
+		}
+
+		.chart{
+			position: relative;
+			height: 35px;
+			width: 55px;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			font-size: 12px;
+			vertical-align: top;
+/*			border-radius: 20px; */
+			font-size: 30px;
+			background-color: #EBEBE0;
+			font-weight: bold;
+		}
+
+		.newsContainer{
+			position: relative; 
+			border: 1px solid #333;
+			margin-left: 1px; 
+			margin-top: 1px; 
+			height: 212px; 
+/*			border-radius: 10px; */
+			width: 775px;
+			background-color: #F5F5F0;
+			overflow: hidden;
+			display: inline-block;
+		}
+
+		.chartDiv{
+			position: relative; 
+			border: 1px solid #333;
+			margin-left: 1px; 
+			margin-top: 1px; 
+			height: 212px; 
+/*			border-radius: 10px;  */
+			width: 360px;
+			background-color: #F5F5F0;
+			overflow: hidden;
+			display: inline-block;
+			vertical-align: top; 
+		}
+
+		#radarContainer{
+			position: absolute;
+			height: 150px;
+			width: 541px;
+			top: 5px; 
+			left: 628px;
+			background-color: #FFFFFF; 		
+			border: 1px solid;	
+		}
+
+		#radarLeft{
+			position: relative;
+			vertical-align: top; 
+			height: 148px;
+			width: 268px;
+			background-color: #FFFFFF; 		
+			display: inline-block;			
+		}
+
+		#textBoxRadarLeft{
+			position: relative;
+			vertical-align: top; 
+			height: 127px;
+			width: 265px;
+			background-color: #FFFFFF; 		
+			display: inline-block;
+			font-size: 16px;
+			overflow: hidden;
+			font-family: Arial;
+		}		
+
+		#radarRight{
+			position: relative;
+			vertical-align: top; 
+			height: 148px;
+			width: 268px;
+			background-color: #FFFFFF; 		
+			display: inline-block;
+		}	
+
+		#textBoxRadarRight{
+			position: relative;
+			vertical-align: top; 
+			height: 145px;
+			width: 265px;
+			background-color: #FFFFFF; 		
+			display: inline-block;
+			font-size: 16px;			
+			overflow: hidden;
+			font-family: Arial;
+		}			
+
+		#notesContainer{
+			position: absolute;
+			height: 105px;
+			width: 605px;
+			top: 5px; 
+			left: 10px;
+			background-color: #FFFFFF;
+			border: 1px solid;	
+		}
+
+		#textAreaNotes{
+			position: relative;
+			vertical-align: top; 
+			height: 80px;
+			width: 600px;
+			background-color: #FFFFFF; 		
+			display: inline-block;
+			font-size: 16px;			
+			font-family: Arial;
+		}			
+
+		#prevClose{
+			display: none;
+			width: 0px;
+			height: 0px;
+			overflow: hidden; 
+		}
+
+		.avgVolume{
+			width: 125px;
+		}
+
+		#add_and_start_text{
+			position: absolute;  
+			height: 23px; 		
+			font-size: 16px;
+			border-radius: 5px;
+			width: 100px;
+			margin:0px auto;
+			top: 17px;
+			left: 10px;
+		}
+
+		#add_and_start_button{
+			position: absolute;  
+			height: 40px; 		
+			font-size: 20px;
+			border-radius: 10px;
+			width: 130px;  
+			margin:0px auto;
+			top: 7px;
+			left: 110px;
+			background-color: #EBEBE0; 
+			border: 1px solid #333;
+		}
+
+		#storedMarketWatchPRLink1{
+			font-size: 12px;
+		}
+
+		#storedMarketWatchPartnerLink1{
+			font-size: 12px;
+		}
+
+		#storedMarketWatchMainLink1{
+			font-size: 12px;
+		}
+
+		#storedYahooLink1{
+			font-size: 12px;
+		}
+
+		.individualNotesDiv{
+/*			vertical-align: top;  */
+			position: relative;
+			border: 1px solid #333;
+			margin-left: 0px; 
+			margin-top: 2px;   
+			height: 23px; 
+/*			border-radius: 10px;   */ 
+			width: 770px;
+			background-color: #EBEBE0;
+			font-size: 12px;
+			visibility: invisible;
+			overflow: hidden; 
+		}
+
+		.individualNotesLabel{
+			margin-top: 3px; 
+			margin-left: 10px;
+			font-size: 12px; 
+			height: 10px ;
+			background-color: #E0E0D1;
+
+		}
+
+		.individualNotesText{
+			width: 605px;
+			height: 22px;
+		}
