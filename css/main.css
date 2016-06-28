@@ -635,3 +635,15 @@
 			width: 605px;
 			height: 22px;
 		}
+
+		#notChasing{
+			position: absolute;  
+			height: 40px;	
+			width: 300px;
+/*			margin:0px auto; */
+			top: 6px;
+			left: 870px;
+			border: 1px solid #333;
+			font-size: 12px; 
+/*			display:none;  */
+		}

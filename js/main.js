@@ -906,7 +906,7 @@ $(function () {
 
 // oil pulling
 
-alert("Oil pulling.\n\nAlso check pre-market prev. day lows if it's before 6:00 AM\n\n Check the VIX");
+alert("Oil pulling.\n\nAlso check pre-market prev. day lows if it's before 6:00 AM\n\n Check the VIX - If above 30 then 25 minimum for non-news");
 
 // expand all divs
 
@@ -976,6 +976,16 @@ $( "#add_and_start_text" ).keyup(function(){
 		}
 	}); 
 
+	var notChasingArray = [];
+    $.each($('#notChasing').val().split(/\n/), function(i, line){
+		var wordArray = line.split(/ /);
+		if (wordArray[0] == symbol)
+		{
+			alert(line);
+			$("#add_and_start_text").val("");
+		}
+
+    });
 
 });  // when you past the order into the orderInput text field.
 
