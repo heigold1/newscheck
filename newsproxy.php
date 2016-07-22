@@ -104,7 +104,11 @@ $mwPRHeadlinesLink1Title = "";
 
 // fwrite($file, "html results for " . $symbol . " is " . $html);
 
-       	if (strpos($html, "<h1>500</h1>") == 0)
+        if (preg_match('/<title>Object moved<\/title>/i', $html))
+        {
+          $isFound = "notFound"; 
+        }
+        else 
        	{
 
        		$isFound = "found";
@@ -146,10 +150,6 @@ $mwPRHeadlinesLink1Title = "";
 			$mwPRHeadlinesLink1Title = str_replace ('"', '\"', $mwPRHeadlinesLink1Title);  									
 
 		} // if the stock is found by marketwatch
-		else 
-		{
-			$isFound = "notFound"; 
-		}
 
 		// return everything in the a final json object.
 
@@ -179,53 +179,58 @@ $ret = "";
 $url = "";
 $urlTitle = "";
 
-      $url="http://$host_name/q/h?s=$symbol+Headlines"; 
+
+//      $url="http://$host_name/q/h?s=$symbol+Headlines"; 
+      $url="http://finance.yahoo.com/quote/$symbol"; 
       $result = grabHTML($host_name, $url); 
-      $result = str_replace ('href="/', 'href="http://finance.yahoo.com/', $result);  
-      $result = str_replace ('heigoldinvestments.com', 'marketwatch.com', $result); 
-      $result = str_replace ('localhost', 'www.marketwatch.com', $result); 
+/*      $result = str_replace ('href="/', 'href="http://finance.yahoo.com/', $result);  
+      $result = str_replace ('heigoldinvestments.com', 'finance.yahoo.com', $result); 
+      $result = str_replace ('localhost', 'finance.yahoo.com', $result);  */
 
       $html = str_get_html($result);  
-      $ret = $html->find('#yfncsumtab');   
+//      $ret = $html->find('#yfncsumtab');   
 
-      $full_company_name = $html->find('div#yfi_rt_quote_summary div div h2'); 
+ 
+      $company_name_array = $html->find('h6'); 
+
+      if (preg_match('/\"NOT_FOUND\"\:\"Not Found\"/i', $html))
+      {
+          $isFound = "notFound"; 
+      }
+      else 
+      {
+          $isFound = "found";
+      }
+
+      $full_company_name = $company_name_array[0];
+      $full_company_name = preg_replace('/<h6.*\">/', "", $full_company_name);
+      $full_company_name = preg_replace('/<\/h6>/', "", $full_company_name); 
+
+      $tableDataArray = $html->find('div#quote-summary div table tbody tr td');
+      $currentVolume = $tableDataArray[13];
+      $currentVolume = preg_replace('/<td class(.*)\">/', '', $currentVolume);  
+      $currentVolume = preg_replace('/<\/td>/', '', $currentVolume);
+      $currentVolume = preg_replace('/<\/span>/', '', $currentVolume);   
 
       	// if the stock is found by yahoo finance
 
-       	if ($ret[0] != "")
-       	{
-       		$isFound = "found";
-      		$returnWithStrippedTags = preg_replace($patterns = array("/<img[^>]+\>/i", "/<embed.+?<\/embed>/im", "/<iframe.+?<\/iframe>/im", "/<script.+?<\/script>/im"), $replace = array("", "", "", ""), $ret[0]);
+      $rss = simplexml_load_file("http://feeds.finance.yahoo.com/rss/2.0/headline?s=$symbol&region=US&lang=en-US");
 
-			if (strpos($returnWithStrippedTags, '<a') == 0)
-			{
-				$url = ""; 
-			}
-			else
-			{	// else parse the http:// url from the first <a tag, 
-				$linkTag = $ret[0]->find('a');
-				$firstLinkInResults = $linkTag[0]; 
-				$url = trim($firstLinkInResults->href); 
-				$url = str_replace ('"', '\"', $url);
-				$urlTitle = $firstLinkInResults->innertext;
-				$urlTitle = str_replace ('"', '\"', $urlTitle);
-			}
-		} // if the symbol is found by yahoo finance
-		else 
-		{   // the symbol was not found by yahoo finance 
-			$isFound = "notFound"; 
-		}
+       	if (preg_match('/RSS feed not found/i', $rss->channel->item{0}->title))
+        {   // the symbol was not found by yahoo finance 
+          $url = "";
+          $urlTitle = "";
+        }
+        else
+       	{
+//      		$returnWithStrippedTags = preg_replace($patterns = array("/<img[^>]+\>/i", "/<embed.+?<\/embed>/im", "/<iframe.+?<\/iframe>/im", "/<script.+?<\/script>/im"), $replace = array("", "", "", ""), $ret[0]);
+          $url = $rss->channel->item{0}->link;
+  				$urlTitle = $rss->channel->item{0}->title;
+    		} // if the symbol is found by yahoo finance
 
 		// now we retrieve the current volume
 
-		$url="http://$host_name/q?s=$symbol&ql=1"; 
-      	$result = grabHTML($host_name, $url); 		
-      	$html = str_get_html($result);  
-      	$tableDataArray = $html->find('.yfnc_tabledata1');
-      	$currentVolume = $tableDataArray[9];
-      	$currentVolume = preg_replace('/<td class="(.*)">/', '', $currentVolume);  
-      	$currentVolume = preg_replace('/<\/td>/', '', $currentVolume);
-      	$currentVolume = preg_replace('/<\/span>/', '', $currentVolume);      	
+   	
 
 /*		$returnArray = json_encode(array("found"=>$isFound, 
 										 "yahooInfo"=>array("urlTitle"=>$urlTitle, "url"=>$url)
@@ -233,7 +238,7 @@ $urlTitle = "";
 
 //		$returnArray = '{"found":"' . $isFound . '",' . '"companyName":"' . $full_company_name[0] . '",' . '"yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
 
-		$returnArray = '{"found":"' . $isFound . '",' . '"companyName":"' . $full_company_name[0] . '",' .  '"currentVolume":"' . $currentVolume  . '", "yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
+		$returnArray = '{"found":"' . $isFound . '",' . '"companyName":"' . $full_company_name . '",' .  '"currentVolume":"' . $currentVolume  . '", "yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
 
 		echo $returnArray; 
 

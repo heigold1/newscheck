@@ -302,7 +302,6 @@ var mwPRHeadlinesLink1Title = "";
     	} // end of yahoo success function
 	});  // end of ajax call for yahoo finance   
 
-
  	$.ajax({
 	    url: "newsproxy.php",
 	    data: {symbol: currentSymbol,
@@ -324,7 +323,6 @@ var mwPRHeadlinesLink1Title = "";
 				mwPRHeadlinesLink1 = data.mwPRHeadLines.url;  
 				mwPRHeadlinesLink1 = mwPRHeadlinesLink1.replace(/&amp;/g, '&'); 
 				mwPRHeadlinesLink1Title = data.mwPRHeadLines.urlTitle;
-
 
 
  				if ((yahooFound == "notFound") && (marketWatchFound == "notFound"))
@@ -557,7 +555,7 @@ function checkIndividualDivForNews(divId)
 	 					}  // or what just came back is different than what was previously stored
  						else if (yahooFirstLink != $("#storedYahooLink" + currentId).find("a:first").attr("href")) 
  						{
-	//		 				alert("yahoo DIFFERENT news for " + symbol);
+			 				alert("yahoo DIFFERENT news for " + symbol);
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
  							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 							$("#controlButton" + currentId).html("Start"); 						
