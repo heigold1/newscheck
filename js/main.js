@@ -200,11 +200,14 @@ function createNewNewsEntry() {
 	newNewsEntry += " 	<div class='newsContainer'>"; 
 	newNewsEntry += "		<div class='symbolCheckBox' tabindex='-1'>"
 	newNewsEntry +=	"			<span class='symbolCheckBoxLabel'>" 
-	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Truncate the 5th 'W/R/Z' character, '.WS' '.PD', etc...'"; 
+	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc the 5th 'W/R/Z' char, '.WS' '.PD', etc...'"; 
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
- 	newNewsEntry += "			Avg Volume: <input type='text' id='avgVolume" + newIdNumber + "' class='avgVolume'>"; 
-	newNewsEntry += "			<input type='checkbox' id='checkVolume" + newIdNumber + "' value='1'>Check Volume";
+ 	newNewsEntry += "			Avg Vol: <input type='text' id='avgVolume" + newIdNumber + "' class='avgVolume'>"; 
+	newNewsEntry += "			<input type='checkbox' id='checkVolume" + newIdNumber + "' value='1'>Check Vol";
+	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
+	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
+	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "		<div class='newsLinks' tabindex='-1'> "; 
 	newNewsEntry += " 			<span class='storedLinkLabel' tabIndex='-1'>Original Yahoo Link:</span> "; 
@@ -1137,8 +1140,69 @@ $(document.body).on('click', ".importantDiv", function(){
     {
     		$("#importantDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
-
 });  // on clicking expand/contract news 
+
+$(document.body).on('click', ".checkPK", function(){
+	
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("checkPK", ""); 
+
+ 	if ($(this).is(':checked'))
+ 	{
+		$("#symbol" + currentId).css("background-color", "rgb(255,192,203)"); 
+		$("#orderInput" + currentId).css("background-color", "rgb(255,192,203)"); 
+	}
+	else
+	{
+		$("#symbol" + currentId).css("background-color", "rgb(255,255,255)"); 
+		$("#orderInput" + currentId).css("background-color", "rgb(255,255,255)"); 
+	}
+
+});  // Highlight pink sheet orders pink.
+
+$(document.body).on('click', ".checkBB", function(){
+	
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("checkBB", ""); 
+
+ 	if ($(this).is(':checked'))
+ 	{
+		$("#symbol" + currentId).css("background-color", "rgb(255, 207, 158)"); 
+		$("#orderInput" + currentId).css("background-color", "rgb(255, 207, 158)"); 
+ 	}
+ 	else
+ 	{
+		$("#symbol" + currentId).css("background-color", "rgb(255, 255, 255)"); 
+		$("#orderInput" + currentId).css("background-color", "rgb(255, 255, 255)"); 
+ 	}
+});  // Highlight BB orders orange.
+
+$(document.body).on('click', ".copyOrderToClipboard", function(){
+	
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("copyOrderToClipboard", ""); 
+
+
+  var copyTextarea = $("#individualNotesText" + currentId);
+  copyTextarea.select();
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Copying text command was ' + msg);
+  } catch (err) {
+    console.log('Oops, unable to copy');
+  }
+
+
+
+
+
+
+
+
+});  // Copy current order to clipboard 
+
+
 
 $(document.body).on('paste', ".orderInput", function(){
 
@@ -1146,6 +1210,7 @@ $(document.body).on('paste', ".orderInput", function(){
 	currentId = currentId.replace("orderInput", ""); 
 	var percentage;
 	var orderStub;
+	var symbol;
 
 	setTimeout(
 		function() 
@@ -1195,9 +1260,14 @@ $(document.body).on('paste', ".orderInput", function(){
     		orderStub = orderStub.replace(/(.*)BUY/, "BUY"); 
 			$("#orderInput" + currentId).val(orderStub);    	
 
+			if ($.trim($("#symbol" + currentId).val()) == "")
+			{
+				$("#symbol" + currentId).val(symbol);
+				$("#controlButton" + currentId).click();
+			}
+
 		}, 200
 		);
-
 
 });  // when you past the order into the orderInput text field.
 
