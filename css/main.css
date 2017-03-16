@@ -618,7 +618,6 @@
 			width: 770px;
 			background-color: #EBEBE0;
 			font-size: 12px;
-			visibility: invisible;
 			overflow: hidden; 
 		}
 
@@ -646,4 +645,8 @@
 			border: 1px solid #333;
 			font-size: 12px; 
 /*			display:none;  */
+		}
+
+		.fullOrder{
+			visibility: hidden; 
 		}

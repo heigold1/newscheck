@@ -117,11 +117,11 @@ function reCalcOrderStub(currentId)
 
  		if (newCalculatedPrice > 1.00)
  		{
- 			newCalculatedPrice = newCalculatedPrice.toFixed(3); 
+ 			newCalculatedPrice = newCalculatedPrice.toFixed(2); 
  		}
  		else if (newCalculatedPrice < 1.00)
  		{
- 			newCalculatedPrice = newCalculatedPrice.toFixed(5);
+ 			newCalculatedPrice = newCalculatedPrice.toFixed(4);
  		}
 
 	    $("#orderInput" + currentId).val("BUY " + numSharesWithCommas + " $" + newCalculatedPrice + " (" + thePercentage.toFixed(2) + "%) -- $" + totalValueString + orderType); 
@@ -165,9 +165,9 @@ function createNewNewsEntry() {
 	
 	newNewsEntry =  "<div id='div" + newIdNumber + "' class='allDivs'>"; 
 	newNewsEntry += "	<div class='symbolInfo'>"; 
-	newNewsEntry += "		<div class='textLabel'>"; 
+/*	newNewsEntry += "		<div class='textLabel'>"; 
 	newNewsEntry += "			Symbol:"; 
-	newNewsEntry += "		</div>"; 
+	newNewsEntry += "		</div>";  */ 
 	newNewsEntry += "		<input id='symbol" + newIdNumber + "' class='symbolTextInput'>"; 
 	newNewsEntry += "		<input id='orderInput" + newIdNumber + "' class='orderInput'>"; 
  	newNewsEntry += "	 	<div id='prevClose" + newIdNumber + "'></div>"; 
@@ -228,7 +228,8 @@ function createNewNewsEntry() {
 	newNewsEntry += "	 	<div class='individualNotesDiv' tabindex='-1'>";
 	newNewsEntry += "			<span class='individualNotesLabel' tabindex='-1'>Notes:</span>";
 	newNewsEntry += "			&nbsp;<input type='text' id='individualNotesText" + newIdNumber + "' class='individualNotesText'>";
-	newNewsEntry += "           <input type='checkbox' id='earningsLossCheckbox" + newIdNumber + "' class='earningsLossCheckbox'  value='0'>Earnings Loss"	
+	newNewsEntry += "           <input type='checkbox' id='earningsLossCheckbox" + newIdNumber + "' class='earningsLossCheckbox'  value='0'>Earnings Loss"; 
+	newNewsEntry += "			<input type='text' id='fullOrder" + newIdNumber + "' class='fullOrder'>";  
 	newNewsEntry += "	 	</div>";
 	newNewsEntry += "    </div>";
 	newNewsEntry += " 	 <div id='chartDiv" + newIdNumber + "' class='chartDiv'>"; 
@@ -1182,23 +1183,22 @@ $(document.body).on('click', ".copyOrderToClipboard", function(){
 	currentId = $(this).attr("id"); 
  	currentId = currentId.replace("copyOrderToClipboard", ""); 
 
-
-  var copyTextarea = $("#individualNotesText" + currentId);
-  copyTextarea.select();
-  try {
-    var successful = document.execCommand('copy');
-    var msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Copying text command was ' + msg);
-  } catch (err) {
-    console.log('Oops, unable to copy');
-  }
+ 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
 
 
 
-
-
-
-
+  	var copyTextarea = $("#fullOrder" + currentId);
+  	copyTextarea.select();
+  	try 
+  	{
+	    var successful = document.execCommand('copy');
+	    var msg = successful ? 'successful' : 'unsuccessful';
+	    alert($("#fullOrder" + currentId).val());
+  	} 
+  	catch (err) 
+  	{
+	    alert('Oops, unable to copy');
+  	}
 
 });  // Copy current order to clipboard 
 
