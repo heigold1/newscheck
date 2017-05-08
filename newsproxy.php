@@ -181,16 +181,12 @@ $urlTitle = "";
 
 
 //      $url="http://$host_name/q/h?s=$symbol+Headlines"; 
-      $url="http://finance.yahoo.com/quote/$symbol"; 
-      $result = grabHTML($host_name, $url); 
-/*      $result = str_replace ('href="/', 'href="http://finance.yahoo.com/', $result);  
-      $result = str_replace ('heigoldinvestments.com', 'finance.yahoo.com', $result); 
-      $result = str_replace ('localhost', 'finance.yahoo.com', $result);  */
 
-      $html = str_get_html($result);  
+      $url = "https://finance.yahoo.com/quote/$symbol?p=$symbol";
+      $html = file_get_html($url);
+
 //      $ret = $html->find('#yfncsumtab');   
 
- 
       $company_name_array = $html->find('h6'); 
 
       if (preg_match('/\"NOT_FOUND\"\:\"Not Found\"/i', $html))
@@ -202,9 +198,12 @@ $urlTitle = "";
           $isFound = "found";
       }
 
-      $full_company_name = $company_name_array[0];
-      $full_company_name = preg_replace('/<h6.*\">/', "", $full_company_name);
-      $full_company_name = preg_replace('/<\/h6>/', "", $full_company_name); 
+
+      $companyNameArray = $html->find('h1');
+      $full_company_name = $companyNameArray[0]; 
+      $full_company_name = preg_replace('/\sclass.*\">/', '>', $full_company_name);
+      $full_company_name = preg_replace('/<h1.*\">/', "", $full_company_name);
+      $full_company_name = preg_replace('/<\/h1>/', "", $full_company_name); 
 
       $tableDataArray = $html->find('div#quote-summary div table tbody tr td');
       $currentVolume = $tableDataArray[13];

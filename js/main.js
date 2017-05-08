@@ -197,6 +197,12 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='importantDiv" + newIdNumber + "' class='importantDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='importantSpan' tabindex='-1'>!</span>"; 
 	newNewsEntry += "	</div>"; 
+	newNewsEntry += "	<div id='highRiskDiv" + newIdNumber + "' class='highRiskDiv' tabindex='-1'>"; 
+	newNewsEntry += "		<span class='highRiskSpan' tabindex='-1'>H</span>";
+	newNewsEntry += "	</div>";
+	newNewsEntry += "	<div id='offeringDiv" + newIdNumber + "' class='offeringDiv' tabindex='-1'>"; 
+	newNewsEntry += "		<span class='offeringSpan' tabindex='-1'>O</span>";
+	newNewsEntry += "	</div>";
 	newNewsEntry += " 	<div class='newsContainer'>"; 
 	newNewsEntry += "		<div class='symbolCheckBox' tabindex='-1'>"
 	newNewsEntry +=	"			<span class='symbolCheckBoxLabel'>" 
@@ -1141,7 +1147,37 @@ $(document.body).on('click', ".importantDiv", function(){
     {
     		$("#importantDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
-});  // on clicking expand/contract news 
+});  // on clicking important box with the "!"
+
+$(document.body).on('click', ".offeringDiv", function(){
+	
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("offeringDiv", ""); 
+
+    if ($("#offeringDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
+    {  
+			$("#offeringDiv" + currentId).css("background-color", "rgb(0, 249, 255)"); 
+    } 
+    else 
+    {
+    		$("#offeringDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
+    }	
+});  // on clicking offering box with the "O"
+
+$(document.body).on('click', ".highRiskDiv", function(){
+	
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("highRiskDiv", ""); 
+
+    if ($("#highRiskDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
+    {  
+			$("#highRiskDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
+    } 
+    else 
+    {
+    		$("#highRiskDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
+    }	
+});  // on clicking high risk box with the "H"
 
 $(document.body).on('click', ".checkPK", function(){
 	

@@ -115,7 +115,7 @@
 			margin-top: 0.5px; 
 			height: 25px; 
 /*			border-radius: 10px;  */ 
-			width: 530px;
+			width: 455px;
 			display: inline-block;
 			background-color: #EBEBE0;
 		}
@@ -363,8 +363,73 @@
 			font-weight: bold;			
 		}
 
+		.highRiskDiv{
+			position: relative;
+			height: 24;
+			width: 24;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+/*	font-size: 35px; */ 
+			background-color: #EBEBE0;   
+/*			background-color: #FF0000;	 */ 
+			font-weight: bold;  
+		}			
+
+		.highRiskSpan{
+			position: relative;
+			height: 22px;
+			width: 21px;
+			margin-top: 1px;
+			margin-left: 5px ;
+			display: inline-block;
+			font-size: 20px;   
+			vertical-align: top;
+			font-weight: bold;			
+		}
+
+		.offeringDiv{
+			position: relative;
+			height: 24;
+			width: 24;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+/*	font-size: 35px; */ 
+			background-color: #EBEBE0;   
+/*			background-color: #FF0000;	 */ 
+			font-weight: bold;  
+		}			
+
+		.offeringSpan{
+			position: relative;
+			height: 22px;
+			width: 21px;
+			margin-top: 1px;
+			margin-left: 5px ;
+			display: inline-block;
+			font-size: 20px;   
+			vertical-align: top;
+			font-weight: bold;			
+		}
+
+
 
 		.importantDiv:hover{
+/*			background-color: #BFBFB6;  */ 
+			cursor: pointer;
+		}
+
+		.highRiskDiv:hover{
+/*			background-color: #BFBFB6;  */ 
+			cursor: pointer;
+		}
+
+		.offeringDiv:hover{
 /*			background-color: #BFBFB6;  */ 
 			cursor: pointer;
 		}
