@@ -1267,7 +1267,8 @@ $(document.body).on('paste', ".orderInput", function(){
     			// Save it!
 					$("#upDownArrow" + currentId).attr("src", "images/upArrow_smaller.jpg"); 
 					$("#div" + currentId).css("height", "243px");
-					$( "#checkVolume" + currentId).prop( "checked", true );
+					$("#checkVolume" + currentId).prop( "checked", true );
+					$("#avgVolume" + currentId).val("80,000");
 				} 
 				else 
 				{
