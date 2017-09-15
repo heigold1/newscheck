@@ -1265,8 +1265,8 @@ $(document.body).on('paste', ".orderInput", function(){
 				if (confirm(symbol + ': Percentage is ' + percentage + '. Do you want to check for volume?')) 
 				{
     			// Save it!
-					$("#upDownArrow" + currentId).attr("src", "images/upArrow_smaller.jpg"); 
-					$("#div" + currentId).css("height", "243px");
+//					$("#upDownArrow" + currentId).attr("src", "images/upArrow_smaller.jpg"); 
+//					$("#div" + currentId).css("height", "243px");
 					$("#checkVolume" + currentId).prop( "checked", true );
 					$("#avgVolume" + currentId).val("80,000");
 				} 
