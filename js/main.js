@@ -914,7 +914,7 @@ $(function () {
 
 // oil pulling
 
-alert("Oil pulling.\n\nAlso check pre-market prev. day lows if it's before 6:00 AM\n\n Check the VIX - If above 30 then 25 minimum for non-news");
+//alert("Oil pulling.\n\nAlso check pre-market prev. day lows if it's before 6:00 AM\n\n Check the VIX - If above 30 then 25 minimum for non-news");
 
 // expand all divs
 
