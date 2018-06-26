@@ -117,13 +117,12 @@ $mwPRHeadlinesLink1Title = "";
       $result = str_replace ('href="/', 'href="https://www.marketwatch.com/', $result);  
       $result = str_replace ('heigoldinvestments.com', 'marketwatch.com', $result); 
       $result = str_replace ('localhost', 'www.marketwatch.com', $result); 
-      $result = preg_replace('/ etf/i', '<span style="background-color:red; color:black"><b> &nbsp;ETF</b>&nbsp;</span>', $result);
-      $result = preg_replace('/ etn/i', '<span style="background-color:red; color:black"><b> &nbsp;ETN</b>&nbsp;</span>', $result);
+      $result = preg_replace('/ etf/i', '<span style=\'background-color:red; color:black\'><b> &nbsp;ETF</b>&nbsp;</span>', $result);
+      $result = preg_replace('/ etn/i', '<span style=\'background-color:red; color:black\'><b> &nbsp;ETN</b>&nbsp;</span>', $result);
       $result = str_replace ('a href', 'a onclick="return openPage(this.href)" href', $result);  
 
 
       $html = str_get_html($result);
-
 
         if (preg_match('/<title>Object moved<\/title>/i', $html))
         {
@@ -155,7 +154,7 @@ $mwPRHeadlinesLink1Title = "";
           {
             $articleContent = str_get_html($article);
             $dateTime = $articleContent->find('li.article__timestamp');
-            $dateTimeSpan = '<span style="font-size: 10px;">' . $dateTime[0]->text() . "</span>"; 
+            $dateTimeSpan = '<span style=\'font-size: 10px;\'>' . $dateTime[0]->text() . "</span>"; 
             $headline = $articleContent->find('.article__headline');
             $headline = preg_replace('/h3/', 'span', $headline); 
             $timeStamp = preg_match('/data-est=\"(.*)\" class/', $dateTime[0], $timeStampMatches);

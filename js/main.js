@@ -469,6 +469,8 @@ function checkIndividualDivForNews(divId)
 	   			dataType: 'json',
 	   			success:  function (data) {
 
+alert("yahoo title is " + yahooFirstLinkTitle);     			
+
 	   					yahooFound = data.found; 
 	   					yahooCompanyName = data.companyName; 
 	   					yahooFirstLink = data.yahooInfo.url;
@@ -518,7 +520,6 @@ function checkIndividualDivForNews(divId)
 	   					{
 	   						stockOrFund = "stock";
 	   					}
-
     			}  // end of yahoo success function
 			});  // end of ajax call for yahoo finance  
 
