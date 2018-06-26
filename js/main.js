@@ -468,9 +468,6 @@ function checkIndividualDivForNews(divId)
 				async: false,	   		
 	   			dataType: 'json',
 	   			success:  function (data) {
-
-alert("yahoo title is " + yahooFirstLinkTitle);     			
-
 	   					yahooFound = data.found; 
 	   					yahooCompanyName = data.companyName; 
 	   					yahooFirstLink = data.yahooInfo.url;
