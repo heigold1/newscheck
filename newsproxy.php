@@ -141,10 +141,17 @@ $mwPRHeadlinesLink1Title = "";
 
           $firstNewsGroupFirstLinkHTML = str_get_html($firstNewsGroupArticleContent[0]);
 
-          $firstNewsGroupLink = $firstNewsGroupFirstLinkHTML->find('a'); 
-
-          $mwMainContentLink1 = $firstNewsGroupLink[0]->href;
-          $mwMainContentLink1Title = $firstNewsGroupLink[0]->innertext;
+          if (isset($firstNewsGroupArticleContent[0]))
+          {
+            $firstNewsGroupLink = $firstNewsGroupFirstLinkHTML->find('a'); 
+            $mwMainContentLink1 = $firstNewsGroupLink[0]->href;
+            $mwMainContentLink1Title = $firstNewsGroupLink[0]->innertext;
+          }
+          else 
+          {
+            $mwMainContentLink1 = "";
+            $mwMainContentLink1Title = "";
+          }  
 
           // Other News
           $secondNewsArray = array();
