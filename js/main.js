@@ -134,18 +134,6 @@ function reCalcOrderStub(currentId)
 
 } // end of reCalcOrderStub 
 
-
-
-
-
-
-
-
-
-
-
-
-
 // create a new news search item in the table 
 
 function createNewNewsEntry() {
@@ -228,8 +216,8 @@ function createNewNewsEntry() {
 	newNewsEntry += " 			<div id='storedMarketWatchPartnerLink" + newIdNumber + "' class='storedLink' tabindex='-1'></div> "; 
 	newNewsEntry += " 		</div> 	"; 
 	newNewsEntry += "	 	<div class='newsLinks' tabindex='-1'> "; 
-	newNewsEntry += "			<span class='storedLinkLabel' tabindex='-1'>Original Marketwatch Press Release Link:</span> "; 
-	newNewsEntry += " 			<div id='storedMarketWatchPRLink" + newIdNumber + "' class='storedLink' tabindex='-1'></div> "; 
+	newNewsEntry += "			<span class='storedLinkLabel' tabindex='-1'>SEC Filing Link:</span> "; 
+	newNewsEntry += " 			<div id='storedSECFilingLink" + newIdNumber + "' class='storedLink' tabindex='-1'></div> "; 
 	newNewsEntry += "  		</div> 	"; 
 	newNewsEntry += "	 	<div class='individualNotesDiv' tabindex='-1'>";
 	newNewsEntry += "			<span class='individualNotesLabel' tabindex='-1'>Notes:</span>";
@@ -260,7 +248,6 @@ function createNewNewsEntry() {
 
 function storeOriginalStateOfNews(currentSymbol, currentId){
 
-
 var yahooFound = "";     		// was the symbol even found on the yahoo website? 
 var yahooCompanyName = "";      // the company name parsed out of the yahoo page
 var yahooFirstLink = ""; 		// the url of the first news link in the table 
@@ -268,11 +255,11 @@ var stockOrFund = "";           // is the symbol a stock or an ETF?
 var etfStringLocation; 
 var marketWatchFond = "";		// was the symbol even found on the Marketwatch website? 
 var mwMainContentLink1 = ""; 
-var mwMainContentLink1Title = ""; 
+var mwMainContentLink1Title = "";  
 var mwPartnerHeadlinesLink1 = ""; 
 var mwPartnerHeadlinesLink1Title = ""; 
-var mwPRHeadlinesLink1 = "";
-var mwPRHeadlinesLink1Title = "";
+var secFilingLink1 = "";
+var secFilingLink1Title = "";
 
 	// set the status bar 
 
@@ -330,10 +317,9 @@ var mwPRHeadlinesLink1Title = "";
 				mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
 				mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines.urlTitle;
 
-				mwPRHeadlinesLink1 = data.mwPRHeadLines.url;  
-				mwPRHeadlinesLink1 = mwPRHeadlinesLink1.replace(/&amp;/g, '&'); 
-				mwPRHeadlinesLink1Title = data.mwPRHeadLines.urlTitle;
-
+				secFilingLink1 = data.secFiling.url; 
+				secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
+				secFilingLink1Title = data.secFiling.urlTitle;
 
  				if ((yahooFound == "notFound") && (marketWatchFound == "notFound"))
  				{
@@ -377,15 +363,15 @@ var mwPRHeadlinesLink1Title = "";
 						$("#storedMarketWatchPartnerLink" + currentId).html("No news"); 
 					}
 
-					// marketwatch PR headlines
+// alert("test");
 
-					if (mwPRHeadlinesLink1 != "")
+					if (secFilingLink1 != "")
 					{
-						$("#storedMarketWatchPRLink" + currentId).html("<a target='_blank' href='" + mwPRHeadlinesLink1 + "'>" + mwPRHeadlinesLink1Title + "</a>"); 		
+						$("#storedSECFilingLink" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + "</a>"); 		
 					}
 					else
 					{
-						$("#storedMarketWatchPRLink" + currentId).html("No news");
+						$("#storedSECFilingLink" + currentId).html("No news");
 					}
 
 			// keep, for testing purposes

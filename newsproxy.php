@@ -88,8 +88,8 @@ $mwMainContentLink1 = "";
 $mwMainContentLink1Title = ""; 
 $mwPartnerHeadlinesLink1 = ""; 
 $mwPartnerHeadlinesLink1Title = "";
-$mwPRHeadlinesLink1 = ""; 
-$mwPRHeadlinesLink1Title = ""; 
+$secFilingLink1 = ""; 
+$secFilingLink1Title = ""; 
 
       $url="https://$host_name/investing/$stockOrFund/$symbol";
 
@@ -181,9 +181,37 @@ $mwPRHeadlinesLink1Title = "";
           $mwPartnerHeadlinesLink1Title = $secondNewsGroupLink[0]->innertext;
         }    
 
+        // now we do the SEC filing 
+
+        $url = "https://www.sec.gov/cgi-bin/browse-edgar?CIK=" . $symbol . "&owner=exclude&action=getcompany&Find=Search"; 
+        $result = grabHTML('www.sec.gov', $url); 
+        $html = str_get_html($result);
+
+        $tableRow1 = $html->find('.tableFile2 tbody tr'); 
+
+        $row = str_get_html($tableRow1[1]);
+        $td = $row->find('td'); 
+        $linkTd = $td[1]->find('a');  
+
+        $td0 = $td[0]; 
+        $secFilingLink1Title = $td[2]->plaintext;
+
+        $secFilingLink1Title = preg_replace('/Acc-no.*MB/', '', $td2);
+        $secFilingLink1Title = preg_replace('/Acc-no.*KB/', '', $td2);
+
+        $firstLink  = 'https://www.sec.gov' . $linkTd[0]->href; 
+        $firstLinkResults = grabHTML('www.sec.gov', $firstLink); 
+        $html2 = str_get_html($firstLinkResults);
+        $tableRow2 = $html2->find('tr'); 
+        $td2nd = $tableRow2[1]->find('td'); 
+        $a2 = $td2nd[2]->find('a');
+        $secFilingLink1 = 'https://www.sec.gov' . $a2[0]->href;
+
+
+
       $returnArray = '{"found":"' . $isFound . '",' . '"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
             '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
-            '"mwPRHeadLines":{"url":"' . $mwPRHeadlinesLink1 . '","urlTitle":"' . $mwPRHeadlinesLink1Title . '"}}'; 
+            '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $secFilingLink1Title . '"}}'; 
 
     echo $returnArray; 
 }
