@@ -194,10 +194,11 @@ $secFilingLink1Title = "";
         $linkTd = $td[1]->find('a');  
 
         $td0 = $td[0]; 
-        $secFilingLink1Title = $td[2]->plaintext;
+        $td2 = $td[2]->plaintext;
 
-        $secFilingLink1Title = preg_replace('/Acc-no.*MB/', '', $td2);
-        $secFilingLink1Title = preg_replace('/Acc-no.*KB/', '', $td2);
+        $td2 = preg_replace('/Acc-no.*MB/', '', $td2);
+        $td2 = preg_replace('/Acc-no.*KB/', '', $td2);
+        $td2 = trim($td2);
 
         $firstLink  = 'https://www.sec.gov' . $linkTd[0]->href; 
         $firstLinkResults = grabHTML('www.sec.gov', $firstLink); 
@@ -206,12 +207,13 @@ $secFilingLink1Title = "";
         $td2nd = $tableRow2[1]->find('td'); 
         $a2 = $td2nd[2]->find('a');
         $secFilingLink1 = 'https://www.sec.gov' . $a2[0]->href;
+        $secFilingLink1 = trim($secFilingLink1);
 
 
 
       $returnArray = '{"found":"' . $isFound . '",' . '"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
             '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
-            '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $secFilingLink1Title . '"}}'; 
+            '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
 
     echo $returnArray; 
 }

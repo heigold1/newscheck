@@ -308,6 +308,7 @@ var secFilingLink1Title = "";
 		async: false,	    	   
 	    dataType: 'json',
 	    success:  function (data) {
+
 	    		marketWatchFound = data.found;
 				mwMainContentLink1 = data.mwMainHeadlines.url; 
 				mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&');
@@ -362,8 +363,6 @@ var secFilingLink1Title = "";
 					{
 						$("#storedMarketWatchPartnerLink" + currentId).html("No news"); 
 					}
-
-// alert("test");
 
 					if (secFilingLink1 != "")
 					{
@@ -524,9 +523,9 @@ function checkIndividualDivForNews(divId)
 						mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
 						mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines.urlTitle;
 
-						mwPRHeadlinesLink1 = data.mwPRHeadLines.url;  
-						mwPRHeadlinesLink1 = mwPRHeadlinesLink1.replace(/&amp;/g, '&'); 
-						mwPRHeadlinesLink1Title = data.mwPRHeadLines.urlTitle;
+						secFilingLink1 = data.secFiling.url; 
+						secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
+						secFilingLink1Title = data.secFiling.urlTitle;
 
 
 
@@ -612,21 +611,21 @@ function checkIndividualDivForNews(divId)
 	//	 		alert("comparing " + mwPRHeadlinesLink1 + " AGAINST " + tempStored);
 
  				// if we bring back a marketwatch PR headlines link 
-				if (mwPRHeadlinesLink1 != "") 
+				if (secFilingLink1 != "") 
 				{
-					if ($("#storedMarketWatchPRLink" + currentId).html() == "No news")
+					if ($("#storedSECFilingLink" + currentId).html() == "No news")
  					{
  	//					alert("marketwatch PR news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + mwPRHeadlinesLink1 + " - MW PR</a>");
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Text + " - SEC</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
  					}
- 					else if (mwPRHeadlinesLink1 != $("#storedMarketWatchPRLink" + currentId).find("a:first").attr("href")) 
+ 					else if (secFilingLink1 != $("#storedSECFilingLink" + currentId).find("a:first").attr("href")) 
  					{
 	// 					alert("marketwatch PR news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + mwPRHeadlinesLink1 + " - MW PR</a>");
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Text + " - SEC</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
  					}
