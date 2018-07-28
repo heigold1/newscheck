@@ -1243,6 +1243,15 @@ $(document.body).on('paste', ".orderInput", function(){
     		percentage = percentage.toString().replace(/\)/g, ""); 
     		percentage = percentage.toString().replace(/\%/g, ""); 
 
+			$(".symbolTextInput").each(function()
+			{
+				if ($(this).val() == symbol)
+				{
+					alert("You already have an order placed for " + symbol);
+					$("#orderInput" + currentId).val("");
+				}
+			}); 
+
     		if (percentage < 35.00)
     		{
 				if (confirm(symbol + ': Percentage is ' + percentage + '. Do you want to check for volume?')) 
