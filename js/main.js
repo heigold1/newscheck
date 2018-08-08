@@ -332,7 +332,7 @@ var secFilingLink1Title = "";
 
  					// yahoo main 
 
- 					if (yahooFirstLink != "")
+ 					if (yahooFirstLinkTitle != "")
  					{
 			// 			alert("storing yahoo link " + yahooFirstLink);
 						$("#storedYahooLink" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + "</a>");
@@ -344,7 +344,7 @@ var secFilingLink1Title = "";
 
 					// marketwatch main
 
-					if (mwMainContentLink1 != "")
+					if (mwMainContentLink1Title != "")
 					{
 						$("#storedMarketWatchMainLink" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + "</a>");
 					} 
@@ -355,7 +355,7 @@ var secFilingLink1Title = "";
 
 					// marketwatch partner headlines 
 
-					if (mwPartnerHeadlinesLink1 != "")
+					if (mwPartnerHeadlinesLink1Title != "")
 					{			
 						$("#storedMarketWatchPartnerLink" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + "</a>"); 
 					}
@@ -434,14 +434,16 @@ function checkIndividualDivForNews(divId)
 		{
 
 			var yahooFirstLink = ""; 
+			var yahooFirstLinkTitle = "";
 			var yahooCompanyName = ""; 
 			var stockOrFund = ""; 
 			var mwMainContentLink1 = ""; 
+			var mwMainContentLink1Title = "";
 			var mwPartnerHeadlinesLink1 = ""; 
+			var mwPartnerHeadlinesLink1Title = "";
 			var mwPRHeadlinesLink1 = ""; 
 			var newsFlag = false; 
 
-//			$("#div" + currentId).css("background-color", "#2F5E76"); 
 			$("#div" + currentId).css("background-color", "#00FF00"); 			
 			
 			$("#newsStatusLabel" + currentId).html("Checking back for news/updating chart...")
@@ -534,7 +536,7 @@ function checkIndividualDivForNews(divId)
 	//	 		alert("comparing yahoo " + yahooFirstLink + " AGAINST yahooo " + tempStored);
 
 	 			// if we bring back a yahoo link 
-	 			if (yahooFirstLink != "")
+	 			if (yahooFirstLinkTitle != "")
  				{
 	 				// then if there was currently no news stored, 
  					if ($("#storedYahooLink" + currentId).html() == "No news")     
@@ -546,7 +548,7 @@ function checkIndividualDivForNews(divId)
 							newsFlag = true; 
 
 	 					}  // or what just came back is different than what was previously stored
- 						else if (yahooFirstLink != $("#storedYahooLink" + currentId).find("a:first").attr("href")) 
+ 						else if (yahooFirstLinkTitle != $("#storedYahooLink" + currentId).find("a:first").text()) 
  						{
 //			 				alert("yahoo DIFFERENT news for " + symbol);
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
@@ -561,7 +563,7 @@ function checkIndividualDivForNews(divId)
 	//	 		alert("comparing " + mwMainContentLink1 + " AGAINST " + tempStored);
 
 	 			// if we bring back a marketwatch main table link 
- 				if (mwMainContentLink1 != "")
+ 				if (mwMainContentLink1Title != "")
  				{
 	 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
  					{
@@ -571,7 +573,7 @@ function checkIndividualDivForNews(divId)
 						$("#controlButton" + currentId).html("Start"); 						 					
 						newsFlag = true; 					
  					}
- 					else if (mwMainContentLink1 != $("#storedMarketWatchMainLink" + currentId).find("a:first").attr("href")) 
+ 					else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
  					{
 	// 					alert("marketwatch main news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
@@ -586,7 +588,7 @@ function checkIndividualDivForNews(divId)
 	//	 		alert("comparing " + mwPartnerHeadlinesLink1 + " AGAINST " + tempStored);
 
  				// if we bring back a marketwatch partner headlines link 
- 				if (mwPartnerHeadlinesLink1 != "")
+ 				if (mwPartnerHeadlinesLink1Title != "")
  				{
 					if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
  					{
@@ -596,7 +598,7 @@ function checkIndividualDivForNews(divId)
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
  					}
- 					else if (mwPartnerHeadlinesLink1 != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").attr("href")) 
+ 					else if (mwPartnerHeadlinesLink1Title != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text()) 
  					{
 	// 					alert("marketwatch partner news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
@@ -611,21 +613,21 @@ function checkIndividualDivForNews(divId)
 	//	 		alert("comparing " + mwPRHeadlinesLink1 + " AGAINST " + tempStored);
 
  				// if we bring back a marketwatch PR headlines link 
-				if (secFilingLink1 != "") 
+				if (secFilingLink1Title != "") 
 				{
 					if ($("#storedSECFilingLink" + currentId).html() == "No news")
  					{
  	//					alert("marketwatch PR news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Text + " - SEC</a>");
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
  					}
- 					else if (secFilingLink1 != $("#storedSECFilingLink" + currentId).find("a:first").attr("href")) 
+ 					else if (secFilingLink1Title != $("#storedSECFilingLink" + currentId).find("a:first").text()) 
  					{
 	// 					alert("marketwatch PR news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Text + " - SEC</a>");
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
  					}
