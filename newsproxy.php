@@ -93,12 +93,11 @@ $secFilingLink1 = "";
 $secFilingLink1Title = ""; 
 
 
-        $url = "http://ec2-52-41-122-145.us-west-2.compute.amazonaws.com/puppeteer-marketwatch/grab-news.php?stockOrFund=$stockOrFund&symbol=$symbol";
+//        $url = "http://ec2-52-41-122-145.us-west-2.compute.amazonaws.com/puppeteer-marketwatch/grab-news.php?stockOrFund=$stockOrFund&symbol=$symbol";
 
-#       $result = grabHTML($host_name, $url); 
-        $result = curl_get_contents($url);
+//        $result = curl_get_contents($url);
 
-        $resultDecoded = json_decode($result, true);
+//        $resultDecoded = json_decode($result, true);
 
         // now we do the SEC filing 
 
@@ -130,8 +129,8 @@ $secFilingLink1Title = "";
 
 
 
-      $returnArray = '{"found":"' . 'found' . '",' . '"mwMainHeadlines":{"url":"' . $resultDecoded['mw'][0]['link'] . '","urlTitle":"' . $resultDecoded['mw'][0]['headline'] . '"},' . 
-            '"mwPartnerHeadLines":{"url":"' . $resultDecoded['other'][0]['link'] . '","urlTitle":"' . $resultDecoded['other'][0]['headline'] . '"},' . 
+      $returnArray = '{"found":"' . 'found' . '",' . '"mwMainHeadlines":{"url":"' . /* $resultDecoded['mw'][0]['link']  */ "" . '","urlTitle":"' . /* $resultDecoded['mw'][0]['headline'] */ "" . '"},' . 
+            '"mwPartnerHeadLines":{"url":"' . /* $resultDecoded['other'][0]['link'] */ "" . '","urlTitle":"' . /* $resultDecoded['other'][0]['headline'] */ "" . '"},' . 
             '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
 
     echo $returnArray; 
