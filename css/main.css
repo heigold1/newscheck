@@ -715,3 +715,7 @@
 		.fullOrder{
 			visibility: hidden; 
 		}
+
+		.orderNumber{
+			display: none;
+		}

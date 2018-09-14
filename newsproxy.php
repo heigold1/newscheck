@@ -10,14 +10,13 @@ include 'config.php';
 require_once("simple_html_dom.php"); 
 error_reporting(0);
 
-
-
 // header('Content-type: text/html');
 $symbol=$_GET['symbol'];
 $host_name=$_GET['host_name'];
 $which_website=$_GET['which_website'];
 $stockOrFund=$_GET['stockOrFund']; 
 $google_keyword_string = $_GET['google_keyword_string'];
+$symbols=$_GET['symbols']; 
 
 fopen("cookies.txt", "w");
 
@@ -79,7 +78,8 @@ if($errno = curl_errno($ch)) {
 $ret = "";
 $finalReturn = "";
 
-if ($which_website == "marketwatch")
+
+function getMarketwatch($symbol)
 {
 
 $isFound = ""; 
@@ -133,9 +133,12 @@ $secFilingLink1Title = "";
             '"mwPartnerHeadLines":{"url":"' . /* $resultDecoded['other'][0]['link'] */ "" . '","urlTitle":"' . /* $resultDecoded['other'][0]['headline'] */ "" . '"},' . 
             '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
 
-    echo $returnArray; 
+    //echo $returnArray;  
+    return $returnArray;
+
 }
-else if ($which_website == "yahoo")
+
+function getYahoo($symbol)
 {
 
 $isFound = ""; 
@@ -160,7 +163,7 @@ $urlTitle = "";
       $companyNameArray = $html->find('h1');
       $full_company_name = $companyNameArray[0]; 
       $full_company_name = preg_replace('/\sclass.*\">/', '>', $full_company_name);
-      $full_company_name = preg_replace('/<h1.*\">/', "", $full_company_name);
+      $full_company_name = preg_replace('/<h1>/', "", $full_company_name);
       $full_company_name = preg_replace('/<\/h1>/', "", $full_company_name); 
 
       $tableDataArray = $html->find('div#quote-summary div table tbody tr td');
@@ -186,9 +189,40 @@ $urlTitle = "";
 
     $returnArray = '{"found":"' . $isFound . '",' . '"companyName":"' . $full_company_name . '",' .  '"currentVolume":"' . $currentVolume  . '", "yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
 
-    echo $returnArray; 
+    return $returnArray; 
 
 } // if ($which_website == "yahoo")
+
+
+if ($which_website == "marketwatch")
+{
+  $returnLinks = getMarketwatch($symbol);
+  echo $returnLinks;
+}
+elseif ($which_website == "yahoo")
+{
+  $returnLinks = getYahoo($symbol);
+  echo $returnLinks;
+}
+elseif ($symbols != null)
+{
+    $returnArray = array(); 
+    $symbols = json_decode($symbols);
+
+    foreach ($symbols as $symbol)
+    {
+      $index = $symbol->idNumber;
+      $symbol = $symbol->symbol;
+      $originalSymbol = $symbol->originalSymbol; 
+
+      $returnArray[$index]['yahoo'] = getYahoo($symbol);
+      $returnArray[$index]['marketwatch_sec'] = getMarketwatch($symbol);
+      $returnArray[$index]['symbol'] = $symbol;
+      $returnArray[$index]['originalSymbol'] = $originalSymbol;
+    }
+
+    echo (json_encode($returnArray));
+}
 
 
 ?>
