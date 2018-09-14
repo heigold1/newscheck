@@ -2,6 +2,35 @@
 
 var timerVariable; 
 
+function startTimer() {
+  var presentTime = document.getElementById('timeLeftSpan').innerHTML;
+  var timeArray = presentTime.split(/[:]+/);
+  var m = timeArray[0];
+  var s = checkSecond((timeArray[1] - 1));
+  var time; 
+
+  if(s==59){m=m-1}
+  //if(m<0){alert('timer completed')}
+  
+  time = m + ":" + s; 
+
+  document.getElementById('timeLeftSpan').innerHTML =
+    time; 
+
+  if (time == "0:00"){
+  	document.getElementById('timeLeftSpan').innerHTML = "2:00";
+  	checkAllDivsForNews();
+  }
+
+  setTimeout(startTimer, 1000);
+}
+
+function checkSecond(sec) {
+  if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
+  if (sec < 0) {sec = "59"};
+  return sec;
+}
+
 // expand all the divs so that you can see everything 
 
 function expandAll(){
@@ -897,9 +926,7 @@ function timedCount()
 
 $(function () {
 
-// oil pulling
-
-//alert("Oil pulling.\n\nAlso check pre-market prev. day lows if it's before 6:00 AM\n\n Check the VIX - If above 30 then 25 minimum for non-news");
+startTimer(); 
 
 // expand all divs
 
