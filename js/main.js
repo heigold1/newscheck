@@ -705,7 +705,7 @@ function checkAllDivsForNews()
 		}
 
 		// if the background is either green or blue, meaning there may not be news 
-    	if (($("#symbol" + currentId).css("background-color") == "rgb(0, 255, 0)") || ($("#symbol" + currentId).css("background-color") == "rgb(204, 230, 255)" ))
+    	if (($("#symbol" + currentId).css("background-color") == "rgb(0, 255, 0)") || ($("#symbol" + currentId).css("background-color") == "rgb(204, 230, 255)" ) || ($("#symbol" + currentId).css("background-color") == "rgb(255, 192, 203)" ))
     	{
     		symbolArray.push({
     			"symbol": symbol, 
@@ -781,8 +781,7 @@ console.log("*******************************************************************
 		 				// then if there was currently no news stored, 
 	 					if ($("#storedYahooLink" + currentId).html() == "No news")     
 			 				{
-		//	 					alert("yahoo news for " + symbol);
-								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+										$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 	 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 								$("#controlButton" + currentId).html("Start"); 
 								newsFlag = true; 
@@ -790,8 +789,7 @@ console.log("*******************************************************************
 		 					}  // or what just came back is different than what was previously stored
 	 						else if (yahooFirstLinkTitle != $("#storedYahooLink" + currentId).find("a:first").text()) 
 	 						{
-	//			 				alert("yahoo DIFFERENT news for " + symbol);
-								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+									$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 	 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 								$("#controlButton" + currentId).html("Start"); 						
 								newsFlag = true; 
@@ -799,15 +797,11 @@ console.log("*******************************************************************
 
 	 				}  // if we bring back a yahoo link 
 
-					//tempStored = $("#storedMarketWatchMainLink" + currentId).find("a:first").attr("href"); 
-		//	 		alert("comparing " + mwMainContentLink1 + " AGAINST " + tempStored);
-
 		 			// if we bring back a marketwatch main table link 
 	 				if (mwMainContentLink1Title != "")
 	 				{
 		 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
 	 					{
-		// 					alert("marketwatch main news for " + symbol); 
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					
@@ -815,7 +809,6 @@ console.log("*******************************************************************
 	 					}
 	 					else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
 	 					{
-		// 					alert("marketwatch main news for " + symbol); 
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -824,15 +817,11 @@ console.log("*******************************************************************
 
 	 				}  // if we bring back a marketwatch main link  
 
-					//tempStored = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").attr("href"); 
-		//	 		alert("comparing " + mwPartnerHeadlinesLink1 + " AGAINST " + tempStored);
-
 	 				// if we bring back a marketwatch partner headlines link 
 	 				if (mwPartnerHeadlinesLink1Title != "")
 	 				{
 						if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
 	 					{
-		// 					alert("marketwatch partner news for " + symbol); 
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -840,7 +829,6 @@ console.log("*******************************************************************
 	 					}
 	 					else if (mwPartnerHeadlinesLink1Title != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text()) 
 	 					{
-		// 					alert("marketwatch partner news for " + symbol); 
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -849,15 +837,11 @@ console.log("*******************************************************************
 
 	 				} // if we bring back a marketwatch partner headlines link 
 
-					//tempStored = $("#storedMarketWatchPRLink" + currentId).find("a:first").attr("href"); 
-		//	 		alert("comparing " + mwPRHeadlinesLink1 + " AGAINST " + tempStored);
-
 	 				// if we bring back a marketwatch PR headlines link 
 					if (secFilingLink1Title != "") 
 					{
 						if ($("#storedSECFilingLink" + currentId).html() == "No news")
 	 					{
-	 	//					alert("marketwatch PR news for " + symbol); 
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -865,7 +849,6 @@ console.log("*******************************************************************
 	 					}
 	 					else if (secFilingLink1Title != $("#storedSECFilingLink" + currentId).find("a:first").text()) 
 	 					{
-		// 					alert("marketwatch PR news for " + symbol); 
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -895,10 +878,6 @@ console.log("*******************************************************************
 
 
 			}  // end of yahoo success function
-
-
-
-
 	});  // end of ajax call for yahoo finance  
 
 
