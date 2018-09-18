@@ -1,6 +1,24 @@
 
 
 var timerVariable; 
+var railroadCrossingPlayed = 0; 
+var railroad700 = 0;
+var railroad800 = 0;
+var railroad900 = 0; 
+var railroad1000 = 0;
+var railroad1100 = 0;
+var railroad1200 = 0;
+var railroad1300 = 0;
+
+
+
+function getCurrentTime() {
+        var date = new Date();
+        var hours = getHours();
+        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        time = parseInt(hours + minutes);
+        return time;
+   };
 
 function startTimer() {
   var presentTime = document.getElementById('timeLeftSpan').innerHTML;
@@ -8,6 +26,7 @@ function startTimer() {
   var m = timeArray[0];
   var s = checkSecond((timeArray[1] - 1));
   var time; 
+  var time24Hour = get24HourTime(); 
 
   if(s==59){m=m-1}
   //if(m<0){alert('timer completed')}
@@ -22,7 +41,63 @@ function startTimer() {
   	checkAllDivsForNews();
   }
 
+
+
+  if ((time24Hour > 700) && (railroad700 == 0))
+  {
+	playRailroadCrossing();
+  	railroad700 = 1;
+  }
+/*  if ((time24Hour > 800) && (railroad800 == 0))
+  {
+	playRailroadCrossing();
+  	railroad800 = 1;
+  }
+  if ((time24Hour > 900) && (railroad900 == 0))
+  {
+	playRailroadCrossing();
+  	railroad900 = 1;
+  }
+  if ((time24Hour > 1000) && (railroad1000 == 0))
+  {
+	playRailroadCrossing();
+  	railroad1000 = 1;
+  }
+  if ((time24Hour > 1100) && (railroad1100 == 0))
+  {
+	playRailroadCrossing();
+  	railroad1100 = 1;
+  }
+  if ((time24Hour > 1200) && (railroad1200 == 0))
+  {
+	playRailroadCrossing();
+  	railroad1200 = 1;
+  }
+*/  
+
+//  console.log(get24HourTime());
   setTimeout(startTimer, 1000);
+}
+
+
+function get24HourTime(){
+  var date = new Date();
+  var hours = date.getHours();
+  var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+  var time24Hour = String(hours) + String(minutes);
+  return parseInt(time24Hour); 
+}
+
+
+function playRailroadCrossing(){
+  var audioRailroad = new Audio('./wav/railroad_crossing_bell.wav');
+  audioRailroad.play();
+
+}
+
+function playAirRaidSiren(){
+	var audioSiren = new Audio('./wav/tornado-siren.wav');
+	audioSiren.play();
 }
 
 function checkSecond(sec) {
@@ -30,6 +105,10 @@ function checkSecond(sec) {
   if (sec < 0) {sec = "59"};
   return sec;
 }
+
+
+
+
 
 // expand all the divs so that you can see everything 
 
@@ -685,7 +764,6 @@ function checkIndividualDivForNews(divId)
 function checkAllDivsForNews()
 {
 	var symbolArray =  [];
-	var audioSiren = new Audio('./wav/tornado-siren.wav');
 
 	$(".allDivs").each(function(){
 
@@ -873,7 +951,7 @@ console.log("*******************************************************************
 
 				if (globalNewsFlag == true)
 				{
-					audioSiren.play();
+					playAirRaidSiren();
 				}
 
 
