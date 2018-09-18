@@ -41,14 +41,12 @@ function startTimer() {
   	checkAllDivsForNews();
   }
 
-
-
   if ((time24Hour > 700) && (railroad700 == 0))
   {
 	playRailroadCrossing();
   	railroad700 = 1;
   }
-/*  if ((time24Hour > 800) && (railroad800 == 0))
+  if ((time24Hour > 800) && (railroad800 == 0))
   {
 	playRailroadCrossing();
   	railroad800 = 1;
@@ -73,7 +71,6 @@ function startTimer() {
 	playRailroadCrossing();
   	railroad1200 = 1;
   }
-*/  
 
 //  console.log(get24HourTime());
   setTimeout(startTimer, 1000);
