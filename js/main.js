@@ -20,6 +20,19 @@ function getCurrentTime() {
         return time;
    };
 
+function getCurrentTimeAMPM() {
+  var date = new Date();
+  var hours = date.getHours();
+  var minutes = date.getMinutes();
+  var ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12; // the hour '0' should be '12'
+  minutes = minutes < 10 ? '0'+minutes : minutes;
+  var strTime = hours + ':' + minutes + ' ' + ampm;
+  return strTime;
+}
+
+
 function startTimer() {
   var presentTime = document.getElementById('timeLeftSpan').innerHTML;
   var timeArray = presentTime.split(/[:]+/);
@@ -103,9 +116,23 @@ function checkSecond(sec) {
   return sec;
 }
 
+function writeTradeStamp(id)
+{
 
+	var orderStub = $("#orderInput" + id).val();
+	var orderStubSplit = orderStub.split(" ");
+	var price = orderStubSplit[2];
+	var percentage = orderStubSplit[3];
+	var currentTime = getCurrentTimeAMPM();
 
+	console.log("order is " + orderStub);
+	var notes = $("#individualNotesText" + id).val();
+	notes = notes + price + " " + percentage + " " + currentTime + " -- ";
 
+console.log("inside writeTradeStamp, notes is " + notes);
+
+	$("#individualNotesText" + id).val(notes);
+}
 
 // expand all the divs so that you can see everything 
 
@@ -742,7 +769,8 @@ function checkIndividualDivForNews(divId)
 
 				if (newsFlag == false)
 				{				
-	 				$("#newsStatusLabel" + currentId).html("No new news...")
+					var timeStamp = getCurrentTimeAMPM();
+	 				$("#newsStatusLabel" + currentId).html("No new news..." + timeStamp);
  				}
 
 	   			}  // end of marketwatch success function 
@@ -936,7 +964,8 @@ console.log("*******************************************************************
 
 					if (newsFlag == false)
 					{				
-		 				$("#newsStatusLabel" + currentId).html("No new news..."); 
+						var timeStamp = getCurrentTimeAMPM();
+	 					$("#newsStatusLabel" + currentId).html("No new news..." + timeStamp);
 	 				}
 	 				else 
 	 				{
@@ -1287,8 +1316,6 @@ $(document.body).on('click', ".copyOrderToClipboard", function(){
 
  	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
 
-
-
   	var copyTextarea = $("#fullOrder" + currentId);
   	copyTextarea.select();
   	try 
@@ -1302,8 +1329,9 @@ $(document.body).on('click', ".copyOrderToClipboard", function(){
 	    alert('Oops, unable to copy');
   	}
 
-});  // Copy current order to clipboard 
+	writeTradeStamp(currentId);
 
+});  // Copy current order to clipboard 
 
 
 $(document.body).on('paste', ".orderInput", function(){
@@ -1377,6 +1405,8 @@ $(document.body).on('paste', ".orderInput", function(){
 				$("#symbol" + currentId).val(symbol);
 				$("#controlButton" + currentId).click();
 			}
+
+			writeTradeStamp(currentId);
 
 		}, 200
 		);
