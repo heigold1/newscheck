@@ -6,14 +6,29 @@ consumer_secret: 886529f1c9d06729e97b6f511a89b4df
 */
 
 require_once("simple_html_dom.php"); 
-error_reporting(0);
+error_reporting(E_ALL);
 
 // header('Content-type: text/html');
-$symbol=$_GET['symbol'];
-$host_name=$_GET['host_name'];
-$which_website=$_GET['which_website'];
-$stockOrFund=$_GET['stockOrFund']; 
-$google_keyword_string = $_GET['google_keyword_string'];
+if(isset($_GET['symbol']))
+{
+  $symbol=$_GET['symbol'];
+}
+if(isset($_GET['host_name']))
+{
+  $host_name=$_GET['host_name'];
+}
+if(isset($_GET['which_website']))
+{
+  $which_website=$_GET['which_website'];
+}
+if(isset($_GET['stockOrFund']))
+{
+  $stockOrFund=$_GET['stockOrFund']; 
+}
+if(isset($_GET['google_keyword_string']))
+{
+  $google_keyword_string = $_GET['google_keyword_string'];
+}
 $symbols=$_GET['symbols']; 
 
 fopen("cookies.txt", "w");
@@ -147,32 +162,37 @@ $isFound = "";
 $ret = "";
 $url = "";
 $urlTitle = "";
+$full_company_name = "";
+$currentVolume = "";
 
       $url = "https://finance.yahoo.com/quote/$symbol?p=$symbol";
       $html = file_get_html($url);
 
-      $company_name_array = $html->find('h6'); 
-
-      if (preg_match('/content\=\"symbol lookup/i', $html))
+      if ($html != false)
       {
-          $isFound = "notFound"; 
-      }
-      else 
-      {
-          $isFound = "found";
-      }
+          $company_name_array = $html->find('h6'); 
 
-      $companyNameArray = $html->find('h1');
-      $full_company_name = $companyNameArray[0]; 
-      $full_company_name = preg_replace('/\sclass.*\">/', '>', $full_company_name);
-      $full_company_name = preg_replace('/<h1>/', "", $full_company_name);
-      $full_company_name = preg_replace('/<\/h1>/', "", $full_company_name); 
+          if (preg_match('/content\=\"symbol lookup/i', $html))
+          {
+              $isFound = "notFound"; 
+          }
+          else 
+          {
+              $isFound = "found";
+          }
 
-      $tableDataArray = $html->find('div#quote-summary div table tbody tr td');
-      $currentVolume = $tableDataArray[13];
-      $currentVolume = preg_replace('/<td class(.*)\">/', '', $currentVolume);  
-      $currentVolume = preg_replace('/<\/td>/', '', $currentVolume);
-      $currentVolume = preg_replace('/<\/span>/', '', $currentVolume);   
+          $companyNameArray = $html->find('h1');
+          $full_company_name = $companyNameArray[0]; 
+          $full_company_name = preg_replace('/\sclass.*\">/', '>', $full_company_name);
+          $full_company_name = preg_replace('/<h1>/', "", $full_company_name);
+          $full_company_name = preg_replace('/<\/h1>/', "", $full_company_name); 
+
+          $tableDataArray = $html->find('div#quote-summary div table tbody tr td');
+          $currentVolume = $tableDataArray[13];
+          $currentVolume = preg_replace('/<td class(.*)\">/', '', $currentVolume);  
+          $currentVolume = preg_replace('/<\/td>/', '', $currentVolume);
+          $currentVolume = preg_replace('/<\/span>/', '', $currentVolume);   
+      }
 
     // grab the news 
 
@@ -189,19 +209,19 @@ $urlTitle = "";
           $urlTitle = $rss->channel->item{0}->title;
         } // if the symbol is found by yahoo finance
 
-    $returnArray = '{"found":"' . $isFound . '",' . '"companyName":"' . $full_company_name . '",' .  '"currentVolume":"' . $currentVolume  . '", "yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
+      $returnArray = '{"found":"' . $isFound . '",' . '"companyName":"' . $full_company_name . '",' .  '"currentVolume":"' . $currentVolume  . '", "yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
 
     return $returnArray; 
 
 } // if ($which_website == "yahoo")
 
 
-if ($which_website == "marketwatch")
+if (isset($which_website) && ($which_website == "marketwatch"))
 {
   $returnLinks = getMarketwatch($symbol);
   echo $returnLinks;
 }
-elseif ($which_website == "yahoo")
+elseif (isset($which_website) && ($which_website == "yahoo"))
 {
   $returnLinks = getYahoo($symbol);
   echo $returnLinks;
@@ -215,12 +235,18 @@ elseif ($symbols != null)
     {
       $index = $symbol->idNumber;
       $symbol = $symbol->symbol;
-      $originalSymbol = $symbol->originalSymbol; 
+      if (isset($symbol->originalSymbol))
+      {
+          $originalSymbol = $symbol->originalSymbol; 
+      }
 
       $returnArray[$index]['yahoo'] = getYahoo($symbol);
       $returnArray[$index]['marketwatch_sec'] = getMarketwatch($symbol);
       $returnArray[$index]['symbol'] = $symbol;
-      $returnArray[$index]['originalSymbol'] = $originalSymbol;
+      if (isset($originalSymbol))
+      {
+          $returnArray[$index]['originalSymbol'] = $originalSymbol;
+      }
     }
 
     echo (json_encode($returnArray));
