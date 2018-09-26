@@ -807,15 +807,11 @@ function checkAllDivsForNews()
 			symbol = originalSymbol;    		
 		}
 
-		// if the background is either green or blue, meaning there may not be news 
-    	if (($("#symbol" + currentId).css("background-color") == "rgb(0, 255, 0)") || ($("#symbol" + currentId).css("background-color") == "rgb(204, 230, 255)" ) || ($("#symbol" + currentId).css("background-color") == "rgb(255, 192, 203)" ))
-    	{
-    		symbolArray.push({
-    			"symbol": symbol, 
-    			"originalSymbol" : originalSymbol,
-    			"idNumber": currentId
-    		});
-    	}
+   		symbolArray.push({
+   			"symbol": symbol, 
+   			"originalSymbol" : originalSymbol,
+   			"idNumber": currentId
+   		});
 	}); // allDivs.each()
 
 
