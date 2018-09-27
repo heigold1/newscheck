@@ -124,7 +124,7 @@
 			margin-top: 0.5px; 
 			height: 25px; 
 /*			border-radius: 10px;  */ 
-			width: 455px;
+			width: 420px;
 			display: inline-block;
 			background-color: #EBEBE0;
 		}
@@ -172,7 +172,7 @@
 			margin-top: 1.5px;
 			margin-left: 0px;
 			border-radius: 5px;
-			width: 100px;
+			width: 90px;
 			display: inline-block;
 			background-color: #00FF00;
 			height: 23px; 		
@@ -180,18 +180,11 @@
 			vertical-align: top; 
 		}
 
-@font-face {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
-}
-
 		.orderInput{
 			margin-top: 1.5px;
 			margin-left: 0px;
 			border-radius: 5px;
-			width: 350px;
+			width: 325px;
 			display: inline-block;
 			background-color: #00FF00;
 			height: 23px; 		
@@ -214,7 +207,7 @@
 			margin-top: 0.5px; 
 			height: 25px; 
 /*			border-radius: 10px;  */ 
-			width: 382px;
+			width: 362px;
 			display: inline-block;
 			background-color: #EBEBE0;
 			font-size: 10px;
@@ -228,13 +221,12 @@
 		.newsStatusLabel{
 			position: relative;
 			height: 20px;
-			width: 380px;
+			width: 360px;
 			margin-top: 3px;
 			margin-left: 2px ;
 			display: inline-block;
 			font-size: 10px;
 			vertical-align: top;
-
 		}		
 
 		.closeNewsEntry{
@@ -728,3 +720,50 @@
 		.orderNumber{
 			display: none;
 		}
+
+		.lowInfo{
+			position: relative;
+			height: 25px;
+			width: 65px;
+			margin-top: 0.5px;
+			margin-left: 0px ;
+			display: inline-block;
+			font-size: 10px;
+			vertical-align: top;
+			background-color: #EBEBE0;
+			border: 1px solid #333;
+		}
+
+		.lowWrapper{
+			position: relative;
+			height: 20px;
+			width: 35px;
+			margin-top: 1.5px;
+			margin-left: 2px ;
+			display: inline-block;
+			vertical-align: top;
+			border: 1px solid #333;
+			border-radius: 3px;
+			text-align: middle;
+			background-color:  #EBEBE0;
+		}	
+
+		.low{
+			position: relative;
+			margin-top: 3.5px;
+			display: inline-block;
+			font-size: 11px;
+		}
+
+		.lowInput{
+			position: relative;
+			height: 23px;
+			width: 20px;
+			margin-top: 1px;
+			margin-left: 2px ;
+			display: inline-block;
+			border-radius: 5px;
+			font-size: 11px;
+			vertical-align: top;
+			font-family: "arial";  
+		}	

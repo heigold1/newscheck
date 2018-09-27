@@ -6,7 +6,7 @@ consumer_secret: 886529f1c9d06729e97b6f511a89b4df
 */
 
 require_once("simple_html_dom.php"); 
-error_reporting(E_ALL);
+//error_reporting(E_ALL);
 
 // header('Content-type: text/html');
 if(isset($_GET['symbol']))
@@ -21,15 +21,14 @@ if(isset($_GET['which_website']))
 {
   $which_website=$_GET['which_website'];
 }
-if(isset($_GET['stockOrFund']))
-{
-  $stockOrFund=$_GET['stockOrFund']; 
-}
 if(isset($_GET['google_keyword_string']))
 {
   $google_keyword_string = $_GET['google_keyword_string'];
 }
-$symbols=$_GET['symbols']; 
+if(isset($_GET['symbols']))
+{
+  $symbols=$_GET['symbols']; 
+}
 
 fopen("cookies.txt", "w");
 
@@ -88,6 +87,19 @@ if($errno = curl_errno($ch)) {
 
 } // end of function grabHTML
 
+function calculatePercentLow($previousClose, $low)
+{
+
+}
+
+function getETradeAPIData($symbol)
+{
+    $url = $_SERVER['SERVER_NAME'] . '/newslookup/yesterday_close.php?symbol=' . $symbol;
+    $eTradeObject = curl_get_contents($url);
+
+    return json_decode($eTradeObject); 
+}
+
 $ret = "";
 $finalReturn = "";
 
@@ -95,7 +107,6 @@ $finalReturn = "";
 function getMarketwatch($symbol)
 {
 
-$isFound = ""; 
 $entireMarketwatchPage = "";
 $finalReturn = "";
 $mwMainContentLink1 = ""; 
@@ -104,8 +115,71 @@ $mwPartnerHeadlinesLink1 = "";
 $mwPartnerHeadlinesLink1Title = "";
 $secFilingLink1 = ""; 
 $secFilingLink1Title = ""; 
+$stockOrFund = "stock"; 
+$percentLow = "";
+$currentVolume = "";
+$averageVolume = ""; 
 
-//        $resultDecoded = json_decode($result, true);
+        $etradeAPIData = getEtradeAPIData($symbol);
+
+        if ($etradeAPIData != null)
+        {
+          $companyName = $etradeAPIData->company_name; 
+           if (preg_match('/ etf /i', $company_name))
+           {
+              $stockOrFund = "fund";
+           }
+           $currentVolume = $etradeAPIData->total_volume; 
+           $averageVolume = $etradeAPIData->ten_day_volume; 
+           $previousClose = floatval($etradeAPIData->prev_close);
+           $low = floatval($etradeAPIData->low); 
+           $percentLow = number_format((($previousClose-$low)/$previousClose)*100, 2); 
+        }
+
+        $url = "https://www.marketwatch.com/investing/$stockOrFund/$symbol"; 
+
+        $results = grabHTML("www.marketwatch.com", $url);
+
+        if ($results != "")
+        {
+            $results = str_replace(PHP_EOL, '', $results);
+            $results = preg_replace('/<head>(.*)<\/head>/', "", $results);
+
+            preg_match('/<div class="article__content">(.*)<\/div>/', $results, $arrayMatch);
+
+            $batchString = $arrayMatch[0];
+
+            preg_match_all('/<div class="article__content">(.*?)<\/div>/', $batchString, $individualArticleDiv);
+
+            $finalArray = array();
+
+            foreach ($individualArticleDiv[0] as $articleDiv)
+            {
+                $articleStruct = array();
+
+                preg_match('/href="(.*?)"/', $articleDiv, $linksArray);
+                $articleStruct['link'] = $linksArray[1];
+                preg_match('/<a.*>(.*?)<\/a>/', $articleDiv, $headlinesArray);
+                $articleStruct['headline'] = $headlinesArray[1];
+                preg_match('/data-est="(.*?)"/', $articleDiv, $timeStampArray);
+                $timeStamp = $timeStampArray[1];
+                preg_match('/article__timestamp">(.*?)<\/li>/', $articleDiv, $dateStringArray);
+                $articleStruct['date'] = $dateStringArray[1];
+
+                $timeStampInt = strtotime($timeStamp);
+
+                if ($articleStruct['link'] != "")
+                {
+                    $finalArray[$timeStampInt] = $articleStruct; 
+                }
+            }
+
+            krsort($finalArray);
+
+            $firstMarketwatchArticle = reset($finalArray);
+            $mwMainContentLink1 = $firstMarketwatchArticle['link']; 
+            $mwMainContentLink1Title = $firstMarketwatchArticle['headline']; 
+        }
 
         // now we do the SEC filing 
 
@@ -115,9 +189,9 @@ $secFilingLink1Title = "";
 
         if (preg_match('/No matching Ticker Symbol/i', $html))
         {
-                $returnArray = '{"found":"' . 'notFound' . '",' . '"mwMainHeadlines":{"url":"' . "" . '","urlTitle":"' . "" . '"},' . 
-                    '"mwPartnerHeadLines":{"url":"' . "" . '","urlTitle":"' . "" . '"},' . 
-                    '"secFiling":{"url":"","urlTitle":""}}'; 
+                  $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
+                      '"mwPartnerHeadLines":{"url":"' . "" . '","urlTitle":"' . "" . '"},' . 
+                      '"secFiling":{"url":"","urlTitle":""}}'; 
         }
         else
         {
@@ -143,7 +217,7 @@ $secFilingLink1Title = "";
             $secFilingLink1 = 'https://www.sec.gov' . $a2[0]->href;
             $secFilingLink1 = trim($secFilingLink1);
 
-            $returnArray = '{"found":"' . 'found' . '",' . '"mwMainHeadlines":{"url":"' . "" . '","urlTitle":"' . "" . '"},' . 
+            $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
                   '"mwPartnerHeadLines":{"url":"' . "" . '","urlTitle":"' . "" . '"},' . 
                   '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
 
@@ -151,48 +225,18 @@ $secFilingLink1Title = "";
 
         return $returnArray;
 
-
-
 }
 
 function getYahoo($symbol)
 {
 
-$isFound = ""; 
 $ret = "";
 $url = "";
 $urlTitle = "";
 $full_company_name = "";
 $currentVolume = "";
+$stockOrFund = "";
 
-      $url = "https://finance.yahoo.com/quote/$symbol?p=$symbol";
-      $html = file_get_html($url);
-
-      if ($html != false)
-      {
-          $company_name_array = $html->find('h6'); 
-
-          if (preg_match('/content\=\"symbol lookup/i', $html))
-          {
-              $isFound = "notFound"; 
-          }
-          else 
-          {
-              $isFound = "found";
-          }
-
-          $companyNameArray = $html->find('h1');
-          $full_company_name = $companyNameArray[0]; 
-          $full_company_name = preg_replace('/\sclass.*\">/', '>', $full_company_name);
-          $full_company_name = preg_replace('/<h1>/', "", $full_company_name);
-          $full_company_name = preg_replace('/<\/h1>/', "", $full_company_name); 
-
-          $tableDataArray = $html->find('div#quote-summary div table tbody tr td');
-          $currentVolume = $tableDataArray[13];
-          $currentVolume = preg_replace('/<td class(.*)\">/', '', $currentVolume);  
-          $currentVolume = preg_replace('/<\/td>/', '', $currentVolume);
-          $currentVolume = preg_replace('/<\/span>/', '', $currentVolume);   
-      }
 
     // grab the news 
 
@@ -209,7 +253,7 @@ $currentVolume = "";
           $urlTitle = $rss->channel->item{0}->title;
         } // if the symbol is found by yahoo finance
 
-      $returnArray = '{"found":"' . $isFound . '",' . '"companyName":"' . $full_company_name . '",' .  '"currentVolume":"' . $currentVolume  . '", "yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
+      $returnArray = '{"yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
 
     return $returnArray; 
 
@@ -241,7 +285,12 @@ elseif ($symbols != null)
       }
 
       $returnArray[$index]['yahoo'] = getYahoo($symbol);
+      $yahooObject = json_decode($returnArray[$index]['yahoo']); 
+
+      $stockOrFund = $yahooObject->stockOrFund; 
+
       $returnArray[$index]['marketwatch_sec'] = getMarketwatch($symbol);
+
       $returnArray[$index]['symbol'] = $symbol;
       if (isset($originalSymbol))
       {
