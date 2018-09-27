@@ -583,21 +583,10 @@ function checkIndividualDivForNews(divId)
 	   					yahooFirstLink = data.yahooInfo.url;
 	   					yahooFirstLink = yahooFirstLink.replace(/&amp;/g, '&'); 
 		   				yahooFirstLinkTitle = data.yahooInfo.urlTitle; 
+						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
+						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x27;/g, "'"); 
 
-	   					etfStringLocation =  yahooCompanyName.search(/ etf /i);
 
-	   					// if it is an ETF then we need to tell the proxy server that, so when it 
-	   					// searches for marketwatch information it can insert "fund" instead of "stock"
-	   					// in the URl. 
-
-	   					if (etfStringLocation > -1)
-						{	   				
-	   						stockOrFund = "fund"; 
-	   					}
-	   					else
-	   					{
-	   						stockOrFund = "stock";
-	   					}
     			}  // end of yahoo success function
 			});  // end of ajax call for yahoo finance  
 
@@ -613,22 +602,24 @@ function checkIndividualDivForNews(divId)
 					mwMainContentLink1 = data.mwMainHeadlines.url; 
 					mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&'); 
 					mwMainContentLink1Title = data.mwMainHeadlines.urlTitle; 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
 
 					mwPartnerHeadlinesLink1 = data.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
 					mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines.urlTitle;
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
 
 					secFilingLink1 = data.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
 					secFilingLink1Title = data.secFiling.urlTitle;
-
-
+					secFilingLink1Title = secFilingLink1Title.replace(/&apos;/g, "'"); 
+					secFilingLink1Title = secFilingLink1Title.replace(/&#x27;/g, "'"); 
 
 	   					currentVolume = data.currentVolume; 
 	   					averageVolume = $("#avgVolume" + divId).val(); 
 
-
-	
 	   					// now we compare the current volume against the average volume to make sure 
 	   					// that there isn't a red flag volume explosion
 
@@ -845,6 +836,7 @@ function checkAllDivsForNews()
    					yahooFirstLink = yahooFirstLink.replace(/&amp;/g, '&'); 
 	   				yahooFirstLinkTitle = yahooData.yahooInfo.urlTitle; 
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
+					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x27;/g, "'"); 
 
    					currentVolume = mktWatchSECData.currentVolume; 
    					averageVolume = mktWatchSECData.averageVolume; 
@@ -855,11 +847,13 @@ function checkAllDivsForNews()
 					mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&'); 
 					mwMainContentLink1Title = mktWatchSECData.mwMainHeadlines.urlTitle;
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
 
 					mwPartnerHeadlinesLink1 = mktWatchSECData.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
 					mwPartnerHeadlinesLink1Title = mktWatchSECData.mwPartnerHeadLines.urlTitle;
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
 
 					secFilingLink1 = mktWatchSECData.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
