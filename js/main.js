@@ -42,8 +42,7 @@ function startTimer() {
   var time24Hour = get24HourTime(); 
 
   if(s==59){m=m-1}
-  //if(m<0){alert('timer completed')}
-  
+    
   time = m + ":" + s; 
 
   document.getElementById('timeLeftSpan').innerHTML =
@@ -188,13 +187,10 @@ function calcPrevClose(currentId)
     thePercentage = thePercentage.toString().replace(/\)/g, ""); 
     thePercentage = thePercentage.toString().replace(/\%/g, ""); 
 
-//    alert("numShares is " + numSharesWithoutCommas + ", thePercentage is " + thePercentage + ", price is " + price);  
-
     prevClose = price/(1- (thePercentage/100)); 
 
     var newCalculatedPrice = prevClose - ((thePercentage/100)*prevClose)
 
-//    alert("prevClose is " + prevClose);
     $("#prevClose" + currentId).html(prevClose); 
 } // end of calcPrevClose 
 
@@ -209,12 +205,6 @@ function reCalcOrderStub(currentId)
     var prevClose = $("#prevClose" + currentId).html();
     var orderType = ""; 
 
-
-    if (orderStub.match(/LOSS/g))
-    {
-    	var orderType = " LOSS";
-    }
-
     price = price.replace(/\$/g, "");
     numSharesWithoutCommas = numShares.replace(/,/g, ""); 
     thePercentage = orderStub.match(/\((.*)\)/g); 
@@ -222,16 +212,10 @@ function reCalcOrderStub(currentId)
     thePercentage = thePercentage.toString().replace(/\)/g, ""); 
     thePercentage = thePercentage.toString().replace(/\%/g, ""); 
 
-//    alert("numShares is " + numSharesWithoutCommas + ", thePercentage is " + thePercentage + ", price is " + price + " , prevClose is " + prevClose);
-
-
 	if (thePercentage.length > 4)
 	{
 
     	var newCalculatedPrice = prevClose - ((thePercentage/100)*prevClose); 
-
-	//    alert("prevClose is " + prevClose);
-	//    alert("newCalculatedPrice is " + newCalculatedPrice);
 
 		thePercentage = Number(thePercentage);
 
@@ -247,7 +231,6 @@ function reCalcOrderStub(currentId)
 
     	var ctl = document.getElementById("orderInput" + currentId);
     	var startPos = ctl.selectionStart;
-		// alert("start position is " + startPos); 
 
 		numSharesWithCommas = numShares; 
  		numSharesWithCommas = numSharesWithCommas.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -262,9 +245,7 @@ function reCalcOrderStub(currentId)
  		}
 
 	    $("#orderInput" + currentId).val("BUY " + numSharesWithCommas + " $" + newCalculatedPrice + " (" + thePercentage.toFixed(2) + "%) -- $" + totalValueString + orderType); 
-	//    $("#orderStub" + currentId).val("hello"); 
 
-	//	alert("end of recalc ");
 	    ctl.setSelectionRange(startPos, startPos); 
 
     } // if the length of the percentage number is greater than 4, i.e. "35.65" as opposed to "5.65". 
@@ -412,45 +393,20 @@ var secFilingLink1Title = "";
 		async: false,	   		
 	   	dataType: 'json',
 	   	success:  function (data) {
-
-//	   			yahooCompanyName = data.companyName; 
 	   			yahooFirstLink = data.yahooInfo.url;
 	   			yahooFirstLink = yahooFirstLink.replace(/&amp;/g, '&');    			
 	   			yahooFirstLinkTitle = data.yahooInfo.urlTitle; 
-//	   			currentVolume = data.currentVolume;
-
-//	   			etfStringLocation =  yahooCompanyName.search(/ etf /i);
-
-	   			// if it is an ETF then we need to tell the proxy server that, so when it 
-	   			// searches for marketwatch information it can insert "fund" instead of "stock"
-	   			// in the URl. 
-/*
-	   			if (etfStringLocation > -1)
-				{	   				
-	   				stockOrFund = "fund"; 
-	   			}
-	   			else
-	   			{
-	   				stockOrFund = "stock";
-	   			}
-*/
-
     	} // end of yahoo success function
 	});  // end of ajax call for yahoo finance   
 
  	$.ajax({
 	    url: "newsproxy.php",
 	    data: {symbol: currentSymbol,
-//	    	   stockOrFund: stockOrFund, 
 	    	   which_website: "marketwatch", 
 	    	   host_name: "www.marketwatch.com"} , 
 		async: false,	    	   
 	    dataType: 'json',
 	    success:  function (data) {
-
-
-console.log("inside success ajax marketwatch, data is "); 
-console.log(data);
 
 				mwMainContentLink1 = data.mwMainHeadlines.url; 
 				mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&');
@@ -585,7 +541,7 @@ function checkIndividualDivForNews(divId)
 		   				yahooFirstLinkTitle = data.yahooInfo.urlTitle; 
 						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
 						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x27;/g, "'"); 
-
+   						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&amp;/g, '&'); 
 
     			}  // end of yahoo success function
 			});  // end of ajax call for yahoo finance  
@@ -604,54 +560,51 @@ function checkIndividualDivForNews(divId)
 					mwMainContentLink1Title = data.mwMainHeadlines.urlTitle; 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&amp;/g, '&'); 
 
 					mwPartnerHeadlinesLink1 = data.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
 					mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines.urlTitle;
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
 
 					secFilingLink1 = data.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
 					secFilingLink1Title = data.secFiling.urlTitle;
 					secFilingLink1Title = secFilingLink1Title.replace(/&apos;/g, "'"); 
 					secFilingLink1Title = secFilingLink1Title.replace(/&#x27;/g, "'"); 
+					secFilingLink1Title = secFilingLink1Title.replace(/&amp;/g, '&'); 
 
-	   					currentVolume = data.currentVolume; 
-	   					averageVolume = $("#avgVolume" + divId).val(); 
+   					currentVolume = mktWatchSECData.currentVolume; 
+   					averageVolume = mktWatchSECData.averageVolume; 
+   					percentLow = parseFloat(mktWatchSECData.percentLow); 
 
-	   					// now we compare the current volume against the average volume to make sure 
-	   					// that there isn't a red flag volume explosion
 
-	   					currentVolume = currentVolume.toString().replace(/,/g, "");
-	   					averageVolume = averageVolume.toString().replace(/,/g, "");
-	   					averageVolume = Number(averageVolume); 
-	   					volumeIndex = 1.5;
-	   					comparativeAverageVolume = averageVolume*volumeIndex;
+					$("#low" + currentId).html(percentLow);
 
-						if ( $("#checkVolume" + currentId).prop('checked'))
+					var orderInput = $("#orderInput" + currentId).val(); 
+					var myRegexp = /\((.*?)\)/g; 
+					var match = myRegexp.exec(orderInput);
+
+					if (match != null)
+					{
+						var lowInput = parseFloat($("#lowInput" + currentId).val());
+						var currentPercentage = match[1];
+						currentPercentage = currentPercentage.replace("%", ""); 	
+						currentPercentage = parseFloat(currentPercentage);
+						var currentMinusLow = currentPercentage - lowInput;
+
+						if ((currentMinusLow) < percentLow)
 						{
-		   					if (currentVolume >= comparativeAverageVolume)
-	   						{
-								$("#volumeDiv" + divId).css("background-color", "rgb(255, 0, 0)");
-	   						}
-    						else 
-    						{
-	    						$("#volumeDiv" + divId).css("background-color", "rgb(235, 235, 224)"); 
-    						}	
-    					}	
-    					else 
-    					{
-	    					$("#volumeDiv" + divId).css("background-color", "rgb(235, 235, 224)"); 
-    					}	
-
-
-
-
-
-
-				tempStored = $("#storedYahooLink" + currentId).find("a:first").attr("href"); 
-	//	 		alert("comparing yahoo " + yahooFirstLink + " AGAINST yahooo " + tempStored);
+							$("#lowWrapper" + currentId).css("background-color", "#FFA500");
+							globalCloseToCurrentLow = true;
+						}
+						else
+						{
+							$("#lowWrapper" + currentId).css("background-color", "#EBEBE0");
+						}
+					}
 
 	 			// if we bring back a yahoo link 
 	 			if (yahooFirstLinkTitle != "")
@@ -659,7 +612,6 @@ function checkIndividualDivForNews(divId)
 	 				// then if there was currently no news stored, 
  					if ($("#storedYahooLink" + currentId).html() == "No news")     
 		 				{
-	//	 					alert("yahoo news for " + symbol);
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
  							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 							$("#controlButton" + currentId).html("Start"); 
@@ -668,7 +620,6 @@ function checkIndividualDivForNews(divId)
 	 					}  // or what just came back is different than what was previously stored
  						else if (yahooFirstLinkTitle != $("#storedYahooLink" + currentId).find("a:first").text()) 
  						{
-//			 				alert("yahoo DIFFERENT news for " + symbol);
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
  							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 							$("#controlButton" + currentId).html("Start"); 						
@@ -677,15 +628,11 @@ function checkIndividualDivForNews(divId)
 
  				}  // if we bring back a yahoo link 
 
-				//tempStored = $("#storedMarketWatchMainLink" + currentId).find("a:first").attr("href"); 
-	//	 		alert("comparing " + mwMainContentLink1 + " AGAINST " + tempStored);
-
 	 			// if we bring back a marketwatch main table link 
  				if (mwMainContentLink1Title != "")
  				{
 	 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
  					{
-	// 					alert("marketwatch main news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					
@@ -693,7 +640,6 @@ function checkIndividualDivForNews(divId)
  					}
  					else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
  					{
-	// 					alert("marketwatch main news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -702,15 +648,11 @@ function checkIndividualDivForNews(divId)
 
  				}  // if we bring back a marketwatch main link  
 
-				//tempStored = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").attr("href"); 
-	//	 		alert("comparing " + mwPartnerHeadlinesLink1 + " AGAINST " + tempStored);
-
  				// if we bring back a marketwatch partner headlines link 
  				if (mwPartnerHeadlinesLink1Title != "")
  				{
 					if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
  					{
-	// 					alert("marketwatch partner news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -718,7 +660,6 @@ function checkIndividualDivForNews(divId)
  					}
  					else if (mwPartnerHeadlinesLink1Title != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text()) 
  					{
-	// 					alert("marketwatch partner news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -727,15 +668,11 @@ function checkIndividualDivForNews(divId)
 
  				} // if we bring back a marketwatch partner headlines link 
 
-				//tempStored = $("#storedMarketWatchPRLink" + currentId).find("a:first").attr("href"); 
-	//	 		alert("comparing " + mwPRHeadlinesLink1 + " AGAINST " + tempStored);
-
  				// if we bring back a marketwatch PR headlines link 
 				if (secFilingLink1Title != "") 
 				{
 					if ($("#storedSECFilingLink" + currentId).html() == "No news")
  					{
- 	//					alert("marketwatch PR news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -743,7 +680,6 @@ function checkIndividualDivForNews(divId)
  					}
  					else if (secFilingLink1Title != $("#storedSECFilingLink" + currentId).find("a:first").text()) 
  					{
-	// 					alert("marketwatch PR news for " + symbol); 
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -837,6 +773,7 @@ function checkAllDivsForNews()
 	   				yahooFirstLinkTitle = yahooData.yahooInfo.urlTitle; 
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x27;/g, "'"); 
+   					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&amp;/g, '&'); 
 
    					currentVolume = mktWatchSECData.currentVolume; 
    					averageVolume = mktWatchSECData.averageVolume; 
@@ -848,12 +785,14 @@ function checkAllDivsForNews()
 					mwMainContentLink1Title = mktWatchSECData.mwMainHeadlines.urlTitle;
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
+   					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&amp;/g, '&'); 
 
 					mwPartnerHeadlinesLink1 = mktWatchSECData.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
 					mwPartnerHeadlinesLink1Title = mktWatchSECData.mwPartnerHeadLines.urlTitle;
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
 
 					secFilingLink1 = mktWatchSECData.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
@@ -897,7 +836,12 @@ function checkAllDivsForNews()
 		 					}  // or what just came back is different than what was previously stored
 	 						else if (yahooFirstLinkTitle != $("#storedYahooLink" + currentId).find("a:first").text()) 
 	 						{
-									$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+
+var storedLinkYahooTitle = $("#storedYahooLink" + currentId).find("a:first").text();
+console.log("yahooFirstLinkTitle is *" + yahooFirstLinkTitle + "*");
+console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
+
+								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 	 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 								$("#controlButton" + currentId).html("Start"); 						
 								newsFlag = true; 
@@ -917,6 +861,11 @@ function checkAllDivsForNews()
 	 					}
 	 					else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
 	 					{
+
+var storedLinkMWTitle = $("#storedMarketWatchMainLink" + currentId).find("a:first").text(); 
+console.log("mwMainContentLink1Title is *" + storedLinkMWTitle + "*");
+console.log("storedLinkTitle is *" + storedLinkTitle "*");
+
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
