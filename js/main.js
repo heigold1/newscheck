@@ -864,7 +864,7 @@ console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
 
 var storedLinkMWTitle = $("#storedMarketWatchMainLink" + currentId).find("a:first").text(); 
 console.log("mwMainContentLink1Title is *" + storedLinkMWTitle + "*");
-console.log("storedLinkTitle is *" + storedLinkTitle "*");
+console.log("storedLinkTitle is *" + storedLinkTitle + "*");
 
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
