@@ -129,11 +129,8 @@ function writeTradeStamp(id)
 	var percentage = orderStubSplit[3];
 	var currentTime = getCurrentTimeAMPM();
 
-	console.log("order is " + orderStub);
 	var notes = $("#individualNotesText" + id).val();
 	notes = notes + price + " " + percentage + " " + currentTime + " -- ";
-
-console.log("inside writeTradeStamp, notes is " + notes);
 
 	$("#individualNotesText" + id).val(notes);
 }
@@ -774,6 +771,7 @@ function checkAllDivsForNews()
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x27;/g, "'"); 
    					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&amp;/g, '&'); 
+					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2019;/g, "’"); 
 
    					currentVolume = mktWatchSECData.currentVolume; 
    					averageVolume = mktWatchSECData.averageVolume; 
@@ -786,6 +784,7 @@ function checkAllDivsForNews()
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
    					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&amp;/g, '&'); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2019;/g, "’"); 
 
 					mwPartnerHeadlinesLink1 = mktWatchSECData.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
@@ -793,6 +792,7 @@ function checkAllDivsForNews()
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’"); 
 
 					secFilingLink1 = mktWatchSECData.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
@@ -863,8 +863,8 @@ console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
 	 					{
 
 var storedLinkMWTitle = $("#storedMarketWatchMainLink" + currentId).find("a:first").text(); 
-console.log("mwMainContentLink1Title is *" + storedLinkMWTitle + "*");
-console.log("storedLinkTitle is *" + storedLinkTitle + "*");
+console.log("storedLinkMWTitle is *" + storedLinkMWTitle + "*");
+console.log("mwMainContentLink1Title is *" + mwMainContentLink1Title + "*");
 
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
@@ -920,14 +920,15 @@ console.log("storedLinkTitle is *" + storedLinkTitle + "*");
 					{				
 						var timeStamp = getCurrentTimeAMPM();
 	 					$("#newsStatusLabel" + currentId).html("No new news..." + timeStamp);
+						$("#newsResultsDiv" + currentId).css("background-color", "#EBEBE0"); 
 	 				}
 	 				else 
 	 				{
 	 					globalNewsFlag = true; 
 	 				}
+					newsFlag = false; 
 
 				});
-
 
 				if (globalNewsFlag == true)
 				{
@@ -938,7 +939,6 @@ console.log("storedLinkTitle is *" + storedLinkTitle + "*");
 				{
 					playWaterSplash(); 
 				}
-
 
 			}  // end of yahoo success function
 	});  // end of ajax call for yahoo finance  
