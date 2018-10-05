@@ -772,6 +772,8 @@ function checkAllDivsForNews()
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x27;/g, "'"); 
    					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&amp;/g, '&'); 
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2019;/g, "’"); 
+					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2014;/g, "—");
+					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2B;/g, "+");
 
    					currentVolume = mktWatchSECData.currentVolume; 
    					averageVolume = mktWatchSECData.averageVolume; 
@@ -785,6 +787,8 @@ function checkAllDivsForNews()
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
    					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&amp;/g, '&'); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2019;/g, "’"); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2014;/g, "—"); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2B;/g, "+"); 
 
 					mwPartnerHeadlinesLink1 = mktWatchSECData.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
@@ -792,7 +796,8 @@ function checkAllDivsForNews()
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’"); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’");
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2B;/g, "+");
 
 					secFilingLink1 = mktWatchSECData.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
