@@ -279,6 +279,9 @@ function createNewNewsEntry() {
 	newNewsEntry += "		</div>";
 	newNewsEntry += "		<input id='lowInput" + newIdNumber + "' class='lowInput' value='9'>";
 	newNewsEntry += "	</div>";
+	newNewsEntry += "	<div class='checkForNewNewsWrapper'>"; 
+ 	newNewsEntry += "		&nbsp;<input type='checkbox' id='checkForNewNews" + newIdNumber + "' class='checkForNewNews' checked>"; 
+	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div class='controlButtonDiv'>"; 
 	newNewsEntry += "		<button id='controlButton" + newIdNumber + "' class='controlButton' type='button'>Start</button>"; 
 	newNewsEntry += " 	</div>"; 
@@ -716,24 +719,26 @@ function checkAllDivsForNews()
 		currentId = $(this).attr("id"); 
  		currentId = currentId.replace("div", "");
 
-		var originalSymbol = $.trim($("#symbol" + currentId).val()); 
+ 		if ($("#checkForNewNews" + currentId).is(':checked'))
+ 		{
+			var originalSymbol = $.trim($("#symbol" + currentId).val()); 
 
-		if ( currentSymbol.length == 5)
-   		{
-   			symbol = originalSymbol.slice(0,-1); 
+			if ( currentSymbol.length == 5)
+   			{
+   				symbol = originalSymbol.slice(0,-1); 
+   			}
+    		else
+   			{
+				symbol = originalSymbol;    		
+			}
+
+   			symbolArray.push({
+   				"symbol": symbol, 
+   				"originalSymbol" : originalSymbol,
+   				"idNumber": currentId
+   			});
    		}
-    	else
-   		{
-			symbol = originalSymbol;    		
-		}
-
-   		symbolArray.push({
-   			"symbol": symbol, 
-   			"originalSymbol" : originalSymbol,
-   			"idNumber": currentId
-   		});
 	}); // allDivs.each()
-
 
 	var yahooFirstLink = ""; 
 	var yahooFirstLinkTitle = "";
