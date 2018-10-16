@@ -2,7 +2,7 @@
 
 var timerVariable; 
 var railroadCrossingPlayed = 0; 
-var railroad700 = 0;
+var railroad650 = 0;
 var railroad800 = 0;
 var railroad900 = 0; 
 var railroad1000 = 0;
@@ -53,10 +53,10 @@ function startTimer() {
   	checkAllDivsForNews();
   }
 
-  if ((time24Hour > 700) && (railroad700 == 0))
+  if ((time24Hour > 650) && (railroad650 == 0))
   {
 	playRailroadCrossing();
-  	railroad700 = 1;
+  	railroad650 = 1;
   }
   if ((time24Hour > 800) && (railroad800 == 0))
   {
@@ -396,6 +396,8 @@ var secFilingLink1Title = "";
 	   			yahooFirstLink = data.yahooInfo.url;
 	   			yahooFirstLink = yahooFirstLink.replace(/&amp;/g, '&');    			
 	   			yahooFirstLinkTitle = data.yahooInfo.urlTitle; 
+				yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xD;&#xA;/g, '');  				
+
     	} // end of yahoo success function
 	});  // end of ajax call for yahoo finance   
 
@@ -411,14 +413,17 @@ var secFilingLink1Title = "";
 				mwMainContentLink1 = data.mwMainHeadlines.url; 
 				mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&');
 				mwMainContentLink1Title = data.mwMainHeadlines.urlTitle; 
+				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, '');  
 
 				mwPartnerHeadlinesLink1 = data.mwPartnerHeadLines.url; 
 				mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
 				mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines.urlTitle;
+				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, '');  				
 
 				secFilingLink1 = data.secFiling.url; 
 				secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
 				secFilingLink1Title = data.secFiling.urlTitle;
+				secFilingLink1Title = secFilingLink1Title.replace(/&#xD;&#xA;/g, '');  				
 
  				// yahoo main 
 
@@ -542,6 +547,12 @@ function checkIndividualDivForNews(divId)
 						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
 						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x27;/g, "'"); 
    						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&amp;/g, '&'); 
+						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2019;/g, "’"); 
+						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2014;/g, "—"); 
+						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2B;/g, "+"); 
+						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xD;&#xA;/g, "");
+
+
 
     			}  // end of yahoo success function
 			});  // end of ajax call for yahoo finance  
@@ -561,6 +572,10 @@ function checkIndividualDivForNews(divId)
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&amp;/g, '&'); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2019;/g, "’"); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2014;/g, "—"); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2B;/g, "+"); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, "");
 
 					mwPartnerHeadlinesLink1 = data.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
@@ -568,13 +583,22 @@ function checkIndividualDivForNews(divId)
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’"); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2014;/g, "—"); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2B;/g, "+"); 
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, "");
 
 					secFilingLink1 = data.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
 					secFilingLink1Title = data.secFiling.urlTitle;
 					secFilingLink1Title = secFilingLink1Title.replace(/&apos;/g, "'"); 
 					secFilingLink1Title = secFilingLink1Title.replace(/&#x27;/g, "'"); 
-					secFilingLink1Title = secFilingLink1Title.replace(/&amp;/g, '&'); 
+					secFilingLink1Title = secFilingLink1Title.replace(/&amp;/g, '&');
+					secFilingLink1Title = secFilingLink1Title.replace(/&#x2019;/g, "’"); 
+					secFilingLink1Title = secFilingLink1Title.replace(/&#x2014;/g, "—"); 
+					secFilingLink1Title = secFilingLink1Title.replace(/&#x2B;/g, "+"); 
+					secFilingLink1Title = secFilingLink1Title.replace(/&#xD;&#xA;/g, "");
+					 
 
    					currentVolume = mktWatchSECData.currentVolume; 
    					averageVolume = mktWatchSECData.averageVolume; 
@@ -779,6 +803,8 @@ function checkAllDivsForNews()
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2019;/g, "’"); 
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2014;/g, "—");
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2B;/g, "+");
+					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xD;&#xA;/g, "");
+
 
    					currentVolume = mktWatchSECData.currentVolume; 
    					averageVolume = mktWatchSECData.averageVolume; 
@@ -794,6 +820,7 @@ function checkAllDivsForNews()
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2019;/g, "’"); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2014;/g, "—"); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2B;/g, "+"); 
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, "");
 
 					mwPartnerHeadlinesLink1 = mktWatchSECData.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
@@ -803,6 +830,7 @@ function checkAllDivsForNews()
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’");
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2B;/g, "+");
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, "");
 
 					secFilingLink1 = mktWatchSECData.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
