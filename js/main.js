@@ -277,7 +277,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "		<div id='lowWrapper" + newIdNumber + "' class='lowWrapper'>"; 
 	newNewsEntry += "		&nbsp;<span id='low" + newIdNumber + "' class='low'></span>"; 
 	newNewsEntry += "		</div>";
-	newNewsEntry += "		<input id='lowInput" + newIdNumber + "' class='lowInput' value='9'>";
+	newNewsEntry += "		<input id='lowInput" + newIdNumber + "' class='lowInput' value='5'>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div class='checkForNewNewsWrapper'>"; 
  	newNewsEntry += "		&nbsp;<input type='checkbox' id='checkForNewNews" + newIdNumber + "' class='checkForNewNews' checked>"; 
@@ -804,7 +804,7 @@ function checkAllDivsForNews()
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2014;/g, "—");
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2B;/g, "+");
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xD;&#xA;/g, "");
-
+					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x20AC;/g, "€");
 
    					currentVolume = mktWatchSECData.currentVolume; 
    					averageVolume = mktWatchSECData.averageVolume; 
@@ -821,6 +821,7 @@ function checkAllDivsForNews()
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2014;/g, "—"); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2B;/g, "+"); 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, "");
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x20AC;/g, "€");
 
 					mwPartnerHeadlinesLink1 = mktWatchSECData.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
@@ -831,6 +832,7 @@ function checkAllDivsForNews()
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’");
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2B;/g, "+");
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, "");
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x20AC;/g, "€");
 
 					secFilingLink1 = mktWatchSECData.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
