@@ -786,6 +786,8 @@ function checkAllDivsForNews()
 		async: true,	   		
 			dataType: 'json',
 			success:  function (data) {
+				console.log("Data returned back from check all divs for news:");
+				console.log(data);
 				$.each(data, function(index,item) {
 
 					currentId = index; 
