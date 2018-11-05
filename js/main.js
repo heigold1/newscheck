@@ -747,7 +747,7 @@ function checkAllDivsForNews()
  		{
 			var originalSymbol = $.trim($("#symbol" + currentId).val()); 
 
-			if ( currentSymbol.length == 5)
+			if (originalSymbol.length == 5)
    			{
    				symbol = originalSymbol.slice(0,-1); 
    			}
