@@ -311,6 +311,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='offeringDiv" + newIdNumber + "' class='offeringDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='offeringSpan' tabindex='-1'>O</span>";
 	newNewsEntry += "	</div>";
+	newNewsEntry += "	<input id='offerPrice" + newIdNumber + "' class='offerPrice'>";
 	newNewsEntry += " 	<div class='newsContainer'>"; 
 	newNewsEntry += "		<div class='symbolCheckBox' tabindex='-1'>"
 	newNewsEntry +=	"			<span class='symbolCheckBoxLabel'>" 
@@ -746,6 +747,7 @@ function checkAllDivsForNews()
  		if ($("#checkForNewNews" + currentId).is(':checked'))
  		{
 			var originalSymbol = $.trim($("#symbol" + currentId).val()); 
+			var offerPrice = $.trim($("#offerPrice" + currentId).val());
 
 			if (originalSymbol.length == 5)
    			{
@@ -759,6 +761,7 @@ function checkAllDivsForNews()
    			symbolArray.push({
    				"symbol": symbol, 
    				"originalSymbol" : originalSymbol,
+   				"offerPrice" : offerPrice, 
    				"idNumber": currentId
    			});
    		}
@@ -779,6 +782,7 @@ function checkAllDivsForNews()
 	var currentVolume = 0;
 	var averageVolume = 0; 
 	var percentLow = 0.0;
+	var offerPrice = 0.0;
 
 	$.ajax({
    		url: "newsproxy.php",
@@ -786,8 +790,6 @@ function checkAllDivsForNews()
 		async: true,	   		
 			dataType: 'json',
 			success:  function (data) {
-				console.log("Data returned back from check all divs for news:");
-				console.log(data);
 				$.each(data, function(index,item) {
 
 					currentId = index; 
@@ -810,6 +812,9 @@ function checkAllDivsForNews()
 
    					currentVolume = mktWatchSECData.currentVolume; 
    					averageVolume = mktWatchSECData.averageVolume; 
+
+
+
    					percentLow = parseFloat(mktWatchSECData.percentLow); 
 
     				marketWatchFound = mktWatchSECData.found;

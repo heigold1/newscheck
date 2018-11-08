@@ -13,6 +13,10 @@ if(isset($_GET['symbol']))
 {
   $symbol=$_GET['symbol'];
 }
+if (isset($_GET['offerPrice']))
+{
+  $offerPrice=$_GET['offerPrice'];
+}
 if(isset($_GET['host_name']))
 {
   $host_name=$_GET['host_name'];
@@ -104,7 +108,7 @@ $ret = "";
 $finalReturn = "";
 
 
-function getMarketwatch($symbol)
+function getMarketwatch($symbol, $offerPrice)
 {
 
 $entireMarketwatchPage = "";
@@ -133,7 +137,16 @@ $averageVolume = "";
            $averageVolume = $etradeAPIData->ten_day_volume; 
            $previousClose = floatval($etradeAPIData->prev_close);
            $low = floatval($etradeAPIData->low); 
-           $percentLow = number_format((($previousClose-$low)/$previousClose)*100, 2); 
+
+           if (trim($offerPrice) != "")
+           {
+             $offerPrice = floatval($offerPrice);
+             $percentLow = number_format((($offerPrice-$low)/$offerPrice)*100, 2);  
+           }
+           else
+           {
+             $percentLow = number_format((($previousClose-$low)/$previousClose)*100, 2);  
+           }
         }
 
         $url = "https://www.marketwatch.com/investing/$stockOrFund/$symbol"; 
@@ -189,7 +202,7 @@ $averageVolume = "";
 
         if (preg_match('/No matching Ticker Symbol/i', $html))
         {
-                  $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
+                  $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "offerPrice":"' . $offerPrice . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
                       '"mwPartnerHeadLines":{"url":"' . "" . '","urlTitle":"' . "" . '"},' . 
                       '"secFiling":{"url":"","urlTitle":""}}'; 
         }
@@ -217,7 +230,7 @@ $averageVolume = "";
             $secFilingLink1 = 'https://www.sec.gov' . $a2[0]->href;
             $secFilingLink1 = trim($secFilingLink1);
 
-            $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
+            $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "offerPrice":"' . $offerPrice . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
                   '"mwPartnerHeadLines":{"url":"' . "" . '","urlTitle":"' . "" . '"},' . 
                   '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
 
@@ -262,7 +275,7 @@ $stockOrFund = "";
 
 if (isset($which_website) && ($which_website == "marketwatch"))
 {
-  $returnLinks = getMarketwatch($symbol);
+  $returnLinks = getMarketwatch($symbol, $offerPrice);
   echo $returnLinks;
 }
 elseif (isset($which_website) && ($which_website == "yahoo"))
@@ -277,8 +290,11 @@ elseif ($symbols != null)
 
     foreach ($symbols as $symbol)
     {
+
+      $offerPrice = $symbol->offerPrice;
       $index = $symbol->idNumber;
       $symbol = $symbol->symbol;
+
       if (isset($symbol->originalSymbol))
       {
           $originalSymbol = $symbol->originalSymbol; 
@@ -289,7 +305,7 @@ elseif ($symbols != null)
 
       $stockOrFund = $yahooObject->stockOrFund; 
 
-      $returnArray[$index]['marketwatch_sec'] = getMarketwatch($symbol);
+      $returnArray[$index]['marketwatch_sec'] = getMarketwatch($symbol, $offerPrice);
 
       $returnArray[$index]['symbol'] = $symbol;
       if (isset($originalSymbol))
