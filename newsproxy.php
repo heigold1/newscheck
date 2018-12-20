@@ -192,6 +192,8 @@ $averageVolume = "";
             $firstMarketwatchArticle = reset($finalArray);
             $mwMainContentLink1 = $firstMarketwatchArticle['link']; 
             $mwMainContentLink1Title = $firstMarketwatchArticle['headline']; 
+            $mwMainContentLink1Title = str_replace('"', "", $mwMainContentLink1Title);
+            $mwMainContentLink1Title = str_replace('&quot;', "", $mwMainContentLink1Title);
         }
 
         // now we do the SEC filing 
@@ -264,6 +266,8 @@ $stockOrFund = "";
         {
           $url = $rss->channel->item{0}->link;
           $urlTitle = $rss->channel->item{0}->title;
+          $urlTitle = str_replace('"', "", $urlTitle);
+          $urlTitle = str_replace('&quot;', "", $urlTitle);
         } // if the symbol is found by yahoo finance
 
       $returnArray = '{"yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
