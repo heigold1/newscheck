@@ -825,6 +825,10 @@ console.log(data);
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x20AC;/g, "€");
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#39;/g, "'");
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xA0;/g, " ");
+					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xE0;/g, "à");
+
+
+					
 
 
 					
@@ -850,6 +854,7 @@ console.log(data);
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x20AC;/g, "€");
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#39;/g, "'");
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xA0;/g, " ");	
+					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xE0;/g, "à");
 
 					mwPartnerHeadlinesLink1 = mktWatchSECData.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
@@ -863,6 +868,7 @@ console.log(data);
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x20AC;/g, "€");
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#39;/g, "'");
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xA0;/g, " ");	
+					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xE0;/g, "à");
 
 
 					secFilingLink1 = mktWatchSECData.secFiling.url; 

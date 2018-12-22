@@ -155,43 +155,24 @@ $averageVolume = "";
 
         if ($results != "")
         {
-            $results = str_replace(PHP_EOL, '', $results);
-            $results = preg_replace('/<head>(.*)<\/head>/', "", $results);
+            $html = str_get_html($results);
+            $articles = $html->find('div.article__content', 0);
+            $articleHtml = str_get_html($articles); 
 
-            preg_match('/<div class="article__content">(.*)<\/div>/', $results, $arrayMatch);
+            $anchor = $articleHtml->find('a', 0);
 
-            $batchString = $arrayMatch[0];
-
-            preg_match_all('/<div class="article__content">(.*?)<\/div>/', $batchString, $individualArticleDiv);
-
-            $finalArray = array();
-
-            foreach ($individualArticleDiv[0] as $articleDiv)
+            if ($anchor == "")
             {
-                $articleStruct = array();
+              $span = $articleHtml->find('span.link', 0);
+              $mwMainContentLink1Title = $span; 
+            }
+            else
+            {
 
-                preg_match('/href="(.*?)"/', $articleDiv, $linksArray);
-                $articleStruct['link'] = $linksArray[1];
-                preg_match('/<a.*>(.*?)<\/a>/', $articleDiv, $headlinesArray);
-                $articleStruct['headline'] = $headlinesArray[1];
-                preg_match('/data-est="(.*?)"/', $articleDiv, $timeStampArray);
-                $timeStamp = $timeStampArray[1];
-                preg_match('/article__timestamp">(.*?)<\/li>/', $articleDiv, $dateStringArray);
-                $articleStruct['date'] = $dateStringArray[1];
-
-                $timeStampInt = strtotime($timeStamp);
-
-                if ($articleStruct['link'] != "")
-                {
-                    $finalArray[$timeStampInt] = $articleStruct; 
-                }
+              $mwMainContentLink1 = $anchor->href; 
+              $mwMainContentLink1Title = strip_tags($anchor); 
             }
 
-            krsort($finalArray);
-
-            $firstMarketwatchArticle = reset($finalArray);
-            $mwMainContentLink1 = $firstMarketwatchArticle['link']; 
-            $mwMainContentLink1Title = $firstMarketwatchArticle['headline']; 
             $mwMainContentLink1Title = str_replace('"', "", $mwMainContentLink1Title);
             $mwMainContentLink1Title = str_replace('&quot;', "", $mwMainContentLink1Title);
         }
