@@ -827,16 +827,8 @@ console.log(data);
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xA0;/g, " ");
 					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xE0;/g, "à");
 
-
-					
-
-
-					
-
    					currentVolume = mktWatchSECData.currentVolume; 
    					averageVolume = mktWatchSECData.averageVolume; 
-
-
 
    					percentLow = parseFloat(mktWatchSECData.percentLow); 
 

@@ -156,25 +156,53 @@ $averageVolume = "";
         if ($results != "")
         {
             $html = str_get_html($results);
-            $articles = $html->find('div.article__content', 0);
-            $articleHtml = str_get_html($articles); 
 
-            $anchor = $articleHtml->find('a', 0);
-
-            if ($anchor == "")
+            $articles = $html->find('div[class="collection__list j-scrollElement]', 0);
+            if ($articles != "")
             {
-              $span = $articleHtml->find('span.link', 0);
-              $mwMainContentLink1Title = $span; 
+                $articlesHtml = str_get_html($articles);
+                $individualArticle = $articlesHtml->find('.article__content', 0);
+                $individualArticleHtml = str_get_html($individualArticle); 
+                $anchor = $individualArticleHtml->find('a', 0);
+
+                if ($anchor == "")
+                {
+                  $span = $individualArticleHtml->find('span.link', 0);
+                  $mwMainContentLink1Title = strip_tags($span); 
+                }
+                else
+                {
+                  $mwMainContentLink1 = $anchor->href; 
+                  $mwMainContentLink1Title = strip_tags($anchor); 
+                }
             }
-            else
-            {
 
-              $mwMainContentLink1 = $anchor->href; 
-              $mwMainContentLink1Title = strip_tags($anchor); 
+
+            $articles = $html->find('div[class="collection__list j-scrollElement]', 2);
+            if ($articles != "")
+            {
+                $articlesHtml = str_get_html($articles);
+                $individualArticle = $articlesHtml->find('.article__content', 0);
+                $individualArticleHtml = str_get_html($individualArticle); 
+                $anchor = $individualArticleHtml->find('a', 0);
+
+                if ($anchor == "")
+                {
+                  $span = $individualArticleHtml->find('span.link', 0);
+                  $mwPartnerHeadlinesLink1Title = strip_tags($span); 
+                }
+                else
+                {
+                  $mwPartnerHeadlinesLink1 = $anchor->href; 
+                  $mwPartnerHeadlinesLink1Title = strip_tags($anchor); 
+                }
             }
 
             $mwMainContentLink1Title = str_replace('"', "", $mwMainContentLink1Title);
             $mwMainContentLink1Title = str_replace('&quot;', "", $mwMainContentLink1Title);
+
+            $mwPartnerHeadlinesLink1Title = str_replace('"', "", $mwPartnerHeadlinesLink1Title);
+            $mwPartnerHeadlinesLink1Title = str_replace('&quot;', "", $mwPartnerHeadlinesLink1Title);
         }
 
         // now we do the SEC filing 
@@ -186,7 +214,7 @@ $averageVolume = "";
         if (preg_match('/No matching Ticker Symbol/i', $html))
         {
                   $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "offerPrice":"' . $offerPrice . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
-                      '"mwPartnerHeadLines":{"url":"' . "" . '","urlTitle":"' . "" . '"},' . 
+                      '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
                       '"secFiling":{"url":"","urlTitle":""}}'; 
         }
         else
@@ -214,7 +242,7 @@ $averageVolume = "";
             $secFilingLink1 = trim($secFilingLink1);
 
             $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "offerPrice":"' . $offerPrice . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
-                  '"mwPartnerHeadLines":{"url":"' . "" . '","urlTitle":"' . "" . '"},' . 
+                  '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
                   '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
 
         }
