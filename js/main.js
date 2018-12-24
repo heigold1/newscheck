@@ -49,7 +49,7 @@ function startTimer() {
     time; 
 
   if (time == "0:00"){
-  	document.getElementById('timeLeftSpan').innerHTML = "1:30";
+  	document.getElementById('timeLeftSpan').innerHTML = "2:00";
   	checkAllDivsForNews();
   }
 
@@ -271,13 +271,13 @@ function createNewNewsEntry() {
 	newNewsEntry += "		<div id='orderNumber" + newIdNumber + "' class='orderNumber'>" + newIdNumber + "</div>";
 	newNewsEntry += "		<input id='symbol" + newIdNumber + "' class='symbolTextInput'>"; 
 	newNewsEntry += "		<input id='orderInput" + newIdNumber + "' class='orderInput'>"; 
- 	newNewsEntry += "	 	<div id='prevClose" + newIdNumber + "'></div>"; 
+ 	newNewsEntry += "	 	<div id='prevClose" + newIdNumber + "' class='prevClose'></div>"; 
 	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div class='lowInfo'>"; 
 	newNewsEntry += "		<div id='lowWrapper" + newIdNumber + "' class='lowWrapper'>"; 
 	newNewsEntry += "		&nbsp;<span id='low" + newIdNumber + "' class='low'></span>"; 
 	newNewsEntry += "		</div>";
-	newNewsEntry += "		<input id='lowInput" + newIdNumber + "' class='lowInput' value='5'>";
+	newNewsEntry += "		<input id='lowInput" + newIdNumber + "' class='lowInput' value='9'>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div class='checkForNewNewsWrapper'>"; 
  	newNewsEntry += "		&nbsp;<input type='checkbox' id='checkForNewNews" + newIdNumber + "' class='checkForNewNews' checked>"; 

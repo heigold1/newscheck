@@ -97,7 +97,7 @@
 		#container{
 			position: absolute;   
 			height: 20000px;	
-			width: 1263px;
+			width: 1278px;
 			top: 50px;
 			left: 10px;
 			background-color: white; 
@@ -111,7 +111,7 @@
 			margin-top: 1px; 
 			height: 28px; 
 /*			border-radius: 10px;  */ 
-			width: 1257px;
+			width: 1272px;
 			background-color: #ADAD85;
 			overflow: hidden;
 		}
@@ -715,7 +715,7 @@
 		#notChasing{
 			position: absolute;  
 			height: 40px;	
-			width: 405px;
+			width: 420px;
 /*			margin:0px auto; */
 			top: 6px;
 			left: 870px;
@@ -735,7 +735,7 @@
 		.lowInfo{
 			position: relative;
 			height: 25px;
-			width: 65px;
+			width: 80px;
 			margin-top: 0.5px;
 			margin-left: 0px ;
 			display: inline-block;
@@ -769,7 +769,7 @@
 		.lowInput{
 			position: relative;
 			height: 23px;
-			width: 20px;
+			width: 30px;
 			margin-top: 1px;
 			margin-left: 2px ;
 			display: inline-block;
