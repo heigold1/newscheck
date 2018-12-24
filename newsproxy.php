@@ -157,52 +157,97 @@ $averageVolume = "";
         {
             $html = str_get_html($results);
 
-            $articles = $html->find('div[class="collection__list j-scrollElement]', 0);
+            $jtabPanes1 = $html->find('div[class="j-tabPanes"]', 0); 
+            $jtabPanes1Html = str_get_html($jtabPanes1); 
+            $articles = $jtabPanes1Html->find('div[class="article__content"]');
             if ($articles != "")
             {
-                $articlesHtml = str_get_html($articles);
-                $individualArticle = $articlesHtml->find('.article__content', 0);
-                $individualArticleHtml = str_get_html($individualArticle); 
-                $anchor = $individualArticleHtml->find('a', 0);
+                $articleStructArray = array();
 
-                if ($anchor == "")
+                foreach ($articles as $article)
                 {
-                  $span = $individualArticleHtml->find('span.link', 0);
-                  $mwMainContentLink1Title = strip_tags($span); 
+                    $articleLink = "";
+                    $articleTitle = ""; 
+                    $articleHtml = str_get_html($article); 
+                    $articleStruct = array();
+
+                    $articleAnchor = $articleHtml->find('a', 0);  
+
+                    if ($articleAnchor == "")
+                    {
+                        $span = $articleHtml->find('span.link', 0);
+                        $articleTitle = strip_tags($span); 
+                    }
+                    else
+                    {
+                        $articleLink = $articleAnchor->href; 
+                        $articleTitle = strip_tags($articleAnchor); 
+                    }
+
+                    $articleTimestamp = $articleHtml->find('li.article__timestamp', 0);
+                    $dateTimeStamp = $articleTimestamp->{'data-est'}; 
+                    $dateTimeInt = strtotime($dateTimeStamp);
+
+                    $articleStruct['link'] = $articleLink; 
+                    $articleStruct['title'] = $articleTitle;
+                    $articleStruct['date'] = $dateTimeStamp; 
+
+                    $articleStructArray[$dateTimeInt] = $articleStruct; 
                 }
-                else
-                {
-                  $mwMainContentLink1 = $anchor->href; 
-                  $mwMainContentLink1Title = strip_tags($anchor); 
-                }
+
+                krsort($articleStructArray);
+
+                $firstArticle = reset($articleStructArray);
+                $mwMainContentLink1 = $firstArticle['link'];
+                $mwMainContentLink1Title = $firstArticle['title'];
             }
 
+            $jtabPanes2 = $html->find('div[class="j-tabPanes"]', 1); 
+            $jtabPanes2Html = str_get_html($jtabPanes2); 
 
-            $articles = $html->find('div[class="collection__list j-scrollElement]', 2);
+            $articles = $jtabPanes2Html->find('div[class="article__content"]');
             if ($articles != "")
             {
-                $articlesHtml = str_get_html($articles);
-                $individualArticle = $articlesHtml->find('.article__content', 0);
-                $individualArticleHtml = str_get_html($individualArticle); 
-                $anchor = $individualArticleHtml->find('a', 0);
 
-                if ($anchor == "")
+                $articleStructArray = array();
+
+                foreach ($articles as $article)
                 {
-                  $span = $individualArticleHtml->find('span.link', 0);
-                  $mwPartnerHeadlinesLink1Title = strip_tags($span); 
+                    $articleLink = "";
+                    $articleTitle = ""; 
+                    $articleHtml = str_get_html($article); 
+                    $articleStruct = array();
+
+                    $articleAnchor = $articleHtml->find('a', 0);  
+
+                    if ($articleAnchor == "")
+                    {
+                      $span = $articleHtml->find('span.link', 0);
+                      $articleTitle = strip_tags($span); 
+                    }
+                    else
+                    {
+                      $articleLink = $articleAnchor->href; 
+                      $articleTitle = strip_tags($articleAnchor); 
+                    }
+
+                    $articleTimestamp = $articleHtml->find('li.article__timestamp', 0);
+                    $dateTimeStamp = $articleTimestamp->{'data-est'}; 
+                    $dateTimeInt = strtotime($dateTimeStamp);
+
+                    $articleStruct['link'] = $articleLink; 
+                    $articleStruct['title'] = $articleTitle;
+                    $articleStruct['date'] = $dateTimeStamp; 
+
+                    $articleStructArray[$dateTimeInt] = $articleStruct; 
                 }
-                else
-                {
-                  $mwPartnerHeadlinesLink1 = $anchor->href; 
-                  $mwPartnerHeadlinesLink1Title = strip_tags($anchor); 
-                }
+
+                krsort($articleStructArray);
+
+                $firstArticle = reset($articleStructArray);
+                $mwPartnerHeadlinesLink1 = $firstArticle['link'];
+                $mwPartnerHeadlinesLink1Title = $firstArticle['title'];
             }
-
-            $mwMainContentLink1Title = str_replace('"', "", $mwMainContentLink1Title);
-            $mwMainContentLink1Title = str_replace('&quot;', "", $mwMainContentLink1Title);
-
-            $mwPartnerHeadlinesLink1Title = str_replace('"', "", $mwPartnerHeadlinesLink1Title);
-            $mwPartnerHeadlinesLink1Title = str_replace('&quot;', "", $mwPartnerHeadlinesLink1Title);
         }
 
         // now we do the SEC filing 
