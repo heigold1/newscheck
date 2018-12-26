@@ -638,9 +638,14 @@ function checkIndividualDivForNews(divId)
 					secFilingLink1Title = secFilingLink1Title.replace(/ *(?:&.*;)+ */, ' ');
 					secFilingLink1Title = secFilingLink1Title.replace(/&apos;/g, "'"); 
 
+/*  Not sure if I still want this, so I'll just keep it here in the mean time 
+
    					currentVolume = data.currentVolume; 
    					averageVolume = data.averageVolume; 
    					percentLow = parseFloat(data.percentLow); 
+
+console.log("percentLow is " + percentLow);
+console.log("currentVolume is " + currentVolume); 
 
 					$("#low" + currentId).html(percentLow);
 
@@ -666,6 +671,8 @@ function checkIndividualDivForNews(divId)
 							$("#lowWrapper" + currentId).css("background-color", "#EBEBE0");
 						}
 					}
+*/     
+
 
 	 			// if we bring back a yahoo link 
 	 			if (yahooFirstLinkTitle != "")
