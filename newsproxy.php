@@ -104,6 +104,43 @@ function getETradeAPIData($symbol)
     return json_decode($eTradeObject); 
 }
 
+
+function getStatistics($symbol, $offerPrice)
+{
+    $currentVolume = ""; 
+    $averageVolume = "";
+    $percentLow = ""; 
+
+    $etradeAPIData = getEtradeAPIData($symbol);
+
+    if ($etradeAPIData != null)
+    {
+      $companyName = $etradeAPIData->company_name; 
+       if (preg_match('/ etf /i', $company_name))
+       {
+          $stockOrFund = "fund";
+       }
+       $currentVolume = $etradeAPIData->total_volume; 
+       $averageVolume = $etradeAPIData->ten_day_volume; 
+       $previousClose = floatval($etradeAPIData->prev_close);
+
+       $low = floatval($etradeAPIData->low); 
+
+       if (trim($offerPrice) != "")
+       {
+         $offerPrice = floatval($offerPrice);
+         $percentLow = number_format((($offerPrice-$low)/$offerPrice)*100, 2);  
+       }
+       else
+       {
+         $percentLow = number_format((($previousClose-$low)/$previousClose)*100, 2);  
+       }
+    }
+
+    $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '"}'; 
+    return $returnArray; 
+}
+
 $ret = "";
 $finalReturn = "";
 
@@ -123,31 +160,6 @@ $stockOrFund = "stock";
 $percentLow = "";
 $currentVolume = "";
 $averageVolume = ""; 
-
-        $etradeAPIData = getEtradeAPIData($symbol);
-
-        if ($etradeAPIData != null)
-        {
-          $companyName = $etradeAPIData->company_name; 
-           if (preg_match('/ etf /i', $company_name))
-           {
-              $stockOrFund = "fund";
-           }
-           $currentVolume = $etradeAPIData->total_volume; 
-           $averageVolume = $etradeAPIData->ten_day_volume; 
-           $previousClose = floatval($etradeAPIData->prev_close);
-           $low = floatval($etradeAPIData->low); 
-
-           if (trim($offerPrice) != "")
-           {
-             $offerPrice = floatval($offerPrice);
-             $percentLow = number_format((($offerPrice-$low)/$offerPrice)*100, 2);  
-           }
-           else
-           {
-             $percentLow = number_format((($previousClose-$low)/$previousClose)*100, 2);  
-           }
-        }
 
         $url = "https://www.marketwatch.com/investing/$stockOrFund/$symbol"; 
 
@@ -258,7 +270,7 @@ $averageVolume = "";
 
         if (preg_match('/No matching Ticker Symbol/i', $html))
         {
-                  $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "offerPrice":"' . $offerPrice . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
+                  $returnArray = '{mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
                       '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
                       '"secFiling":{"url":"","urlTitle":""}}'; 
         }
@@ -286,7 +298,7 @@ $averageVolume = "";
             $secFilingLink1 = 'https://www.sec.gov' . $a2[0]->href;
             $secFilingLink1 = trim($secFilingLink1);
 
-            $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "offerPrice":"' . $offerPrice . '", "mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
+            $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
                   '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
                   '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
 
@@ -351,28 +363,35 @@ elseif ($symbols != null)
 
       $offerPrice = $symbol->offerPrice;
       $index = $symbol->idNumber;
-      $symbol = $symbol->symbol;
+      $ticker = $symbol->ticker;
+      $checkNews = $symbol->checkNews; 
 
       if (isset($symbol->originalSymbol))
       {
           $originalSymbol = $symbol->originalSymbol; 
       }
 
-      $returnArray[$index]['yahoo'] = getYahoo($symbol);
-      $yahooObject = json_decode($returnArray[$index]['yahoo']); 
+      $returnArray[$index]['stastistics'] = getStatistics($ticker, $offerPrice);
 
-      $stockOrFund = $yahooObject->stockOrFund; 
+      if ((int) $checkNews == 1)
+      {
 
-      $returnArray[$index]['marketwatch_sec'] = getMarketwatch($symbol, $offerPrice);
+          $returnArray[$index]['yahoo'] = getYahoo($ticker);
+          $yahooObject = json_decode($returnArray[$index]['yahoo']); 
 
-      $returnArray[$index]['symbol'] = $symbol;
+          $stockOrFund = $yahooObject->stockOrFund; 
+
+          $returnArray[$index]['marketwatch_sec'] = getMarketwatch($ticker, $offerPrice);
+      }
+
+      $returnArray[$index]['symbol'] = $ticker;
       if (isset($originalSymbol))
       {
           $returnArray[$index]['originalSymbol'] = $originalSymbol;
       }
     }
 
-    echo (json_encode($returnArray));
+    echo (json_encode($returnArray)); 
 }
 
 

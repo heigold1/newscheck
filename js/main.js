@@ -52,7 +52,7 @@ function startTimer() {
   	document.getElementById('timeLeftSpan').innerHTML = "2:00";
   	checkAllDivsForNews();
   }
-
+/*
   if ((time24Hour > 650) && (railroad650 == 0))
   {
 	playRailroadCrossing();
@@ -83,6 +83,7 @@ function startTimer() {
 	playRailroadCrossing();
   	railroad1200 = 1;
   }
+  */
 
 //  console.log(get24HourTime());
   setTimeout(startTimer, 1000);
@@ -386,6 +387,8 @@ var secFilingLink1Title = "";
 
 	$("#newsStatusLabel" + currentId).html("Looking up symbol...")
 
+
+
 	$.ajax({
 	   	url: "newsproxy.php",
 	   	data: {symbol: currentSymbol,
@@ -600,12 +603,6 @@ function checkIndividualDivForNews(divId)
 		   				yahooFirstLinkTitle = data.yahooInfo.urlTitle; 
 					    yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/ *(?:&.*;)+ */, ' ');
 						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
-						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x27;/g, "'"); 
-   						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&amp;/g, '&'); 
-						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2019;/g, "’"); 
-						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2014;/g, "—"); 
-						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2B;/g, "+"); 
-						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xD;&#xA;/g, "");
 
     			}  // end of yahoo success function
 			});  // end of ajax call for yahoo finance  
@@ -618,43 +615,23 @@ function checkIndividualDivForNews(divId)
 				async: false,	    	   
 	    		dataType: 'json',
 	    		success:  function (data) {
-    				marketWatchFound = data.found;
 					mwMainContentLink1 = data.mwMainHeadlines.url; 
 					mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&'); 
 					mwMainContentLink1Title = data.mwMainHeadlines.urlTitle; 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/ *(?:&.*;)+ */, ' ');
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&amp;/g, '&'); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2019;/g, "’"); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2014;/g, "—"); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2B;/g, "+"); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, "");
 
 					mwPartnerHeadlinesLink1 = data.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
-					mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines.urlTitle;
+					mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines;
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/ *(?:&.*;)+ */, ' ');
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’"); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2014;/g, "—"); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2B;/g, "+"); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, "");
 
 					secFilingLink1 = data.secFiling.url; 
 					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
 					secFilingLink1Title = data.secFiling.urlTitle;
 					secFilingLink1Title = secFilingLink1Title.replace(/ *(?:&.*;)+ */, ' ');
 					secFilingLink1Title = secFilingLink1Title.replace(/&apos;/g, "'"); 
-					secFilingLink1Title = secFilingLink1Title.replace(/&#x27;/g, "'"); 
-					secFilingLink1Title = secFilingLink1Title.replace(/&amp;/g, '&');
-					secFilingLink1Title = secFilingLink1Title.replace(/&#x2019;/g, "’"); 
-					secFilingLink1Title = secFilingLink1Title.replace(/&#x2014;/g, "—"); 
-					secFilingLink1Title = secFilingLink1Title.replace(/&#x2B;/g, "+"); 
-					secFilingLink1Title = secFilingLink1Title.replace(/&#xD;&#xA;/g, "");
-					 
 
    					currentVolume = data.currentVolume; 
    					averageVolume = data.averageVolume; 
@@ -791,35 +768,36 @@ function checkIndividualDivForNews(divId)
 
 function checkAllDivsForNews()
 {
+
 	var symbolArray =  [];
 
 	$(".allDivs").each(function(){
 
-		var symbol; 
-		currentId = $(this).attr("id"); 
- 		currentId = currentId.replace("div", "");
+		var ticker; 
+		var currentId = $(this).attr("id"); 
+ 		var currentId = currentId.replace("div", "");
+ 		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
 
- 		if ($("#checkForNewNews" + currentId).is(':checked'))
- 		{
-			var originalSymbol = $.trim($("#symbol" + currentId).val()); 
-			var offerPrice = $.trim($("#offerPrice" + currentId).val());
+		var originalSymbol = $.trim($("#symbol" + currentId).val()); 
+		var offerPrice = $.trim($("#offerPrice" + currentId).val());
 
-			if (originalSymbol.length == 5)
-   			{
-   				symbol = originalSymbol.slice(0,-1); 
-   			}
-    		else
-   			{
-				symbol = originalSymbol;    		
-			}
+		if (originalSymbol.length == 5)
+		{
+			ticker = originalSymbol.slice(0,-1); 
+		}
+		else
+		{
+			ticker = originalSymbol;    		
+		}
 
-   			symbolArray.push({
-   				"symbol": symbol, 
-   				"originalSymbol" : originalSymbol,
-   				"offerPrice" : offerPrice, 
-   				"idNumber": currentId
-   			});
-   		}
+		symbolArray.push({
+			"ticker": ticker, 
+			"originalSymbol" : originalSymbol,
+			"offerPrice" : offerPrice, 
+			"checkNews" : checkNews, 
+			"idNumber": currentId 
+		});
+
 	}); // allDivs.each()
 
 	var yahooFirstLink = ""; 
@@ -831,6 +809,9 @@ function checkAllDivsForNews()
 	var mwPartnerHeadlinesLink1 = ""; 
 	var mwPartnerHeadlinesLink1Title = "";
 	var mwPRHeadlinesLink1 = ""; 
+	var secFilingLink1 = "";
+	var secFilingLink1Title = "";
+
 	var newsFlag = false; 
 	var globalNewsFlag = false;
 	var globalCloseToCurrentLow = false;
@@ -846,82 +827,48 @@ function checkAllDivsForNews()
 			dataType: 'json',
 			success:  function (data) {
 
-console.log("returned data is: "); 
-console.log(data);
+				console.log("returned data is: "); 
+				console.log(data);
 
 				$.each(data, function(index,item) {
 
 					currentId = index; 
-					yahooData = JSON.parse(item.yahoo);
-					mktWatchSECData = JSON.parse(item.marketwatch_sec); 
 
-   					yahooFound = yahooData.found; 
-   					yahooCompanyName = yahooData.companyName; 
-   					yahooFirstLink = yahooData.yahooInfo.url;
-   					yahooFirstLink = yahooFirstLink.replace(/&amp;/g, '&'); 
-	   				yahooFirstLinkTitle = yahooData.yahooInfo.urlTitle; 
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/ *(?:&.*;)+ */, ' ');
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x27;/g, "'"); 
-   					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&amp;/g, '&'); 
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2019;/g, "’"); 
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2014;/g, "—");
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2B;/g, "+");
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xD;&#xA;/g, "");
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x20AC;/g, "€");
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#39;/g, "'");
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xA0;/g, " ");
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xE0;/g, "à");
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#x2018;/g, "‘");
-					yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&#xE9;/g, "é");
+					if (item.hasOwnProperty('yahoo'))
+					{
+						yahooData = JSON.parse(item.yahoo);
+	   					yahooFound = yahooData.found; 
+   						yahooCompanyName = yahooData.companyName; 
+   						yahooFirstLink = yahooData.yahooInfo.url;
+	   					yahooFirstLink = yahooFirstLink.replace(/&amp;/g, '&'); 
+	   					yahooFirstLinkTitle = yahooData.yahooInfo.urlTitle; 
+						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/ *(?:&.*;)+ */, ' ');
+						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
+					}
 
-   					currentVolume = mktWatchSECData.currentVolume; 
-   					averageVolume = mktWatchSECData.averageVolume; 
+					if (item.hasOwnProperty('marketwatch_sec'))
+					{
+						mktWatchSECData = JSON.parse(item.marketwatch_sec); 
+						mwMainContentLink1 = mktWatchSECData.mwMainHeadlines.url; 
+						mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&'); 
+						mwMainContentLink1Title = mktWatchSECData.mwMainHeadlines.urlTitle;
+						mwMainContentLink1Title = mwMainContentLink1Title.replace(/ *(?:&.*;)+ */, ' ');
+						mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
 
-   					percentLow = parseFloat(mktWatchSECData.percentLow); 
+						mwPartnerHeadlinesLink1 = mktWatchSECData.mwPartnerHeadLines.url; 
+						mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
+						mwPartnerHeadlinesLink1Title = mktWatchSECData.mwPartnerHeadLines.urlTitle;
+						mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/ *(?:&.*;)+ */, ' ');
 
-    				marketWatchFound = mktWatchSECData.found;
-					mwMainContentLink1 = mktWatchSECData.mwMainHeadlines.url; 
-					mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&'); 
-					mwMainContentLink1Title = mktWatchSECData.mwMainHeadlines.urlTitle;
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/ *(?:&.*;)+ */, ' ');
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
-   					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&amp;/g, '&'); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2019;/g, "’"); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2014;/g, "—"); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2B;/g, "+"); 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, "");
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x20AC;/g, "€");
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#39;/g, "'");
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xA0;/g, " ");	
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xE0;/g, "à");
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2018;/g, "‘");
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xE9;/g, "é");
+						secFilingLink1 = mktWatchSECData.secFiling.url; 
+						secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
+						secFilingLink1Title = mktWatchSECData.secFiling.urlTitle;
+					}
 
-					mwPartnerHeadlinesLink1 = mktWatchSECData.mwPartnerHeadLines.url; 
-					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
-					mwPartnerHeadlinesLink1Title = mktWatchSECData.mwPartnerHeadLines.urlTitle;
-
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/ *(?:&.*;)+ */, ' ');
-
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’");
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2B;/g, "+");
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, "");
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x20AC;/g, "€");
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#39;/g, "'");
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xA0;/g, " ");	
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xE0;/g, "à");
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2018;/g, "‘");
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xE9;/g, "é");
-
-
-					secFilingLink1 = mktWatchSECData.secFiling.url; 
-					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
-					secFilingLink1Title = mktWatchSECData.secFiling.urlTitle;
+					statisticsData = JSON.parse(item.stastistics);
+   					currentVolume = statisticsData.currentVolume; 
+   					averageVolume = statisticsData.averageVolume; 
+   					percentLow = parseFloat(statisticsData.percentLow); 
 
 					$("#low" + currentId).html(percentLow);
 
@@ -940,7 +887,10 @@ console.log(data);
 						if ((currentMinusLow) < percentLow)
 						{
 							$("#lowWrapper" + currentId).css("background-color", "#FFA500");
-							globalCloseToCurrentLow = true;
+							if ($("#checkForLow" + currentId).is(':checked'))
+							{
+								globalCloseToCurrentLow = true;
+							}
 						}
 						else
 						{
@@ -961,10 +911,9 @@ console.log(data);
 		 					}  // or what just came back is different than what was previously stored
 	 						else if (yahooFirstLinkTitle != $("#storedYahooLink" + currentId).find("a:first").text()) 
 	 						{
-
-var storedLinkYahooTitle = $("#storedYahooLink" + currentId).find("a:first").text();
-console.log("yahooFirstLinkTitle is *" + yahooFirstLinkTitle + "*");
-console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
+								var storedLinkYahooTitle = $("#storedYahooLink" + currentId).find("a:first").text();
+								console.log("yahooFirstLinkTitle is *" + yahooFirstLinkTitle + "*");
+								console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
 
 								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 	 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
@@ -987,9 +936,9 @@ console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
 	 					else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
 	 					{
 
-var storedLinkMWTitle = $("#storedMarketWatchMainLink" + currentId).find("a:first").text(); 
-console.log("storedLinkMWTitle is *" + storedLinkMWTitle + "*");
-console.log("mwMainContentLink1Title is *" + mwMainContentLink1Title + "*");
+							var storedLinkMWTitle = $("#storedMarketWatchMainLink" + currentId).find("a:first").text(); 
+							console.log("storedLinkMWTitle is *" + storedLinkMWTitle + "*");
+							console.log("mwMainContentLink1Title is *" + mwMainContentLink1Title + "*");
 
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
@@ -1002,11 +951,9 @@ console.log("mwMainContentLink1Title is *" + mwMainContentLink1Title + "*");
 	 				// if we bring back a marketwatch partner headlines link 
 	 				if (mwPartnerHeadlinesLink1Title != "")
 	 				{
-var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
-console.log("storedMarketWatchPartnerLink is *" + storedLinkMWPartnerTitle + "*");
-console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
-
-
+						var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
+						console.log("storedMarketWatchPartnerLink is *" + storedLinkMWPartnerTitle + "*");
+						console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 
 						if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
 	 					{
@@ -1047,19 +994,23 @@ console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title +
 
 					$("#div" + currentId).css("background-color", "#ADAD85"); 
 
-					if (newsFlag == false)
-					{				
-						var timeStamp = getCurrentTimeAMPM();
-	 					$("#newsStatusLabel" + currentId).html("No new news..." + timeStamp);
-						$("#newsResultsDiv" + currentId).css("background-color", "#EBEBE0"); 
-	 				}
-	 				else 
-	 				{
-	 					globalNewsFlag = true; 
-	 				}
-					newsFlag = false; 
 
-				});
+					if ($("#checkForNewNews" + currentId).is(':checked'))
+					{
+						if (newsFlag == false)
+						{				
+							var timeStamp = getCurrentTimeAMPM();
+	 						$("#newsStatusLabel" + currentId).html("No new news..." + timeStamp);
+							$("#newsResultsDiv" + currentId).css("background-color", "#EBEBE0"); 
+	 					}
+	 					else 
+	 					{
+		 					globalNewsFlag = true; 
+	 					}
+						newsFlag = false; 
+					}
+
+				});  // $.each 
 
 				if (globalNewsFlag == true)
 				{
@@ -1073,9 +1024,6 @@ console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title +
 
 			}  // end of yahoo success function
 	});  // end of ajax call for yahoo finance  
-
-
-
 
 } // checkAllDivsForNews() 
 
