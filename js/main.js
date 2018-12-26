@@ -280,6 +280,9 @@ function createNewNewsEntry() {
 	newNewsEntry += "		</div>";
 	newNewsEntry += "		<input id='lowInput" + newIdNumber + "' class='lowInput' value='9'>";
 	newNewsEntry += "	</div>";
+	newNewsEntry += "	<div class='checkForLowWrapper'>";
+	newNewsEntry += "&nbsp;<input type='checkbox' id='checkForLow" + newIdNumber + "' class='checkForLow' checked>";
+	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div class='checkForNewNewsWrapper'>"; 
  	newNewsEntry += "		&nbsp;<input type='checkbox' id='checkForNewNews" + newIdNumber + "' class='checkForNewNews' checked>"; 
 	newNewsEntry += "	</div>"; 

@@ -270,7 +270,7 @@ $averageVolume = "";
 
         if (preg_match('/No matching Ticker Symbol/i', $html))
         {
-                  $returnArray = '{mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
+                  $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
                       '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
                       '"secFiling":{"url":"","urlTitle":""}}'; 
         }
