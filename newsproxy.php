@@ -198,13 +198,14 @@ $averageVolume = "";
 
                     $articleTimestamp = $articleHtml->find('li.article__timestamp', 0);
                     $dateTimeStamp = $articleTimestamp->{'data-est'}; 
-                    $dateTimeInt = strtotime($dateTimeStamp);
-
+                    $dateTimeStampLongDate = $articleTimestamp->innertext; 
+                    $longDateInt = strtotime($dateTimeStamp);
+//                    $dateTimeInt = strtotime($dateTimeStamp);
                     $articleStruct['link'] = $articleLink; 
                     $articleStruct['title'] = $articleTitle;
                     $articleStruct['date'] = $dateTimeStamp; 
-
-                    $articleStructArray[$dateTimeInt] = $articleStruct; 
+//                    $articleStructArray[$dateTimeInt] = $articleStruct; 
+                    $articleStructArray[$longDateInt] = $articleStruct; 
                 }
 
                 krsort($articleStructArray);
@@ -245,13 +246,14 @@ $averageVolume = "";
 
                     $articleTimestamp = $articleHtml->find('li.article__timestamp', 0);
                     $dateTimeStamp = $articleTimestamp->{'data-est'}; 
-                    $dateTimeInt = strtotime($dateTimeStamp);
-
+                    $dateTimeStampLongDate = $articleTimestamp->innertext; 
+                    $longDateInt = strtotime($dateTimeStamp);
+//                    $dateTimeInt = strtotime($dateTimeStamp);
                     $articleStruct['link'] = $articleLink; 
                     $articleStruct['title'] = $articleTitle;
                     $articleStruct['date'] = $dateTimeStamp; 
-
-                    $articleStructArray[$dateTimeInt] = $articleStruct; 
+//                    $articleStructArray[$dateTimeInt] = $articleStruct; 
+                    $articleStructArray[$longDateInt] = $articleStruct; 
                 }
 
                 krsort($articleStructArray);
