@@ -618,15 +618,26 @@ function checkIndividualDivForNews(divId)
 				async: false,	    	   
 	    		dataType: 'json',
 	    		success:  function (data) {
+
+console.log("In checkIndividualDivForNews, back from marketwatch ajax, data object is: ");
+console.log(data);
+
 					mwMainContentLink1 = data.mwMainHeadlines.url; 
 					mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&'); 
 					mwMainContentLink1Title = data.mwMainHeadlines.urlTitle; 
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/ *(?:&.*;)+ */, ' ');
 					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
 
+console.log("In checkIndividualDivForNews, back from marketwatch ajax, data.mwPartnerHeadLines is: ");
+console.log(data.mwPartnerHeadLines);
+
 					mwPartnerHeadlinesLink1 = data.mwPartnerHeadLines.url; 
 					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
-					mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines;
+					mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines.urlTitle;
+
+console.log("mwPartnerHeadlinesLink1Title is: ");
+console.log(mwPartnerHeadlinesLink1Title);
+
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/ *(?:&.*;)+ */, ' ');
 					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
 
@@ -640,6 +651,8 @@ function checkIndividualDivForNews(divId)
    					averageVolume = data.averageVolume; 
    					percentLow = parseFloat(data.percentLow); 
 
+
+console.log("back from both ajaxes");
 
 					$("#low" + currentId).html(percentLow);
 
