@@ -377,7 +377,6 @@ elseif ($symbols != null)
 
       if ((int) $checkNews == 1)
       {
-
           $returnArray[$index]['yahoo'] = getYahoo($ticker);
           $yahooObject = json_decode($returnArray[$index]['yahoo']); 
 
@@ -391,6 +390,9 @@ elseif ($symbols != null)
       {
           $returnArray[$index]['originalSymbol'] = $originalSymbol;
       }
+
+      $returnArray[$index]['checkNews'] = $checkNews;
+
     }
 
     echo (json_encode($returnArray)); 

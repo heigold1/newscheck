@@ -838,15 +838,17 @@ function checkAllDivsForNews()
 			dataType: 'json',
 			success:  function (data) {
 
-				console.log("returned data is: "); 
-				console.log(data);
+			console.log("returned data is: "); 
+			console.log(data);
 
 				$.each(data, function(index,item) {
+					console.log("checkNews is " + item.checkNews);
 
 					currentId = index; 
 
 					if (item.hasOwnProperty('yahoo'))
 					{
+						console.log("yahoo news was brought back");
 						yahooData = JSON.parse(item.yahoo);
 	   					yahooFound = yahooData.found; 
    						yahooCompanyName = yahooData.companyName; 
@@ -856,9 +858,14 @@ function checkAllDivsForNews()
 						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/ *(?:&.*;)+ */, ' ');
 						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
 					}
+					else
+					{
+						console.log("no yahoo news brought back"); 
+					}
 
 					if (item.hasOwnProperty('marketwatch_sec'))
 					{
+						console.log("marketwatch news was brought back");
 						mktWatchSECData = JSON.parse(item.marketwatch_sec); 
 						mwMainContentLink1 = mktWatchSECData.mwMainHeadlines.url; 
 						mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&'); 
@@ -874,6 +881,10 @@ function checkAllDivsForNews()
 						secFilingLink1 = mktWatchSECData.secFiling.url; 
 						secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
 						secFilingLink1Title = mktWatchSECData.secFiling.urlTitle;
+					}
+					else
+					{
+						console.log("no marketwatch news brought back"); 
 					}
 
 					statisticsData = JSON.parse(item.stastistics);
