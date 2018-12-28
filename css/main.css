@@ -94,6 +94,21 @@
 			left: 13px;
 		}
 
+		#printButton{
+			position: absolute;  
+			height: 40px;	
+			width: 70px;
+			margin:0px auto;
+			top: 7px;
+			left: 870px;
+			background-color: #EBEBE0; 
+			border: 1px solid #333;
+			border-radius: 10px;
+			font-size: 20px; 
+		}
+
+
+
 		#container{
 			position: absolute;   
 			height: 20000px;	
@@ -715,10 +730,10 @@
 		#notChasing{
 			position: absolute;  
 			height: 40px;	
-			width: 455px;
+			width: 380px;
 /*			margin:0px auto; */
 			top: 6px;
-			left: 870px;
+			left: 945px;
 			border: 1px solid #333;
 			font-size: 12px; 
 /*			display:none;  */

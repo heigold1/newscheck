@@ -973,12 +973,11 @@ function checkAllDivsForNews()
 	 				// if we bring back a marketwatch partner headlines link 
 	 				if (mwPartnerHeadlinesLink1Title != "")
 	 				{
-						var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
-						console.log("storedMarketWatchPartnerLink is *" + storedLinkMWPartnerTitle + "*");
-						console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
-
 						if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
 	 					{
+							var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
+							console.log("storedMarketWatchPartnerLink is *No news*");
+							console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -986,6 +985,9 @@ function checkAllDivsForNews()
 	 					}
 	 					else if (mwPartnerHeadlinesLink1Title != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text()) 
 	 					{
+							var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
+							console.log("storedMarketWatchPartnerLink is *" + storedLinkMWPartnerTitle + "*");
+							console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -1172,6 +1174,35 @@ $("#startStopTimerButton").click(function(){
 //	}
 
 }); // startStopTimerButton.click 
+
+
+$("#printButton").click(function(){
+
+	var finalString = ""; 
+
+			$(".allDivs").each(function()
+			{
+
+				var currentId = $(this).attr("id"); 
+ 				var currentId = currentId.replace("div", "");
+ 				var symbol = $("#symbol" + currentId).val(); 
+ 				var orderInput = $("#orderInput" + currentId).val();
+ 				var indiviualNotes = $("#individualNotesText" + currentId).val();
+
+var i;
+for (i = 0; i < 50; i++) {
+ 				finalString += "*** " + symbol + " " + orderInput + "\n" + indiviualNotes + "\n\n";
+} 
+
+
+			}); 
+
+// alert(finalString);
+window.confirm(finalString); 
+
+
+
+}); 
 
 
 // the "Start" button click
