@@ -1189,19 +1189,10 @@ $("#printButton").click(function(){
  				var orderInput = $("#orderInput" + currentId).val();
  				var indiviualNotes = $("#individualNotesText" + currentId).val();
 
-var i;
-for (i = 0; i < 50; i++) {
  				finalString += "*** " + symbol + " " + orderInput + "\n" + indiviualNotes + "\n\n";
-} 
-
-
 			}); 
 
-// alert(finalString);
-window.confirm(finalString); 
-
-
-
+	window.confirm(finalString); 
 }); 
 
 
