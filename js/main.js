@@ -831,6 +831,10 @@ function checkAllDivsForNews()
 	var percentLow = 0.0;
 	var offerPrice = 0.0;
 
+
+console.log("Inside checkAllDivsForNews, before calling AJAX.  Symbol array is: "); 
+console.log(symbolArray);
+
 	$.ajax({
    		url: "newsproxy.php",
 			data: {symbols: JSON.stringify(symbolArray)}, 
@@ -842,9 +846,10 @@ function checkAllDivsForNews()
 			console.log(data);
 
 				$.each(data, function(index,item) {
-					console.log("checkNews is " + item.checkNews);
 
 					currentId = index; 
+					console.log("****" + $("#symbol" + currentId).val() + " checkNews is " + item.checkNews);
+					console.log(item);
 
 					if (item.hasOwnProperty('yahoo'))
 					{
@@ -861,6 +866,7 @@ function checkAllDivsForNews()
 					else
 					{
 						console.log("no yahoo news brought back"); 
+						yahooFirstLinkTitle = ""; 
 					}
 
 					if (item.hasOwnProperty('marketwatch_sec'))
@@ -885,6 +891,9 @@ function checkAllDivsForNews()
 					else
 					{
 						console.log("no marketwatch news brought back"); 
+						mwMainContentLink1Title = ""; 
+						mwPartnerHeadlinesLink1Title = ""; 
+						secFilingLink1Title = ""; 
 					}
 
 					statisticsData = JSON.parse(item.stastistics);
@@ -1002,12 +1011,17 @@ function checkAllDivsForNews()
 						if ($("#storedSECFilingLink" + currentId).html() == "No news")
 	 					{
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+							console.log("storedSECFilingLink is *no news*");
+							console.log("secFilingLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
 							newsFlag = true; 					
 	 					}
 	 					else if (secFilingLink1Title != $("#storedSECFilingLink" + currentId).find("a:first").text()) 
 	 					{
+							var storedSECFilingLinkTitle = $("#storedSECFilingLink" + currentId).find("a:first").text(); 
+							console.log("storedSECFilingLink is " + storedSECFilingLinkTitle);
+							console.log("secFilingLink1Title is *" + secFilingLink1Title + "*");
 							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
@@ -1034,6 +1048,8 @@ function checkAllDivsForNews()
 						newsFlag = false; 
 					}
 
+console.log("------------------------------------------------------");
+
 				});  // $.each 
 
 				if (globalNewsFlag == true)
@@ -1045,6 +1061,8 @@ function checkAllDivsForNews()
 				{
 					playWaterSplash(); 
 				}
+
+				
 
 			}  // end of yahoo success function
 	});  // end of ajax call for yahoo finance  
