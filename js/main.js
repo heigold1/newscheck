@@ -588,7 +588,6 @@ function checkIndividualDivForNews(divId)
 			var mwMainContentLink1Title = "";
 			var mwPartnerHeadlinesLink1 = ""; 
 			var mwPartnerHeadlinesLink1Title = "";
-			var mwPRHeadlinesLink1 = ""; 
 			var newsFlag = false; 
 
 			$("#div" + currentId).css("background-color", "#00FF00"); 			
@@ -811,25 +810,12 @@ function checkAllDivsForNews()
 
 	}); // allDivs.each()
 
-	var yahooFirstLink = ""; 
-	var yahooFirstLinkTitle = "";
-	var yahooCompanyName = ""; 
-	var stockOrFund = ""; 
-	var mwMainContentLink1 = ""; 
-	var mwMainContentLink1Title = "";
-	var mwPartnerHeadlinesLink1 = ""; 
-	var mwPartnerHeadlinesLink1Title = "";
-	var mwPRHeadlinesLink1 = ""; 
-	var secFilingLink1 = "";
-	var secFilingLink1Title = "";
 
-	var newsFlag = false; 
+
+
 	var globalNewsFlag = false;
 	var globalCloseToCurrentLow = false;
-	var currentVolume = 0;
-	var averageVolume = 0; 
-	var percentLow = 0.0;
-	var offerPrice = 0.0;
+
 
 
 console.log("Inside checkAllDivsForNews, before calling AJAX.  Symbol array is: "); 
@@ -847,6 +833,25 @@ console.log(symbolArray);
 
 				$.each(data, function(index,item) {
 
+	var yahooFirstLink = ""; 
+	var yahooFirstLinkTitle = "";
+	var yahooCompanyName = ""; 
+	var stockOrFund = ""; 
+	var mwMainContentLink1 = ""; 
+	var mwMainContentLink1Title = "";
+	var mwPartnerHeadlinesLink1 = ""; 
+	var mwPartnerHeadlinesLink1Title = "";
+	var secFilingLink1 = "";
+	var secFilingLink1Title = "";
+
+	var currentVolume = 0;
+	var averageVolume = 0; 
+	var percentLow = 0.0;
+	var offerPrice = 0.0;
+
+	var newsFlag = false; 
+
+
 					currentId = index; 
 					console.log("****" + $("#symbol" + currentId).val() + " checkNews is " + item.checkNews);
 					console.log(item);
@@ -862,11 +867,6 @@ console.log(symbolArray);
 	   					yahooFirstLinkTitle = yahooData.yahooInfo.urlTitle; 
 						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/ *(?:&.*;)+ */, ' ');
 						yahooFirstLinkTitle = yahooFirstLinkTitle.replace(/&apos;/g, "'"); 
-					}
-					else
-					{
-						console.log("no yahoo news brought back"); 
-						yahooFirstLinkTitle = ""; 
 					}
 
 					if (item.hasOwnProperty('marketwatch_sec'))
@@ -887,13 +887,6 @@ console.log(symbolArray);
 						secFilingLink1 = mktWatchSECData.secFiling.url; 
 						secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
 						secFilingLink1Title = mktWatchSECData.secFiling.urlTitle;
-					}
-					else
-					{
-						console.log("no marketwatch news brought back"); 
-						mwMainContentLink1Title = ""; 
-						mwPartnerHeadlinesLink1Title = ""; 
-						secFilingLink1Title = ""; 
 					}
 
 					statisticsData = JSON.parse(item.stastistics);
