@@ -112,7 +112,7 @@
 		#container{
 			position: absolute;   
 			height: 20000px;	
-			width: 1313;
+			width: 1460;
 			top: 50px;
 			left: 10px;
 			background-color: white; 
@@ -126,7 +126,7 @@
 			margin-top: 1px; 
 			height: 28px; 
 /*			border-radius: 10px;  */ 
-			width: 1307px;
+			width: 1450px;
 			background-color: #ADAD85;
 			overflow: hidden;
 		}
@@ -335,6 +335,49 @@
 
 		}
 
+		.playVolumeSoundWrapper{
+			position: relative;
+			height: 25px;
+			width: 25px;
+			margin-top: 0.5px;
+			margin-left: 0px ;
+			display: inline-block;
+			font-size: 10px;
+			vertical-align: top;
+			background-color: #EBEBE0;
+			border: 1px solid #333;
+		}
+
+		.playVolumeSound{
+			position: relative;
+			margin-top: 5.5px;
+			margin-left: 3.5px ;
+			display: inline-block;
+			vertical-align: top;
+		}
+
+
+		.turnVolumeRedWrapper{
+			position: relative;
+			height: 25px;
+			width: 25px;
+			margin-top: 0.5px;
+			margin-left: 0px ;
+			display: inline-block;
+			font-size: 10px;
+			vertical-align: top;
+			background-color: #EBEBE0;
+			border: 1px solid #333;
+		}
+
+		.turnVolumeRed{
+			position: relative;
+			margin-top: 5.5px;
+			margin-left: 3.5px ;
+			display: inline-block;
+			vertical-align: top;
+		}
+
 
 		.importantDiv{
 			position: relative;
@@ -443,6 +486,35 @@
 			vertical-align: top;
 			font-weight: bold;			
 		}
+
+
+		.volumeAmountDiv{
+			position: relative;
+			height: 24;
+			width: 78;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+/*	font-size: 35px; */ 
+			background-color: #EBEBE0;   
+/*			background-color: #FF0000;	 */ 
+			font-weight: bold;  
+		}
+
+		.volumeAmountSpan{
+			position: relative;
+			height: 22px;
+			width: 21px;
+			margin-top: 5px;
+			margin-left: 5px ;
+			display: inline-block;
+			font-size: 12px;   
+			vertical-align: top;
+		}
+
+
 
 
 
@@ -555,7 +627,7 @@
 			margin-top: 1px; 
 			height: 212px; 
 /*			border-radius: 10px; */
-			width: 775px;
+			width: 780px;
 			background-color: #F5F5F0;
 			overflow: hidden;
 			display: inline-block;
@@ -730,7 +802,7 @@
 		#notChasing{
 			position: absolute;  
 			height: 40px;	
-			width: 380px;
+			width: 527px;
 /*			margin:0px auto; */
 			top: 6px;
 			left: 945px;

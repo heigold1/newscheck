@@ -115,6 +115,11 @@ function playWaterSplash(){
 	waterSplash.play();
 }
 
+function playCarDriveBy(){
+	var carDriveBy = new Audio('./wav/car-drive-by.wav');
+	carDriveBy.play();
+}
+
 function checkSecond(sec) {
   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
   if (sec < 0) {sec = "59"};
@@ -306,6 +311,15 @@ function createNewNewsEntry() {
 	newNewsEntry += " 	<div id='volumeDiv" + newIdNumber + "' class='volumeDiv' tabindex='-1'>";
 	newNewsEntry += " 		<span id='volumeSpan" + newIdNumber + "' class='volumeSpan' tabindex='-1'>V</span>";
 	newNewsEntry += "	</div>";
+	newNewsEntry += "	<div class='turnVolumeRedWrapper'>";
+ 	newNewsEntry += "		&nbsp;<input type='checkbox' id='turnVolumeRed" + newIdNumber + "' class='turnVolumeRed' checked>";
+	newNewsEntry += "	</div>";
+	newNewsEntry += "	<div class='playVolumeSoundWrapper'>";
+ 	newNewsEntry += "		&nbsp;<input type='checkbox' id='playVolumeSound" + newIdNumber + "' class='playVolumeSound' checked>";
+	newNewsEntry += "   </div>";
+	newNewsEntry += " 	<div id='volumeAmountDiv" + newIdNumber + "' class='volumeAmountDiv' tabindex='-1'>";
+	newNewsEntry += "		<span id='volumeAmountSpan" + newIdNumber + "' class='volumeAmountSpan' tabindex='-1'></span>";
+	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div id='importantDiv" + newIdNumber + "' class='importantDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='importantSpan' tabindex='-1'>!</span>"; 
 	newNewsEntry += "	</div>"; 
@@ -815,7 +829,7 @@ function checkAllDivsForNews()
 
 	var globalNewsFlag = false;
 	var globalCloseToCurrentLow = false;
-
+	var globalVolumeAlert = false;
 
 
 console.log("Inside checkAllDivsForNews, before calling AJAX.  Symbol array is: "); 
@@ -902,6 +916,30 @@ console.log(symbolArray);
 
 					if (match != null)
 					{
+						$("#volumeAmountSpan" + currentId).html(currentVolume.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+						if ($("#turnVolumeRed" + currentId).is(':checked'))
+						{
+							if (parseInt(currentVolume) > 110000)
+							{
+								$("#volumeAmountDiv" + currentId).css("background-color", "rgb(255, 0, 0)"); 
+								$("#volumeDiv" + currentId).css("background-color", "rgb(255, 0, 0)"); 
+							}
+						}
+						else
+						{
+							$("#volumeDiv" + currentId).css("background-color", "#EBEBE0");	
+							$("#volumeAmountDiv" + currentId).css("background-color", "#EBEBE0");	
+						}
+
+						if ($("#playVolumeSound" + currentId).is(':checked'))
+						{
+							if (parseInt(currentVolume) > 110000)
+							{
+								globalVolumeAlert = true;
+							}
+						}
+
 						var lowInput = parseFloat($("#lowInput" + currentId).val());
 						var currentPercentage = match[1];
 						currentPercentage = currentPercentage.replace("%", ""); 	
@@ -922,81 +960,90 @@ console.log(symbolArray);
 						}
 					}
 
-		 			if (yahooFirstLinkTitle != "")
-	 				{
-		 				// then if there was currently no news stored, 
-	 					if ($("#storedYahooLink" + currentId).html() == "No news")     
-			 				{
-								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-	 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
-								$("#controlButton" + currentId).html("Start"); 
-								newsFlag = true; 
+		 			if (
+		 				   (yahooFirstLinkTitle != "") 
+		 				&& (yahooFirstLinkTitle.toLowerCase().search("midday movers") == -1)
+		 				)
+	 					{
+			 				// then if there was currently no news stored, 
+	 						if ($("#storedYahooLink" + currentId).html() == "No news")     
+				 				{
+									$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+	 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
+									$("#controlButton" + currentId).html("Start"); 
+									newsFlag = true; 
 
-		 					}  // or what just came back is different than what was previously stored
-	 						else if (yahooFirstLinkTitle != $("#storedYahooLink" + currentId).find("a:first").text()) 
-	 						{
-								var storedLinkYahooTitle = $("#storedYahooLink" + currentId).find("a:first").text();
-								console.log("yahooFirstLinkTitle is *" + yahooFirstLinkTitle + "*");
-								console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
+		 						}  // or what just came back is different than what was previously stored
+	 							else if (yahooFirstLinkTitle != $("#storedYahooLink" + currentId).find("a:first").text()) 
+	 							{
+									var storedLinkYahooTitle = $("#storedYahooLink" + currentId).find("a:first").text();
+									console.log("yahooFirstLinkTitle is *" + yahooFirstLinkTitle + "*");
+									console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
 
-								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-	 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
-								$("#controlButton" + currentId).html("Start"); 						
-								newsFlag = true; 
-		 					}
+									$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+	 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
+									$("#controlButton" + currentId).html("Start"); 						
+									newsFlag = true; 
+		 						}
 
-	 				}  // if we bring back a yahoo link 
+	 					}  // if we bring back a yahoo link 
 
 		 			// if we bring back a marketwatch main table link 
-	 				if (mwMainContentLink1Title != "")
-	 				{
-		 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
+	 				if (
+	 					   (mwMainContentLink1Title != "") 
+	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
+	 					)
 	 					{
-							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
-							$("#controlButton" + currentId).html("Start"); 						 					
-							newsFlag = true; 					
-	 					}
-	 					else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
-	 					{
+			 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
+	 						{
+								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
+								$("#controlButton" + currentId).html("Start"); 						 					
+								newsFlag = true; 					
+	 						}
+	 						else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
+	 						{
 
-							var storedLinkMWTitle = $("#storedMarketWatchMainLink" + currentId).find("a:first").text(); 
-							console.log("storedLinkMWTitle is *" + storedLinkMWTitle + "*");
-							console.log("mwMainContentLink1Title is *" + mwMainContentLink1Title + "*");
+								var storedLinkMWTitle = $("#storedMarketWatchMainLink" + currentId).find("a:first").text(); 
+								console.log("storedLinkMWTitle is *" + storedLinkMWTitle + "*");
+								console.log("mwMainContentLink1Title is *" + mwMainContentLink1Title + "*");
 
-							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
-							$("#controlButton" + currentId).html("Start"); 						 					 					
-							newsFlag = true; 
-	 					}
+								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
+								$("#controlButton" + currentId).html("Start"); 						 					 					
+								newsFlag = true; 
+	 						}
 
-	 				}  // if we bring back a marketwatch main link  
+	 					}  // if we bring back a marketwatch main link  
 
 	 				// if we bring back a marketwatch partner headlines link 
-	 				if (mwPartnerHeadlinesLink1Title != "")
-	 				{
-						if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
+	 				if (
+	 					   (mwPartnerHeadlinesLink1Title != "")  
+	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
+	 					)
 	 					{
-							var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
-							console.log("storedMarketWatchPartnerLink is *No news*");
-							console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
-							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
-							$("#controlButton" + currentId).html("Start"); 						 					 					
-							newsFlag = true; 					
-	 					}
-	 					else if (mwPartnerHeadlinesLink1Title != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text()) 
-	 					{
-							var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
-							console.log("storedMarketWatchPartnerLink is *" + storedLinkMWPartnerTitle + "*");
-							console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
-							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
-							$("#controlButton" + currentId).html("Start"); 						 					 					
-							newsFlag = true; 					
-	 					}
+							if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
+	 						{	
+								var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
+								console.log("storedMarketWatchPartnerLink is *No news*");
+								console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
+								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
+								$("#controlButton" + currentId).html("Start"); 						 					 					
+								newsFlag = true; 					
+	 						}
+	 						else if (mwPartnerHeadlinesLink1Title != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text()) 
+	 						{
+								var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
+								console.log("storedMarketWatchPartnerLink is *" + storedLinkMWPartnerTitle + "*");
+								console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
+								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
+								$("#controlButton" + currentId).html("Start"); 						 					 					
+								newsFlag = true; 					
+	 						}
 
-	 				} // if we bring back a marketwatch partner headlines link 
+	 					} // if we bring back a marketwatch partner headlines link 
 
 	 				// if we bring back a marketwatch PR headlines link 
 					if (secFilingLink1Title != "") 
@@ -1055,7 +1102,10 @@ console.log("------------------------------------------------------");
 					playWaterSplash(); 
 				}
 
-				
+				if (globalVolumeAlert == true)
+				{
+					playCarDriveBy();
+				}
 
 			}  // end of yahoo success function
 	});  // end of ajax call for yahoo finance  
