@@ -113,6 +113,7 @@ function getStatistics($symbol, $offerPrice)
 
     $etradeAPIData = getEtradeAPIData($symbol);
 
+
     if ($etradeAPIData != null)
     {
       $companyName = $etradeAPIData->company_name; 

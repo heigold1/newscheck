@@ -315,7 +315,7 @@ function createNewNewsEntry() {
  	newNewsEntry += "		&nbsp;<input type='checkbox' id='turnVolumeRed" + newIdNumber + "' class='turnVolumeRed' checked>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div class='playVolumeSoundWrapper'>";
- 	newNewsEntry += "		&nbsp;<input type='checkbox' id='playVolumeSound" + newIdNumber + "' class='playVolumeSound' checked>";
+ 	newNewsEntry += "		&nbsp;<input type='checkbox' id='playVolumeSound" + newIdNumber + "' class='playVolumeSound' >";
 	newNewsEntry += "   </div>";
 	newNewsEntry += " 	<div id='volumeAmountDiv" + newIdNumber + "' class='volumeAmountDiv' tabindex='-1'>";
 	newNewsEntry += "		<span id='volumeAmountSpan" + newIdNumber + "' class='volumeAmountSpan' tabindex='-1'></span>";
@@ -965,6 +965,7 @@ console.log(symbolArray);
 		 				&& (yahooFirstLinkTitle.toLowerCase().search("midday movers") == -1)
 		 				)
 	 					{
+console.log("yahooFirstLinkTitle.toLowerCase() is " + yahooFirstLinkTitle.toLowerCase());
 			 				// then if there was currently no news stored, 
 	 						if ($("#storedYahooLink" + currentId).html() == "No news")     
 				 				{
@@ -994,6 +995,7 @@ console.log(symbolArray);
 	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
 	 					)
 	 					{
+console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Title.toLowerCase());
 			 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
 	 						{
 								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
@@ -1022,6 +1024,8 @@ console.log(symbolArray);
 	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
 	 					)
 	 					{
+console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Title.toLowerCase());
+
 							if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
 	 						{	
 								var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
