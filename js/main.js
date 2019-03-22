@@ -1526,7 +1526,7 @@ $(document.body).on('paste', ".orderInput", function(){
 			}
 */
 
-    		if (percentage >= 35.00)
+    		if (percentage >= 34.00)
     		{
 				$("#orderInput" + currentId).css("background-color", "#FFFFFF"); 
 				$("#symbol" + currentId).css("background-color", "#FFFFFF");     			
