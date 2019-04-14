@@ -5,6 +5,8 @@ oauth_consumer_key: 874c996f1f6ecaa46c65abb115da9912
 consumer_secret: 886529f1c9d06729e97b6f511a89b4df
 */
 
+error_reporting(1);
+
 require_once("simple_html_dom.php"); 
 //error_reporting(E_ALL);
 
