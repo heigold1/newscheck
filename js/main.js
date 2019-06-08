@@ -831,9 +831,8 @@ function checkAllDivsForNews()
 	var globalCloseToCurrentLow = false;
 	var globalVolumeAlert = false;
 
-
-console.log("Inside checkAllDivsForNews, before calling AJAX.  Symbol array is: "); 
-console.log(symbolArray);
+	console.log("Inside checkAllDivsForNews, before calling AJAX.  Symbol array is: "); 
+	console.log(symbolArray);
 
 	$.ajax({
    		url: "newsproxy.php",
@@ -847,24 +846,23 @@ console.log(symbolArray);
 
 				$.each(data, function(index,item) {
 
-	var yahooFirstLink = ""; 
-	var yahooFirstLinkTitle = "";
-	var yahooCompanyName = ""; 
-	var stockOrFund = ""; 
-	var mwMainContentLink1 = ""; 
-	var mwMainContentLink1Title = "";
-	var mwPartnerHeadlinesLink1 = ""; 
-	var mwPartnerHeadlinesLink1Title = "";
-	var secFilingLink1 = "";
-	var secFilingLink1Title = "";
+					var yahooFirstLink = ""; 
+					var yahooFirstLinkTitle = "";
+					var yahooCompanyName = ""; 
+					var stockOrFund = ""; 
+					var mwMainContentLink1 = ""; 
+					var mwMainContentLink1Title = "";
+					var mwPartnerHeadlinesLink1 = ""; 
+					var mwPartnerHeadlinesLink1Title = "";
+					var secFilingLink1 = "";
+					var secFilingLink1Title = "";
 
-	var currentVolume = 0;
-	var averageVolume = 0; 
-	var percentLow = 0.0;
-	var offerPrice = 0.0;
+					var currentVolume = 0;
+					var averageVolume = 0; 
+					var percentLow = 0.0;
+					var offerPrice = 0.0;
 
-	var newsFlag = false; 
-
+					var newsFlag = false; 
 
 					currentId = index; 
 					console.log("****" + $("#symbol" + currentId).val() + " checkNews is " + item.checkNews);
@@ -965,7 +963,7 @@ console.log(symbolArray);
 		 				&& (yahooFirstLinkTitle.toLowerCase().search("midday movers") == -1)
 		 				)
 	 					{
-console.log("yahooFirstLinkTitle.toLowerCase() is " + yahooFirstLinkTitle.toLowerCase());
+							console.log("yahooFirstLinkTitle.toLowerCase() is " + yahooFirstLinkTitle.toLowerCase());
 			 				// then if there was currently no news stored, 
 	 						if ($("#storedYahooLink" + currentId).html() == "No news")     
 				 				{
@@ -995,7 +993,7 @@ console.log("yahooFirstLinkTitle.toLowerCase() is " + yahooFirstLinkTitle.toLowe
 	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
 	 					)
 	 					{
-console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Title.toLowerCase());
+							console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Title.toLowerCase());
 			 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
 	 						{
 								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
@@ -1024,7 +1022,7 @@ console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Titl
 	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
 	 					)
 	 					{
-console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Title.toLowerCase());
+							console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Title.toLowerCase());
 
 							if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
 	 						{	
@@ -1076,7 +1074,6 @@ console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Titl
 
 					$("#div" + currentId).css("background-color", "#ADAD85"); 
 
-
 					if ($("#checkForNewNews" + currentId).is(':checked'))
 					{
 						if (newsFlag == false)
@@ -1092,7 +1089,7 @@ console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Titl
 						newsFlag = false; 
 					}
 
-console.log("------------------------------------------------------");
+				console.log("------------------------------------------------------");
 
 				});  // $.each 
 
