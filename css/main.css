@@ -112,7 +112,7 @@
 		#container{
 			position: absolute;   
 			height: 20000px;	
-			width: 1460;
+			width: 1485;
 			top: 50px;
 			left: 10px;
 			background-color: white; 
@@ -126,7 +126,7 @@
 			margin-top: 1px; 
 			height: 28px; 
 /*			border-radius: 10px;  */ 
-			width: 1450px;
+			width: 1480px;
 			background-color: #ADAD85;
 			overflow: hidden;
 		}
@@ -448,7 +448,35 @@
 			font-weight: bold;  
 		}			
 
+		.reverseSplitDiv{
+			position: relative;
+			height: 24;
+			width: 24;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+/*	font-size: 35px; */ 
+			background-color: #EBEBE0;   
+/*			background-color: #FF0000;	 */ 
+			font-weight: bold;  
+		}		
+
+
 		.highRiskSpan{
+			position: relative;
+			height: 22px;
+			width: 21px;
+			margin-top: 1px;
+			margin-left: 5px ;
+			display: inline-block;
+			font-size: 20px;   
+			vertical-align: top;
+			font-weight: bold;			
+		}
+
+		.reverseSplitSpan{
 			position: relative;
 			height: 22px;
 			width: 21px;
@@ -524,6 +552,11 @@
 		}
 
 		.highRiskDiv:hover{
+/*			background-color: #BFBFB6;  */ 
+			cursor: pointer;
+		}
+
+		.reverseSplitDiv:hover{
 /*			background-color: #BFBFB6;  */ 
 			cursor: pointer;
 		}
@@ -802,7 +835,7 @@
 		#notChasing{
 			position: absolute;  
 			height: 40px;	
-			width: 527px;
+			width: 553px;
 /*			margin:0px auto; */
 			top: 6px;
 			left: 945px;
@@ -812,7 +845,7 @@
 		}
 
 		.fullOrder{
-			visibility: hidden; 
+/*			visibility: hidden;  */
 		}
 
 		.orderNumber{

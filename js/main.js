@@ -326,6 +326,9 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='highRiskDiv" + newIdNumber + "' class='highRiskDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='highRiskSpan' tabindex='-1'>H</span>";
 	newNewsEntry += "	</div>";
+	newNewsEntry += "	<div id='reverseSplitDiv" + newIdNumber + "' class='reverseSplitDiv' tabindex='-1'>"; 
+	newNewsEntry += "		<span class='reverseSplitSpan' tabindex='-1'>R</span>";
+	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='offeringDiv" + newIdNumber + "' class='offeringDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='offeringSpan' tabindex='-1'>O</span>";
 	newNewsEntry += "	</div>";
@@ -1418,6 +1421,21 @@ $(document.body).on('click', ".highRiskDiv", function(){
     }	
 });  // on clicking high risk box with the "H"
 
+$(document.body).on('click', ".reverseSplitDiv", function(){
+	
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("reverseSplitDiv", ""); 
+
+    if ($("#reverseSplitDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
+    {  
+			$("#reverseSplitDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
+    } 
+    else 
+    {
+    		$("#reverseSplitDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
+    }	
+});  // on clicking offering box with the "O"
+
 $(document.body).on('click', ".checkPK", function(){
 	
 	currentId = $(this).attr("id"); 
@@ -1461,16 +1479,19 @@ $(document.body).on('click', ".copyOrderToClipboard", function(){
  	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
 
   	var copyTextarea = $("#fullOrder" + currentId);
+console.log("Full order's value is " + copyTextarea.val());
   	copyTextarea.select();
   	try 
   	{
 	    var successful = document.execCommand('copy');
 	    var msg = successful ? 'successful' : 'unsuccessful';
-	    alert($("#fullOrder" + currentId).val());
+		console.log('Copying text command was ' + msg);
+	    alert($("#fullOrder" + currentId).val() + " succesfully copied");
   	} 
   	catch (err) 
   	{
-	    alert('Oops, unable to copy');
+	    alert('Order did not succesfully copy');
+    	console.log('Order did not succesfully copy');
   	}
 
 	writeTradeStamp(currentId);

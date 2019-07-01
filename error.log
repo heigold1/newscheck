@@ -1,33 +1,33 @@
 * Hostname in DNS cache was stale, zapped
-*   Trying 2600:1406:d000:381::2374...
-* Connected to www.sec.gov (2600:1406:d000:381::2374) port 443 (#0)
+*   Trying 2600:1406:21:38a::886...
+* Connected to www.marketwatch.com (2600:1406:21:38a::886) port 443 (#0)
 * Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
 * NPN, negotiated HTTP1.1
 * SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
 * Server certificate:
-* 	 subject: C=US; ST=District Of Columbia; L=Washington; O=Securities and Exchange Commission; OU=OIT; CN=www.sec.gov
-* 	 start date: 2018-09-12 00:00:00 GMT
-* 	 expire date: 2019-02-26 12:00:00 GMT
-* 	 issuer: C=US; O=DigiCert Inc; OU=www.digicert.com; CN=GeoTrust RSA CA 2018
+* 	 subject: C=US; ST=New Jersey; L=Princeton; O=Dow Jones and Company; OU=Dow Jones and Company; CN=accounts.dowjones.com
+* 	 start date: 2019-04-26 00:00:00 GMT
+* 	 expire date: 2019-10-12 12:00:00 GMT
+* 	 issuer: C=US; O=DigiCert Inc; CN=DigiCert SHA2 Secure Server CA
 * 	 SSL certificate verify result: unable to get local issuer certificate (20), continuing anyway.
-> GET /cgi-bin/browse-edgar?CIK=RUSS&owner=exclude&action=getcompany&Find=Search HTTP/1.1
-Host: www.sec.gov
+> GET /investing/stock/ HTTP/1.1
+Host: www.marketwatch.com
+Cookie: kayla=g=af718d6685cf406faf0b0baac3cf06b1
 Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 Accept-Language:en-US,en;q=0.8
 Cache-Control:max-age=0
 Connection:keep-alive
 User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
 
-< HTTP/1.1 200 OK
+< HTTP/1.1 301 Moved Permanently
 < Content-Type: text/html
-< Server: Apache
-< X-Content-Type-Options: nosniff
-< X-Frame-Options: SAMEORIGIN
-< X-XSS-Protection: 1; mode=block
-< Cache-Control: no-cache
-< Date: Wed, 26 Sep 2018 23:28:49 GMT
-< Content-Length: 3459
+< Content-Length: 178
+< Server: nginx
+< Location: http://www.marketwatch.com/investing/stock
+< Expires: Mon, 24 Jun 2019 19:23:00 GMT
+< Cache-Control: max-age=0, no-cache, no-store
+< Pragma: no-cache
+< Date: Mon, 24 Jun 2019 19:23:00 GMT
 < Connection: keep-alive
-< Strict-Transport-Security: max-age=31536000 ; includeSubDomains ; preload
 < 
-* Connection #0 to host www.sec.gov left intact
+* Connection #0 to host www.marketwatch.com left intact
