@@ -280,6 +280,7 @@ function createNewNewsEntry() {
  	newNewsEntry += "	 	<div id='prevClose" + newIdNumber + "' class='prevClose'></div>"; 
 	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div class='lowInfo'>"; 
+	newNewsEntry += "	<input id='lowValue" + newIdNumber + "' class='lowValue' value='0.0'>";
 	newNewsEntry += "		<div id='lowWrapper" + newIdNumber + "' class='lowWrapper'>"; 
 	newNewsEntry += "		&nbsp;<span id='low" + newIdNumber + "' class='low'></span>"; 
 	newNewsEntry += "		</div>";
@@ -921,7 +922,7 @@ function checkAllDivsForNews()
 
 						if ($("#turnVolumeRed" + currentId).is(':checked'))
 						{
-							if (parseInt(currentVolume) > 110000)
+							if (parseInt(currentVolume) > 200000)
 							{
 								$("#volumeAmountDiv" + currentId).css("background-color", "rgb(255, 0, 0)"); 
 								$("#volumeDiv" + currentId).css("background-color", "rgb(255, 0, 0)"); 
@@ -935,7 +936,7 @@ function checkAllDivsForNews()
 
 						if ($("#playVolumeSound" + currentId).is(':checked'))
 						{
-							if (parseInt(currentVolume) > 110000)
+							if (parseInt(currentVolume) > 200000)
 							{
 								globalVolumeAlert = true;
 							}
@@ -1552,7 +1553,8 @@ $(document.body).on('paste', ".orderInput", function(){
     		else 
     		{
 				$("#orderInput" + currentId).css("background-color", "#CCE6FF"); 
-				$("#symbol" + currentId).css("background-color", "#CCE6FF");     			
+				$("#symbol" + currentId).css("background-color", "#CCE6FF");
+				$("#playVolumeSound" + currentId).prop('checked', true); 
     		}
 
 	     	calcPrevClose(currentId);    	

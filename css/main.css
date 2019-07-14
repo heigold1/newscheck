@@ -139,7 +139,7 @@
 			margin-top: 0.5px; 
 			height: 25px; 
 /*			border-radius: 10px;  */ 
-			width: 420px;
+			width: 370px;
 			display: inline-block;
 			background-color: #EBEBE0;
 		}
@@ -187,7 +187,7 @@
 			margin-top: 1.5px;
 			margin-left: 0px;
 			border-radius: 5px;
-			width: 90px;
+			width: 70px;
 			display: inline-block;
 			background-color: #00FF00;
 			height: 23px; 		
@@ -199,7 +199,7 @@
 			margin-top: 1px;
 			margin-left: 0px;
 			border-radius: 5px;
-			width: 60px;
+			width: 55px;
 			display: inline-block;
 			height: 24.5px; 		
 			font-size: 16px;
@@ -210,7 +210,7 @@
 			margin-top: 1.5px;
 			margin-left: 0px;
 			border-radius: 5px;
-			width: 325px;
+			width: 295px;
 			display: inline-block;
 			background-color: #00FF00;
 			height: 23px; 		
@@ -855,7 +855,7 @@
 		.lowInfo{
 			position: relative;
 			height: 25px;
-			width: 80px;
+			width: 130px;
 			margin-top: 0.5px;
 			margin-left: 0px ;
 			display: inline-block;
@@ -890,6 +890,19 @@
 			position: relative;
 			height: 23px;
 			width: 30px;
+			margin-top: 1px;
+			margin-left: 2px ;
+			display: inline-block;
+			border-radius: 5px;
+			font-size: 11px;
+			vertical-align: top;
+			font-family: "arial";  
+		}	
+
+		.lowValue{
+			position: relative;
+			height: 23px;
+			width: 50px;
 			margin-top: 1px;
 			margin-left: 2px ;
 			display: inline-block;
