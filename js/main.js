@@ -805,6 +805,7 @@ function checkAllDivsForNews()
 		var currentId = $(this).attr("id"); 
  		var currentId = currentId.replace("div", "");
  		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
+		var lowValue = $.trim($("#lowValue" + currentId).val()); 
 
 		var originalSymbol = $.trim($("#symbol" + currentId).val()); 
 		var offerPrice = $.trim($("#offerPrice" + currentId).val());
@@ -823,7 +824,8 @@ function checkAllDivsForNews()
 			"originalSymbol" : originalSymbol,
 			"offerPrice" : offerPrice, 
 			"checkNews" : checkNews, 
-			"idNumber": currentId 
+			"idNumber": currentId, 
+			"lowValue": lowValue
 		});
 
 	}); // allDivs.each()
@@ -909,8 +911,10 @@ function checkAllDivsForNews()
    					currentVolume = statisticsData.currentVolume; 
    					averageVolume = statisticsData.averageVolume; 
    					percentLow = parseFloat(statisticsData.percentLow); 
+   					lowValue = parseFloat(statisticsData.lowValue);
 
 					$("#low" + currentId).html(percentLow);
+					$("#lowValue" + currentId).val(lowValue);
 
 					var orderInput = $("#orderInput" + currentId).val(); 
 					var myRegexp = /\((.*?)\)/g; 

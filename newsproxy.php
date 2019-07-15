@@ -107,14 +107,14 @@ function getETradeAPIData($symbol)
 }
 
 
-function getStatistics($symbol, $offerPrice)
+function getStatistics($symbol, $offerPrice, $lowValue)
 {
     $currentVolume = ""; 
     $averageVolume = "";
     $percentLow = ""; 
+    $low = 0.0;
 
     $etradeAPIData = getEtradeAPIData($symbol);
-
 
     if ($etradeAPIData != null)
     {
@@ -125,10 +125,28 @@ function getStatistics($symbol, $offerPrice)
        }
        $currentVolume = $etradeAPIData->total_volume; 
        $averageVolume = $etradeAPIData->ten_day_volume; 
+       $lastTrade = floatval($etradeAPIData->last_trade);
        $previousClose = floatval($etradeAPIData->prev_close);
 
-       $low = floatval($etradeAPIData->low); 
+       if ($lowValue == 0.0)
+       {
+           $low = floatval($etradeAPIData->low); 
+           $lowValue = $low; 
+       }
+       else
+       {
+          if ($lastTrade < $lowValue)
+          {
+            $low = $lastTrade;
+            $lowValue = $lastTrade;
+          }
+          else 
+          {
+            $low = $lowValue; 
+          }
+       }
 
+       // if the company put out an additional public offering
        if (trim($offerPrice) != "")
        {
          $offerPrice = floatval($offerPrice);
@@ -140,7 +158,12 @@ function getStatistics($symbol, $offerPrice)
        }
     }
 
-    $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '"}'; 
+    $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '"}'; 
+
+//echo "returnArray is " . $returnArray . "*"; 
+//die();
+
+
     return $returnArray; 
 }
 
@@ -148,7 +171,7 @@ $ret = "";
 $finalReturn = "";
 
 
-function getMarketwatch($symbol, $offerPrice)
+function getMarketwatch($symbol)
 {
 
 $entireMarketwatchPage = "";
@@ -350,7 +373,7 @@ $stockOrFund = "";
 
 if (isset($which_website) && ($which_website == "marketwatch"))
 {
-  $returnLinks = getMarketwatch($symbol, $offerPrice);
+  $returnLinks = getMarketwatch($symbol);
   echo $returnLinks;
 }
 elseif (isset($which_website) && ($which_website == "yahoo"))
@@ -365,18 +388,18 @@ elseif ($symbols != null)
 
     foreach ($symbols as $symbol)
     {
-
       $offerPrice = $symbol->offerPrice;
       $index = $symbol->idNumber;
       $ticker = $symbol->ticker;
       $checkNews = $symbol->checkNews; 
+      $lowValue = $symbol->lowValue; 
 
       if (isset($symbol->originalSymbol))
       {
           $originalSymbol = $symbol->originalSymbol; 
       }
 
-      $returnArray[$index]['stastistics'] = getStatistics($ticker, $offerPrice);
+      $returnArray[$index]['stastistics'] = getStatistics($ticker, $offerPrice, $lowValue);
 
       if ((int) $checkNews == 1)
       {
@@ -385,7 +408,7 @@ elseif ($symbols != null)
 
           $stockOrFund = $yahooObject->stockOrFund; 
 
-          $returnArray[$index]['marketwatch_sec'] = getMarketwatch($ticker, $offerPrice);
+          $returnArray[$index]['marketwatch_sec'] = getMarketwatch($ticker, $offerPrice, $lowValue);
       }
 
       $returnArray[$index]['symbol'] = $ticker;
