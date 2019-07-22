@@ -313,12 +313,14 @@ function createNewNewsEntry() {
 	newNewsEntry += " 		<span id='volumeSpan" + newIdNumber + "' class='volumeSpan' tabindex='-1'>V</span>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div class='turnVolumeRedWrapper'>";
- 	newNewsEntry += "		&nbsp;<input type='checkbox' id='turnVolumeRed" + newIdNumber + "' class='turnVolumeRed' checked>";
+ 	newNewsEntry += "		&nbsp;<input type='checkbox' id='turnVolumeRed" + newIdNumber + "' class='turnVolumeRed'>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div class='playVolumeSoundWrapper'>";
  	newNewsEntry += "		&nbsp;<input type='checkbox' id='playVolumeSound" + newIdNumber + "' class='playVolumeSound' >";
 	newNewsEntry += "   </div>";
 	newNewsEntry += " 	<div id='volumeAmountDiv" + newIdNumber + "' class='volumeAmountDiv' tabindex='-1'>";
+	newNewsEntry += "	 	<input id='volume30DayInput" + newIdNumber + "' class='volume30DayInput' value='0'>";
+	newNewsEntry += " 		<input id='volumeRatio" + newIdNumber + "' class='volumeRatio' value='2'>";
 	newNewsEntry += "		<span id='volumeAmountSpan" + newIdNumber + "' class='volumeAmountSpan' tabindex='-1'></span>";
 	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div id='importantDiv" + newIdNumber + "' class='importantDiv' tabindex='-1'>"; 
@@ -865,6 +867,8 @@ function checkAllDivsForNews()
 
 					var currentVolume = 0;
 					var averageVolume = 0; 
+					var averageVoulme30Day = 0;
+					var volumeRatio = 0.0;
 					var percentLow = 0.0;
 					var offerPrice = 0.0;
 
@@ -910,8 +914,17 @@ function checkAllDivsForNews()
 					statisticsData = JSON.parse(item.stastistics);
    					currentVolume = statisticsData.currentVolume; 
    					averageVolume = statisticsData.averageVolume; 
+
+console.log("averageVolume30Day before parsing out comments is: " + $("#volume30DayInput" + currentId).val().toString());
+   					averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
+   					volumeRatio = parseFloat($("#volumeRatio" + currentId).val());
    					percentLow = parseFloat(statisticsData.percentLow); 
    					lowValue = parseFloat(statisticsData.lowValue);
+
+console.log("averageVolume30Day is " + averageVolume30Day); 
+console.log("volumeRatio is " + currentId); 
+console.log("averageVolume30Day*volumeRatio is " + averageVolume30Day*volumeRatio); 
+console.log("currentVolume is " + currentVolume); 
 
 					$("#low" + currentId).html(percentLow);
 					$("#lowValue" + currentId).val(lowValue);
@@ -926,10 +939,15 @@ function checkAllDivsForNews()
 
 						if ($("#turnVolumeRed" + currentId).is(':checked'))
 						{
-							if (parseInt(currentVolume) > 200000)
+							if (parseInt(currentVolume) > (averageVolume30Day*volumeRatio))
 							{
 								$("#volumeAmountDiv" + currentId).css("background-color", "rgb(255, 0, 0)"); 
 								$("#volumeDiv" + currentId).css("background-color", "rgb(255, 0, 0)"); 
+							}
+							else
+							{	
+								$("#volumeDiv" + currentId).css("background-color", "#EBEBE0");	
+								$("#volumeAmountDiv" + currentId).css("background-color", "#EBEBE0");	
 							}
 						}
 						else
@@ -940,7 +958,7 @@ function checkAllDivsForNews()
 
 						if ($("#playVolumeSound" + currentId).is(':checked'))
 						{
-							if (parseInt(currentVolume) > 200000)
+							if (parseInt(currentVolume) > (averageVolume30Day*volumeRatio))
 							{
 								globalVolumeAlert = true;
 							}
@@ -1559,6 +1577,7 @@ $(document.body).on('paste', ".orderInput", function(){
 				$("#orderInput" + currentId).css("background-color", "#CCE6FF"); 
 				$("#symbol" + currentId).css("background-color", "#CCE6FF");
 				$("#playVolumeSound" + currentId).prop('checked', true); 
+				$("#turnVolumeRed" + currentId).prop('checked', true);
     		}
 
 	     	calcPrevClose(currentId);    	

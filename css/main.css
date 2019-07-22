@@ -112,7 +112,7 @@
 		#container{
 			position: absolute;   
 			height: 20000px;	
-			width: 1485;
+			width: 1536;
 			top: 50px;
 			left: 10px;
 			background-color: white; 
@@ -126,7 +126,7 @@
 			margin-top: 1px; 
 			height: 28px; 
 /*			border-radius: 10px;  */ 
-			width: 1480px;
+			width: 1530px;
 			background-color: #ADAD85;
 			overflow: hidden;
 		}
@@ -152,7 +152,7 @@
 			margin-top: 0.5px; 
 			height: 24px; 
 			border-radius: 10px;
-			width: 70px;
+			width: 55px;
 			display: inline-block;
 			background-color: #EBEBE0;
 		}		
@@ -162,7 +162,7 @@
 			margin-top: 1px;
 			margin-left: 0px;
 			border-radius: 10px;
-			width: 70px;
+			width: 55px;
 			display: inline-block;
 			background-color: #E0E0D1;
 			height: 23px; 		
@@ -202,7 +202,7 @@
 			width: 55px;
 			display: inline-block;
 			height: 24.5px; 		
-			font-size: 16px;
+			font-size: 13px;
 			vertical-align: top; 
 		}
 
@@ -233,7 +233,7 @@
 			margin-top: 0.5px; 
 			height: 25px; 
 /*			border-radius: 10px;  */ 
-			width: 362px;
+			width: 312px;
 			display: inline-block;
 			background-color: #EBEBE0;
 			font-size: 10px;
@@ -247,7 +247,7 @@
 		.newsStatusLabel{
 			position: relative;
 			height: 20px;
-			width: 360px;
+			width: 310px;
 			margin-top: 3px;
 			margin-left: 2px ;
 			display: inline-block;
@@ -516,10 +516,36 @@
 		}
 
 
+		.volume30DayInput{
+			position: relative;
+			height: 23px;
+			width: 75px;
+			margin-top: 1px;
+			margin-left: 2px ;
+			display: inline-block;
+			border-radius: 5px;
+			font-size: 11px;
+			vertical-align: top;
+			font-family: "arial";  
+		}
+
+		.volumeRatio{
+			position: relative;
+			height: 23px;
+			width: 30px;
+			margin-top: 1px;
+			margin-left: 2px ;
+			display: inline-block;
+			border-radius: 5px;
+			font-size: 11px;
+			vertical-align: top;
+			font-family: "arial";  
+		}	
+
 		.volumeAmountDiv{
 			position: relative;
 			height: 24;
-			width: 78;
+			width: 205;
 			margin-top: 1px;
 			margin-left: 0px ;
 			border: 1px solid #333;
@@ -835,7 +861,7 @@
 		#notChasing{
 			position: absolute;  
 			height: 40px;	
-			width: 553px;
+			width: 603px;
 /*			margin:0px auto; */
 			top: 6px;
 			left: 945px;

@@ -127,22 +127,40 @@ function getStatistics($symbol, $offerPrice, $lowValue)
        $averageVolume = $etradeAPIData->ten_day_volume; 
        $lastTrade = floatval($etradeAPIData->last_trade);
        $previousClose = floatval($etradeAPIData->prev_close);
+       $eTradeLowValue = floatval($etradeAPIData->low);
 
        if ($lowValue == 0.0)
        {
-           $low = floatval($etradeAPIData->low); 
+           $low = $eTradeLowValue; 
            $lowValue = $low; 
        }
        else
        {
-          if ($lastTrade < $lowValue)
+          // if we are in the pre-market, and therefore ETRADE does not provide the pre-market low: 
+          if ($etradeAPIData->low == 0.0)
           {
-            $low = $lastTrade;
-            $lowValue = $lastTrade;
+              if ($lastTrade < $lowValue)
+              {
+                $low = $lastTrade;
+                $lowValue = $lastTrade;
+              }
+              else 
+              {
+                $low = $lowValue; 
+              }
           }
-          else 
+          else
           {
-            $low = $lowValue; 
+              // we are no longer in the pre-market, and so ETRADE is providing us with the pre-market low.
+              if ($eTradeLowValue < $lowValue)
+              {
+                $low = $eTradeLowValue; 
+                $lowValue = $eTradeLowValue; 
+              }
+              else 
+              {
+                $low = $lowValue;
+              }
           }
        }
 
