@@ -139,15 +139,19 @@ function getStatistics($symbol, $offerPrice, $lowValue)
           // if we are in the pre-market, and therefore ETRADE does not provide the pre-market low: 
           if ($etradeAPIData->low == 0.0)
           {
+// echo "etradeAPIData->low == 0.0 <br>"; 
               if ($lastTrade < $lowValue)
               {
+// echo "etradeAPIData->low == 0.0 and lastTrade (" . $lastTrade . ") < lowValue (" . $lowValue . ") <br>";
                 $low = $lastTrade;
                 $lowValue = $lastTrade;
               }
               else 
               {
+// echo "lastTrade is " . $lastTrade . " and lowValue is " . $lowValue . "<br>";
                 $low = $lowValue; 
               }
+// die();
           }
           else
           {

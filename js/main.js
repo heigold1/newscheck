@@ -320,7 +320,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "   </div>";
 	newNewsEntry += " 	<div id='volumeAmountDiv" + newIdNumber + "' class='volumeAmountDiv' tabindex='-1'>";
 	newNewsEntry += "	 	<input id='volume30DayInput" + newIdNumber + "' class='volume30DayInput' value='0'>";
-	newNewsEntry += " 		<input id='volumeRatio" + newIdNumber + "' class='volumeRatio' value='2'>";
+	newNewsEntry += " 		<input id='volumeRatio" + newIdNumber + "' class='volumeRatio' value='1'>";
 	newNewsEntry += "		<span id='volumeAmountSpan" + newIdNumber + "' class='volumeAmountSpan' tabindex='-1'></span>";
 	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div id='importantDiv" + newIdNumber + "' class='importantDiv' tabindex='-1'>"; 
