@@ -180,7 +180,7 @@ function getStatistics($symbol, $offerPrice, $lowValue)
        }
     }
 
-    $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '"}'; 
+    $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '", "companyName": "' . $companyName . '"}'; 
 
 //echo "returnArray is " . $returnArray . "*"; 
 //die();
@@ -193,7 +193,7 @@ $ret = "";
 $finalReturn = "";
 
 
-function getMarketwatch($symbol)
+function getMarketwatch($symbol, $companyName)
 {
 
 $entireMarketwatchPage = "";
@@ -395,7 +395,12 @@ $stockOrFund = "";
 
 if (isset($which_website) && ($which_website == "marketwatch"))
 {
-  $returnLinks = getMarketwatch($symbol);
+
+  $statistics = getStatistics($ticker, $offerPrice, $lowValue);
+  $statisticsJSON = json_decode($statistics); 
+  $companyName = $statisticsJSON->companyName;
+
+  $returnLinks = getMarketwatch($symbol, $companyName);
   echo $returnLinks;
 }
 elseif (isset($which_website) && ($which_website == "yahoo"))
@@ -422,6 +427,8 @@ elseif ($symbols != null)
       }
 
       $returnArray[$index]['stastistics'] = getStatistics($ticker, $offerPrice, $lowValue);
+      $statisticsJSON = json_decode($returnArray[$index]['stastistics']); 
+      $companyName = $statisticsJSON->companyName;
 
       if ((int) $checkNews == 1)
       {
@@ -430,7 +437,7 @@ elseif ($symbols != null)
 
           $stockOrFund = $yahooObject->stockOrFund; 
 
-          $returnArray[$index]['marketwatch_sec'] = getMarketwatch($ticker, $offerPrice, $lowValue);
+          $returnArray[$index]['marketwatch_sec'] = getMarketwatch($ticker, $companyName);
       }
 
       $returnArray[$index]['symbol'] = $ticker;
