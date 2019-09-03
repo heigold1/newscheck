@@ -100,11 +100,11 @@ function calculatePercentLow($previousClose, $low)
 
 function createSECCompanyName($companyName)
 {
-    $companyName = pre_replace('/ INC.*/', '');
-    $companyName = pre_replace('/ HLDG.*/', '');
-    $companyName = pre_replace('/ COM.*/', '');
-    $companyName = pre_replace('/ LTD.*/', '');
-    $companyName = pre_replace('/ NEW.*/', '');
+    $companyName = preg_replace('/ INC.*/', '', $companyName);
+    $companyName = preg_replace('/ HLDG.*/', '', $companyName);
+    $companyName = preg_replace('/ COM.*/', '', $companyName);
+    $companyName = preg_replace('/ LTD.*/', '', $companyName);
+    $companyName = preg_replace('/ NEW.*/', '', $companyName);
 
     $companyNameArray = explode(" ", $companyName);
     $arrayLength = count($companyNameArray);
@@ -115,15 +115,17 @@ function createSECCompanyName($companyName)
     }
     else
     {
+
         // build out the "outlook+theraputics"
         $returnCompanyName = "";
-        for ($i = 0; $i < arrayLength; $i++) {
+        for ($i = 0; $i < $arrayLength; $i++) {
             $returnCompanyName .= $companyNameArray[$i];
-            if ($i + 1 < arrayLength)
+            if ($i + 1 < $arrayLength)
             {
                $returnCompanyName .= "+";
             }
         }
+
         return $returnCompanyName; 
     }
 }
@@ -430,7 +432,8 @@ if (isset($which_website) && ($which_website == "marketwatch"))
   $statisticsJSON = json_decode($statistics); 
 
   $companyName = $statisticsJSON->companyName;
-
+  $companyName = createSECCompanyName($companyName);
+  
   $returnLinks = getMarketwatch($symbol, $companyName);
   echo $returnLinks;
 }
