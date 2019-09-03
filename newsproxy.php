@@ -426,9 +426,9 @@ $stockOrFund = "";
 
 if (isset($which_website) && ($which_website == "marketwatch"))
 {
-
-  $statistics = getStatistics($ticker, $offerPrice, $lowValue);
+  $statistics = getStatistics($symbol, $offerPrice, $lowValue);
   $statisticsJSON = json_decode($statistics); 
+
   $companyName = $statisticsJSON->companyName;
 
   $returnLinks = getMarketwatch($symbol, $companyName);
