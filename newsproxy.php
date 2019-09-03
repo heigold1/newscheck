@@ -98,6 +98,37 @@ function calculatePercentLow($previousClose, $low)
 
 }
 
+function createSECCompanyName($companyName)
+{
+    $companyName = pre_replace('/ INC.*/', '');
+    $companyName = pre_replace('/ HLDG.*/', '');
+    $companyName = pre_replace('/ COM.*/', '');
+    $companyName = pre_replace('/ LTD.*/', '');
+    $companyName = pre_replace('/ NEW.*/', '');
+
+    $companyNameArray = explode(" ", $companyName);
+    $arrayLength = count($companyNameArray);
+
+    if ($arrayLength == 1)
+    {
+        return $companyName;
+    }
+    else
+    {
+        // build out the "outlook+theraputics"
+        $returnCompanyName = "";
+        for ($i = 0; $i < arrayLength; $i++) {
+            $returnCompanyName .= $companyNameArray[$i];
+            if ($i + 1 < arrayLength)
+            {
+               $returnCompanyName .= "+";
+            }
+        }
+        return $returnCompanyName; 
+    }
+}
+
+
 function getETradeAPIData($symbol)
 {
     $url = $_SERVER['SERVER_NAME'] . '/newslookup/yesterday_close.php?symbol=' . $symbol;
