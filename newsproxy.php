@@ -349,43 +349,56 @@ $averageVolume = "";
 
         $url = "https://www.sec.gov/cgi-bin/browse-edgar?CIK=" . $symbol . "&owner=exclude&action=getcompany&Find=Search"; 
         $result = grabHTML('www.sec.gov', $url); 
-        $html = str_get_html($result);
+        
 
-        if (preg_match('/No matching Ticker Symbol/i', $html))
+        if (preg_match('/No matching Ticker Symbol/i', $result))
         {
+
+            $url = "https://www.sec.gov/cgi-bin/browse-edgar?company=" . $companyName . "&owner=include&action=getcompany"; 
+            $result = grabHTML('www.sec.gov', $url); 
+
+            if (
+              preg_match('/No matching companies/i', $result) || 
+              preg_match('/Companies with names matching/', $result)
+            )
+            {
                   $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
                       '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
                       '"secFiling":{"url":"","urlTitle":""}}'; 
+            }
         }
-        else
-        {
-            $tableRow1 = $html->find('.tableFile2 tbody tr'); 
 
-            $row = str_get_html($tableRow1[1]);
-            $td = $row->find('td'); 
-            $linkTd = $td[1]->find('a');  
+        $html = str_get_html($result);
 
-            $td0 = $td[0]; 
-            $td2 = $td[2]->plaintext;
+// echo "html is now: " . $html;
 
-            $td2 = preg_replace('/Acc-no.*MB/', '', $td2);
-            $td2 = preg_replace('/Acc-no.*KB/', '', $td2);
-            $td2 = trim($td2);
+        $tableRow1 = $html->find('.tableFile2 tbody tr'); 
 
-            $firstLink  = 'https://www.sec.gov' . $linkTd[0]->href; 
-            $firstLinkResults = grabHTML('www.sec.gov', $firstLink); 
-            $html2 = str_get_html($firstLinkResults);
-            $tableRow2 = $html2->find('tr'); 
-            $td2nd = $tableRow2[1]->find('td'); 
-            $a2 = $td2nd[2]->find('a');
-            $secFilingLink1 = 'https://www.sec.gov' . $a2[0]->href;
-            $secFilingLink1 = trim($secFilingLink1);
+        $row = str_get_html($tableRow1[1]);
+        $td = $row->find('td'); 
+        $linkTd = $td[1]->find('a');  
 
-            $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
-                  '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
-                  '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
+        $td0 = $td[0]; 
+        $td2 = $td[2]->plaintext;
 
-        }
+        $td2 = preg_replace('/Acc-no.*MB/', '', $td2);
+        $td2 = preg_replace('/Acc-no.*KB/', '', $td2);
+        $td2 = trim($td2);
+
+        $firstLink  = 'https://www.sec.gov' . $linkTd[0]->href; 
+        $firstLinkResults = grabHTML('www.sec.gov', $firstLink); 
+        $html2 = str_get_html($firstLinkResults);
+        $tableRow2 = $html2->find('tr'); 
+        $td2nd = $tableRow2[1]->find('td'); 
+        $a2 = $td2nd[2]->find('a');
+        $secFilingLink1 = 'https://www.sec.gov' . $a2[0]->href;
+        $secFilingLink1 = trim($secFilingLink1);
+
+        $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
+              '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
+              '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
+
+
 
         return $returnArray;
 
