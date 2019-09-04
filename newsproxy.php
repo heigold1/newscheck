@@ -350,11 +350,14 @@ $averageVolume = "";
         $url = "https://www.sec.gov/cgi-bin/browse-edgar?CIK=" . $symbol . "&owner=exclude&action=getcompany&Find=Search"; 
         $result = grabHTML('www.sec.gov', $url); 
         
-
         if (preg_match('/No matching Ticker Symbol/i', $result))
         {
 
             $url = "https://www.sec.gov/cgi-bin/browse-edgar?company=" . $companyName . "&owner=include&action=getcompany"; 
+/*
+echo "no matching ticker symbol "; 
+echo "url is now " . $url . " ***** "; 
+*/
             $result = grabHTML('www.sec.gov', $url); 
 
             if (
@@ -369,9 +372,10 @@ $averageVolume = "";
         }
 
         $html = str_get_html($result);
-
-// echo "html is now: " . $html;
-
+/*
+echo "inside getMarketwatch/SEC, the SEC html is now: " . $html;
+die(); 
+*/
         $tableRow1 = $html->find('.tableFile2 tbody tr'); 
 
         $row = str_get_html($tableRow1[1]);
@@ -476,6 +480,7 @@ elseif ($symbols != null)
       $returnArray[$index]['stastistics'] = getStatistics($ticker, $offerPrice, $lowValue);
       $statisticsJSON = json_decode($returnArray[$index]['stastistics']); 
       $companyName = $statisticsJSON->companyName;
+      $companyName = createSECCompanyName($companyName);
 
       if ((int) $checkNews == 1)
       {
