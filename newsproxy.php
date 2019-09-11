@@ -370,7 +370,7 @@ echo "url is now " . $url . " ***** ";
 
                   $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
                       '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
-                      '"secFiling":{"url":"","urlTitle":""}}'; 
+                      '"secFiling":{"url":"---","urlTitle":"NO SEC"}}'; 
 
                   return $returnArray;
             }
