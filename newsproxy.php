@@ -360,14 +360,19 @@ echo "url is now " . $url . " ***** ";
 */
             $result = grabHTML('www.sec.gov', $url); 
 
+
+
             if (
               preg_match('/No matching companies/i', $result) || 
               preg_match('/Companies with names matching/', $result)
             )
             {
+
                   $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
                       '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
                       '"secFiling":{"url":"","urlTitle":""}}'; 
+
+                  return $returnArray;
             }
         }
 
