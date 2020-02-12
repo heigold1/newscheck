@@ -244,6 +244,8 @@ $averageVolume = "";
 
         $url = "https://www.marketwatch.com/investing/$stockOrFund/$symbol"; 
 
+// Commenting this out until we can get around the bot decector. 
+/*
         $results = grabHTML("www.marketwatch.com", $url);
 
         if ($results != "")
@@ -344,6 +346,15 @@ $averageVolume = "";
                 $mwPartnerHeadlinesLink1Title = $firstArticle['title'];
             }
         }
+
+*/
+
+// just putting this in here until we can get around the bot detector.
+$mwMainContentLink1 = "http://www.microsoft.com";
+$mwMainContentLink1Title = "Nothing";
+$mwPartnerHeadlinesLink1 = "http://www.microsoft.com";
+$mwPartnerHeadlinesLink1Title = "Nothing";
+
 
         // now we do the SEC filing 
 

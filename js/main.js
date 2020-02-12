@@ -918,16 +918,10 @@ function checkAllDivsForNews()
    					currentVolume = statisticsData.currentVolume; 
    					averageVolume = statisticsData.averageVolume; 
 
-console.log("averageVolume30Day before parsing out comments is: " + $("#volume30DayInput" + currentId).val().toString());
    					averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
    					volumeRatio = parseFloat($("#volumeRatio" + currentId).val());
    					percentLow = parseFloat(statisticsData.percentLow); 
    					lowValue = parseFloat(statisticsData.lowValue);
-
-console.log("averageVolume30Day is " + averageVolume30Day); 
-console.log("volumeRatio is " + currentId); 
-console.log("averageVolume30Day*volumeRatio is " + averageVolume30Day*volumeRatio); 
-console.log("currentVolume is " + currentVolume); 
 
 					$("#low" + currentId).html(percentLow);
 					$("#lowValue" + currentId).val(lowValue);
@@ -986,6 +980,9 @@ console.log("currentVolume is " + currentVolume);
 							$("#lowWrapper" + currentId).css("background-color", "#EBEBE0");
 						}
 					}
+
+var middayMoversPosition = yahooFirstLinkTitle.toLowerCase().search("midday movers"); 
+console.log("middayMoversPosition is " + middayMoversPosition);
 
 		 			if (
 		 				   (yahooFirstLinkTitle != "") 
@@ -1319,6 +1316,7 @@ $(document.body).on('click', ".controlButton", function(){
 			$("#storedMarketWatchMainLink" + currentId).html("");			
 			$("#storedMarketWatchPartnerLink" + currentId).html("");
 			$("#storedMarketWatchPRLink" + currentId).html("");
+			$("#storedSECFilingLink" + currentId).html("");
 
 		   	// take out the 5th "W/R/Z" for symbols like CBSTZ. 
 
@@ -1342,8 +1340,8 @@ $(document.body).on('click', ".controlButton", function(){
 
 			original_symbol = original_symbol.replace(/\.p\./gi, ".P"); 
 
-			$("#chartDiv" + currentId).html("<img style='max-width:100%; max-height:100%;' src='http://bigcharts.marketwatch.com/kaavio.Webhost/charts/big.chart?nosettings=1&symb=" + original_symbol + "&uf=0&type=2&size=2&freq=1&entitlementtoken=0c33378313484ba9b46b8e24ded87dd6&time=4&rand=" + Math.random() + "&compidx=&ma=0&maval=9&lf=1&lf2=0&lf3=0&height=335&width=579&mocktick=1'>");
-
+			$("#chartDiv" + currentId).html("<img style='max-width:100%; max-height:100%;' src='https://api.wsj.net/api/kaavio/charts/big.chart?nosettings=1&symb=" + original_symbol + "&uf=0&type=2&size=2&sid=3140&style=320&freq=1&entitlementtoken=0c33378313484ba9b46b8e24ded87dd6&time=4&rand=" + Math.random() + "&compidx=&ma=0&maval=9&lf=1&lf2=0&lf3=0&height=335&width=579&mocktick=1'>");
+																								
 //			$("#startStopTimerButton").show();			
 // 			timedCount();
 		}
