@@ -360,7 +360,7 @@ $mwPartnerHeadlinesLink1Title = "Nothing";
 
         $url = "https://www.sec.gov/cgi-bin/browse-edgar?CIK=" . $symbol . "&owner=exclude&action=getcompany&Find=Search"; 
         $result = grabHTML('www.sec.gov', $url); 
-        
+
         if (preg_match('/No matching Ticker Symbol/i', $result))
         {
 
@@ -369,9 +369,8 @@ $mwPartnerHeadlinesLink1Title = "Nothing";
 echo "no matching ticker symbol "; 
 echo "url is now " . $url . " ***** "; 
 */
+
             $result = grabHTML('www.sec.gov', $url); 
-
-
 
             if (
               preg_match('/No matching companies/i', $result) || 
@@ -388,10 +387,7 @@ echo "url is now " . $url . " ***** ";
         }
 
         $html = str_get_html($result);
-/*
-echo "inside getMarketwatch/SEC, the SEC html is now: " . $html;
-die(); 
-*/
+
         $tableRow1 = $html->find('.tableFile2 tbody tr'); 
 
         $row = str_get_html($tableRow1[1]);
