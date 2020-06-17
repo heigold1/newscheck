@@ -329,6 +329,9 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='highRiskDiv" + newIdNumber + "' class='highRiskDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='highRiskSpan' tabindex='-1'>H</span>";
 	newNewsEntry += "	</div>";
+	newNewsEntry += "	<div id='highRiskValueDiv" + newIdNumber + "' class='highRiskValueDiv' tabindex='-1'>"; 
+	newNewsEntry += "		<span id='highRiskValueSpan" + newIdNumber + "' class='highRiskValueSpan' tabindex='-1'></span>"; 
+	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div id='lowVolumeDiv" + newIdNumber+ "' class='lowVolumeDiv' tabindex='-1'>";
 	newNewsEntry += "		<span class='lowVolumeSpan' tabindex='-1'>L</span>"; 
 	newNewsEntry += "	</div>";
@@ -1436,10 +1439,29 @@ $(document.body).on('click', ".highRiskDiv", function(){
     if ($("#highRiskDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
     {  
 			$("#highRiskDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
+			$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
     } 
     else 
     {
     		$("#highRiskDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
+    		$("#highRiskValueDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
+    }	
+});  // on clicking high risk box with the "H"
+
+$(document.body).on('click', ".highRiskValueDiv", function(){
+	
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("highRiskValueDiv", ""); 
+
+    if ($("#highRiskValueDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
+    {  
+			$("#highRiskDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
+			$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
+    } 
+    else 
+    {
+    		$("#highRiskDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
+    		$("#highRiskValueDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
 });  // on clicking high risk box with the "H"
 
@@ -1594,8 +1616,20 @@ $(document.body).on('paste', ".orderInput", function(){
 				$("#turnVolumeRed" + currentId).prop('checked', true);
     		}
 
+    		if (orderStub.search("HR_") != -1) {
+    			console.log("Highlighting the high risk"); 
+    			$("#highRiskDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
+    			$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
+    			highRiskValue = orderStub.toString().match(/HR_(.*)/g); 
+
+    			highRiskValue = highRiskValue[0]; 
+    			highRiskValue = highRiskValue.replace(/HR_/, ""); 
+    			$("#highRiskValueSpan" + currentId).html(highRiskValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")); 
+    		}
+
 	     	calcPrevClose(currentId);    	
     		orderStub = orderStub.replace(/(.*)BUY/, "BUY"); 
+    		orderStub = orderStub.replace(/HR_.*/, ""); 
 			$("#orderInput" + currentId).val(orderStub);    	
 
 			if ($.trim($("#symbol" + currentId).val()) == "")

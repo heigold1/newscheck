@@ -112,7 +112,7 @@
 		#container{
 			position: absolute;   
 			height: 20000px;	
-			width: 1570;
+			width: 1620px;
 			top: 50px;
 			left: 10px;
 			background-color: white; 
@@ -126,7 +126,7 @@
 			margin-top: 1px; 
 			height: 28px; 
 /*			border-radius: 10px;  */ 
-			width: 1564px;
+			width: 1614px;
 			background-color: #ADAD85;
 			overflow: hidden;
 		}
@@ -447,6 +447,32 @@
 /*			background-color: #FF0000;	 */ 
 			font-weight: bold;  
 		}		
+
+		.highRiskValueDiv{
+			position: relative;
+			height: 24;
+			width: 40;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+			font-size: 12px; 
+			background-color: #EBEBE0;   
+/*			background-color: #FF0000;	 */ 
+		}		
+
+		.highRiskValueSpan{
+			position: relative;
+			height: 22px;
+			width: 21px;
+			margin-top: 4px;
+			margin-left: 2px ;
+			display: inline-block;
+			font-size: 13px;   
+			vertical-align: top;
+			font-weight: bold;	
+		}	
 
 		.lowVolumeDiv{
 			position: relative;
@@ -894,7 +920,7 @@
 		#notChasing{
 			position: absolute;  
 			height: 40px;	
-			width: 637px;
+			width: 687px;
 /*			margin:0px auto; */
 			top: 6px;
 			left: 945px;
