@@ -1277,8 +1277,16 @@ $("#printButton").click(function(){
  				var indiviualNotes = $("#individualNotesText" + currentId).val();
  				var lowValue = $("#lowValue" + currentId).val(); 
  				var lowValuePercentage = $("#low" + currentId).html(); 
+ 				var highRiskSpike = $("#highRiskValueDiv" + currentId).text(); 
 
- 				finalString += "*** " + symbol + " " + orderInput + " -- Low was " + lowValue + " (" + lowValuePercentage +  "%)\n" + indiviualNotes + "\n\n";
+ 				highRiskSpike = highRiskSpike.trim(); 
+
+ 				if (highRiskSpike != "")
+ 				{
+ 					highRiskSpike = " HIGH RISK: " + highRiskSpike; 
+ 				}
+
+ 				finalString += "*** " + symbol + " " + orderInput + " -- Low was " + lowValue + " (" + lowValuePercentage +  "%) -- " + highRiskSpike + "\n--" + indiviualNotes + "\n\n";
 			}); 
 
 	window.confirm(finalString); 
@@ -1616,6 +1624,8 @@ $(document.body).on('paste', ".orderInput", function(){
 				$("#turnVolumeRed" + currentId).prop('checked', true);
     		}
 
+
+    		// Handle high-risk previous day spike-ups
     		if (orderStub.search("HR_") != -1) {
     			console.log("Highlighting the high risk"); 
     			$("#highRiskDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 

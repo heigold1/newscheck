@@ -365,10 +365,6 @@ $mwPartnerHeadlinesLink1Title = "Nothing";
         {
 
             $url = "https://www.sec.gov/cgi-bin/browse-edgar?company=" . $companyName . "&owner=include&action=getcompany"; 
-/*
-echo "no matching ticker symbol "; 
-echo "url is now " . $url . " ***** "; 
-*/
 
             $result = grabHTML('www.sec.gov', $url); 
 
