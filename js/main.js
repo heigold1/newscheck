@@ -1265,7 +1265,7 @@ $("#startStopTimerButton").click(function(){
 
 $("#printButton").click(function(){
 
-	var finalString = ""; 
+	var finalString = "DON'T FORGET TO CANCEL YOUR TRADES\n\n"; 
 
 			$(".allDivs").each(function()
 			{
@@ -1278,15 +1278,22 @@ $("#printButton").click(function(){
  				var lowValue = $("#lowValue" + currentId).val(); 
  				var lowValuePercentage = $("#low" + currentId).html(); 
  				var highRiskSpike = $("#highRiskValueDiv" + currentId).text(); 
+				var offering = $("#offerPrice" + currentId).val(); 
 
  				highRiskSpike = highRiskSpike.trim(); 
 
  				if (highRiskSpike != "")
  				{
- 					highRiskSpike = " HIGH RISK: " + highRiskSpike; 
+ 					highRiskSpike = " -- HIGH RISK: " + highRiskSpike + "%"; 
  				}
 
- 				finalString += "*** " + symbol + " " + orderInput + " -- Low was " + lowValue + " (" + lowValuePercentage +  "%) -- " + highRiskSpike + "\n--" + indiviualNotes + "\n\n";
+ 				if (offering != "")
+ 				{
+ 					offering = " -- OFFERING at $" + offering; 
+ 				}
+
+
+ 				finalString += "*** " + symbol + " " + orderInput + " -- Low was " + lowValue + " (" + lowValuePercentage +  "%) " + highRiskSpike + offering +  "\n--" + indiviualNotes + "\n\n";
 			}); 
 
 	window.confirm(finalString); 
