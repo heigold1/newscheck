@@ -107,6 +107,18 @@
 			font-size: 20px; 
 		}
 
+		#multipleOrders{
+			position: absolute;  
+			height: 40px;	
+			width: 90px;
+			margin:0px auto;
+			top: 7px;
+			left: 946px;
+			background-color: #EBEBE0; 
+			border: 1px solid #333;
+			border-radius: 10px;
+			font-size: 20px; 
+		}
 
 
 		#container{
@@ -920,13 +932,12 @@
 		#notChasing{
 			position: absolute;  
 			height: 40px;	
-			width: 687px;
+			width: 589px;
 /*			margin:0px auto; */
 			top: 6px;
-			left: 945px;
+			left: 1043px;
 			border: 1px solid #333;
 			font-size: 12px; 
-/*			display:none;  */
 		}
 
 		.fullOrder{

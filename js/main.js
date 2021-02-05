@@ -1265,7 +1265,7 @@ $("#startStopTimerButton").click(function(){
 
 $("#printButton").click(function(){
 
-	var finalString = "DON'T FORGET TO CANCEL YOUR TRADES\n\n"; 
+	var finalString = ""; 
 
 			$(".allDivs").each(function()
 			{
@@ -1293,12 +1293,47 @@ $("#printButton").click(function(){
  				}
 
 
- 				finalString += "*** " + symbol + " " + orderInput + " -- Low was " + lowValue + " (" + lowValuePercentage +  "%) " + highRiskSpike + offering +  "\n--" + indiviualNotes + "\n\n";
+ 				finalString += "DON'T FORGET TO CANCEL YOUR TRADES\n\n" +  "*** " + symbol + " " + orderInput + " -- Low was " + lowValue + " (" + lowValuePercentage +  "%) " + highRiskSpike + offering +  "\n--" + indiviualNotes + "\n\n";
+
 			}); 
 
 	window.confirm(finalString); 
 }); 
 
+
+$("#multipleOrders").click(function(){
+
+	var finalString = ""; 
+
+			$(".allDivs").each(function()
+			{
+
+				var currentId = $(this).attr("id");
+ 				var currentId = currentId.replace("div", "");
+ 				var symbol = $("#symbol" + currentId).val(); 
+ 				var orderInput = $("#orderInput" + currentId).val();
+ 				var highRiskSpike = $("#highRiskValueDiv" + currentId).text(); 
+
+ 				highRiskSpike = highRiskSpike.trim(); 
+
+ 				if (highRiskSpike != "")
+ 				{
+ 					highRiskSpike = "HIGH_RISK"; 
+ 				}
+ 				else
+ 				{
+ 					highRiskSpike = "NON_HIGH_RISK"; 
+ 				}
+
+    			if ($("#importantDiv" + currentId).css("background-color") == "rgb(255, 0, 0)")
+    			{  
+    				var orderStringArray = orderInput.split(" ");
+	 				finalString += symbol + " " + orderStringArray[1] + " " + orderStringArray[2] + " " + highRiskSpike + "\n";
+			    } 
+			}); 
+
+	window.confirm(finalString); 
+}); 
 
 // the "Start" button click
 
