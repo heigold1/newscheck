@@ -102,7 +102,11 @@ function get24HourTime(){
 function playRailroadCrossing(){
   var audioRailroad = new Audio('./wav/railroad_crossing_bell.wav');
   audioRailroad.play();
+}
 
+function playSymbolNotFoundInList(){
+  var audioRailroad = new Audio('./wav/symbol_not_found_in_list.wav');
+  audioRailroad.play();
 }
 
 function playAirRaidSiren(){
@@ -806,6 +810,27 @@ function checkAllDivsForNews()
 {
 
 	var symbolArray =  [];
+	var symbolNotFound = false; 
+
+	$(".allDivs").each(function(){
+
+		currentId = $(this).attr("id"); 
+		var currentId = currentId.replace("div", "");
+		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
+		var newsLabel = $("#newsStatusLabel" + currentId).html();
+		var textFound = newsLabel.search("Looking up symbol"); 
+
+		if ((checkNews == 1) && (textFound != -1))
+		{
+			symbolNotFound = true; 
+		}
+	}); // allDivs.each()
+
+	if (symbolNotFound == true)
+	{
+		playSymbolNotFoundInList(); 
+		return; 	
+	}
 
 	$(".allDivs").each(function(){
 
