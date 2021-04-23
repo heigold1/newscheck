@@ -288,7 +288,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "		<div id='lowWrapper" + newIdNumber + "' class='lowWrapper'>"; 
 	newNewsEntry += "		&nbsp;<span id='low" + newIdNumber + "' class='low'></span>"; 
 	newNewsEntry += "		</div>";
-	newNewsEntry += "		<input id='lowInput" + newIdNumber + "' class='lowInput' value='9'>";
+	newNewsEntry += "		<input id='lowInput" + newIdNumber + "' class='lowInput' value='3'>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div class='checkForLowWrapper'>";
 	newNewsEntry += "&nbsp;<input type='checkbox' id='checkForLow" + newIdNumber + "' class='checkForLow' checked>";
