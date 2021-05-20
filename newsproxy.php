@@ -387,6 +387,17 @@ $mwPartnerHeadlinesLink1Title = "Nothing";
         $tableRow1 = $html->find('.tableFile2 tbody tr'); 
 
         $row = str_get_html($tableRow1[1]);
+
+        if (is_null($row) || ($row == 0))
+        {
+
+            $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
+                '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
+                '"secFiling":{"url":"---","urlTitle":"NO SEC"}}'; 
+
+            return $returnArray;
+        }
+
         $td = $row->find('td'); 
         $linkTd = $td[1]->find('a');  
 
@@ -409,8 +420,6 @@ $mwPartnerHeadlinesLink1Title = "Nothing";
         $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
               '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
               '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
-
-
 
         return $returnArray;
 
