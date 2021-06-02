@@ -842,8 +842,15 @@ function checkAllDivsForNews()
 
 		var originalSymbol = $.trim($("#symbol" + currentId).val()); 
 		var offerPrice = $.trim($("#offerPrice" + currentId).val());
+		var positionOfPeriod = originalSymbol.indexOf(".");	
 
-		if (originalSymbol.length == 5)
+
+        if (positionOfPeriod > -1)
+        {
+            // if any stocks have a ".PD" or a ".WS", etc... 
+            ticker = originalSymbol.substr(0, positionOfPeriod); 
+        }
+		else if (originalSymbol.length == 5)
 		{
 			ticker = originalSymbol.slice(0,-1); 
 		}
@@ -1097,8 +1104,8 @@ function checkAllDivsForNews()
 
 	 					} // if we bring back a marketwatch partner headlines link 
 
-	 				// if we bring back a marketwatch PR headlines link 
-					if (secFilingLink1Title != "") 
+	 				// if we bring back a SEC link 
+					if ((secFilingLink1Title != "") && (secFilingLink1Title != "NO SEC"))
 					{
 						if ($("#storedSECFilingLink" + currentId).html() == "No news")
 	 					{

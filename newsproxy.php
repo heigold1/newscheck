@@ -62,8 +62,10 @@ $header=array('GET /1575051 HTTP/1.1',
     'Accept-Language:en-US,en;q=0.8',
     'Cache-Control:max-age=0',
     'Connection:keep-alive',
-    'User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36',
+    'User-Agent:brent@heigoldinvestments.com',
     );
+
+//    'User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36',
 
     curl_setopt($ch,CURLOPT_URL,$url);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
