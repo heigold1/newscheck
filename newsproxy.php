@@ -174,19 +174,15 @@ function getStatistics($symbol, $offerPrice, $lowValue)
           // if we are in the pre-market, and therefore ETRADE does not provide the pre-market low: 
           if ($etradeAPIData->low == 0.0)
           {
-// echo "etradeAPIData->low == 0.0 <br>"; 
               if ($lastTrade < $lowValue)
               {
-// echo "etradeAPIData->low == 0.0 and lastTrade (" . $lastTrade . ") < lowValue (" . $lowValue . ") <br>";
                 $low = $lastTrade;
                 $lowValue = $lastTrade;
               }
               else 
               {
-// echo "lastTrade is " . $lastTrade . " and lowValue is " . $lowValue . "<br>";
                 $low = $lowValue; 
               }
-// die();
           }
           else
           {
@@ -216,10 +212,6 @@ function getStatistics($symbol, $offerPrice, $lowValue)
     }
 
     $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '", "companyName": "' . $companyName . '"}'; 
-
-//echo "returnArray is " . $returnArray . "*"; 
-//die();
-
 
     return $returnArray; 
 }
@@ -496,7 +488,7 @@ elseif ($symbols != null)
           $originalSymbol = $symbol->originalSymbol; 
       }
 
-      $returnArray[$index]['stastistics'] = getStatistics($ticker, $offerPrice, $lowValue);
+      $returnArray[$index]['stastistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue);
       $statisticsJSON = json_decode($returnArray[$index]['stastistics']); 
       $companyName = $statisticsJSON->companyName;
       $companyName = createSECCompanyName($companyName);

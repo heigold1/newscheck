@@ -52,38 +52,6 @@ function startTimer() {
   	document.getElementById('timeLeftSpan').innerHTML = "2:00";
   	checkAllDivsForNews();
   }
-/*
-  if ((time24Hour > 650) && (railroad650 == 0))
-  {
-	playRailroadCrossing();
-  	railroad650 = 1;
-  }
-  if ((time24Hour > 800) && (railroad800 == 0))
-  {
-	playRailroadCrossing();
-  	railroad800 = 1;
-  }
-  if ((time24Hour > 900) && (railroad900 == 0))
-  {
-	playRailroadCrossing();
-  	railroad900 = 1;
-  }
-  if ((time24Hour > 1000) && (railroad1000 == 0))
-  {
-	playRailroadCrossing();
-  	railroad1000 = 1;
-  }
-  if ((time24Hour > 1100) && (railroad1100 == 0))
-  {
-	playRailroadCrossing();
-  	railroad1100 = 1;
-  }
-  if ((time24Hour > 1200) && (railroad1200 == 0))
-  {
-	playRailroadCrossing();
-  	railroad1200 = 1;
-  }
-  */
 
 //  console.log(get24HourTime());
   setTimeout(startTimer, 1000);
@@ -353,7 +321,6 @@ function createNewNewsEntry() {
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
  	newNewsEntry += "			Avg Vol: <input type='text' id='avgVolume" + newIdNumber + "' class='avgVolume'>"; 
-	newNewsEntry += "			<input type='checkbox' id='checkVolume" + newIdNumber + "' value='1'>Check Vol";
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
