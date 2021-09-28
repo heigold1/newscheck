@@ -343,9 +343,20 @@ $averageVolume = "";
 
 */
 
+
+
+
+    $rssSeekingAlpha = simplexml_load_file("https://seekingalpha.com/api/sa/combined/" . $symbol . ".xml");
+    $mwMainContentLink1 = $rssSeekingAlpha->channel->item{0}->link;
+    $mwMainContentLink1Title = $rssSeekingAlpha->channel->item{0}->title;
+
+
+
+
+
 // just putting this in here until we can get around the bot detector.
-$mwMainContentLink1 = "http://www.microsoft.com";
-$mwMainContentLink1Title = "Nothing";
+/* $mwMainContentLink1 = "http://www.microsoft.com";
+$mwMainContentLink1Title = "Nothing";   */
 $mwPartnerHeadlinesLink1 = "http://www.microsoft.com";
 $mwPartnerHeadlinesLink1Title = "Nothing";
 
