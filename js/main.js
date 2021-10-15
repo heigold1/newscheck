@@ -330,7 +330,7 @@ function createNewNewsEntry() {
 	newNewsEntry += " 			<div id='storedYahooLink" + newIdNumber + "' class='storedLink' tabIndex='-1'></div> "; 
 	newNewsEntry += " 		</div> "; 
 	newNewsEntry += " 		<div class='newsLinks' tabindex='-1'> "; 
-	newNewsEntry += "			<span class='storedLinkLabel' tabindex='-1'>Original Marketwatch Main Link:</span> "; 
+	newNewsEntry += "			<span class='storedLinkLabel' tabindex='-1'>Original Seeking Alpha Link:</span> "; 
 	newNewsEntry += " 			<div id='storedMarketWatchMainLink" + newIdNumber + "' class='storedLink' tabindex='-1'></div> "; 
 	newNewsEntry += " 		</div> "; 
 	newNewsEntry += " 		<div class='newsLinks' tabindex='-1'> "; 
@@ -698,14 +698,14 @@ console.log("currentVolume is " + currentVolume);
 	 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
  					{
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - SA Main</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					
 						newsFlag = true; 					
  					}
  					else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
  					{
 						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - SA Main</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 
  					}
