@@ -72,6 +72,11 @@ function playRailroadCrossing(){
   audioRailroad.play();
 }
 
+function playCancelTrades(){
+  var audioRailroad = new Audio('./wav/cancel-existing-trades.wav');
+  audioRailroad.play();
+}
+
 function playSymbolNotFoundInList(){
   var audioRailroad = new Audio('./wav/symbol_not_found_in_list.wav');
   audioRailroad.play();
@@ -1264,6 +1269,7 @@ $("#startStopTimerButton").click(function(){
 
 $("#printButton").click(function(){
 
+	playCancelTrades(); 
 	var finalString = ""; 
 
 			$(".allDivs").each(function()
