@@ -346,14 +346,14 @@ function createNewNewsEntry() {
 	newNewsEntry += "			<span class='storedLinkLabel' tabindex='-1'>SEC Filing Link:</span> "; 
 	newNewsEntry += " 			<div id='storedSECFilingLink" + newIdNumber + "' class='storedLink' tabindex='-1'></div> "; 
 	newNewsEntry += "  		</div> 	"; 
+	newNewsEntry += "	 	<div class='volumeNotesDiv' tabindex='-1'>";
+	newNewsEntry += "			<span class='volumeNotesLabel' tabindex='-1'>Volume:</span>";
+	newNewsEntry += "			&nbsp;<input type='text' id='volumeNotesText" + newIdNumber + "' class='volumeNotesText'>";
+	newNewsEntry += "	 	</div>";
 	newNewsEntry += "	 	<div class='individualNotesDiv' tabindex='-1'>";
 	newNewsEntry += "			<span class='individualNotesLabel' tabindex='-1'>Notes:</span>";
 	newNewsEntry += "			&nbsp;<input type='text' id='individualNotesText" + newIdNumber + "' class='individualNotesText'>";
 	newNewsEntry += "			<input type='text' id='fullOrder" + newIdNumber + "' class='fullOrder'>";  
-	newNewsEntry += "	 	</div>";
-	newNewsEntry += "	 	<div class='volumeNotesDiv' tabindex='-1'>";
-	newNewsEntry += "			<span class='volumeNotesLabel' tabindex='-1'>Volume:</span>";
-	newNewsEntry += "			&nbsp;<input type='text' id='volumeNotesText" + newIdNumber + "' class='volumeNotesText'>";
 	newNewsEntry += "	 	</div>";
 	newNewsEntry += "    </div>";
 	newNewsEntry += " 	 <div id='chartDiv" + newIdNumber + "' class='chartDiv'>"; 
