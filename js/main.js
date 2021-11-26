@@ -129,7 +129,7 @@ function expandAll(){
 		if ($("#upDownArrow" + currentId).attr("src") == "images/downArrow_smaller.jpg")
 		{
 			$("#upDownArrow" + currentId).attr("src", "images/upArrow_smaller.jpg"); 
-			$("#div" + currentId).css("height", "243px");
+			$("#div" + currentId).css("height", "270px");
 		}
 
 	}) // all divs each 
@@ -349,8 +349,11 @@ function createNewNewsEntry() {
 	newNewsEntry += "	 	<div class='individualNotesDiv' tabindex='-1'>";
 	newNewsEntry += "			<span class='individualNotesLabel' tabindex='-1'>Notes:</span>";
 	newNewsEntry += "			&nbsp;<input type='text' id='individualNotesText" + newIdNumber + "' class='individualNotesText'>";
-	newNewsEntry += "           <input type='checkbox' id='earningsLossCheckbox" + newIdNumber + "' class='earningsLossCheckbox'  value='0'>Earnings Loss"; 
 	newNewsEntry += "			<input type='text' id='fullOrder" + newIdNumber + "' class='fullOrder'>";  
+	newNewsEntry += "	 	</div>";
+	newNewsEntry += "	 	<div class='volumeNotesDiv' tabindex='-1'>";
+	newNewsEntry += "			<span class='volumeNotesLabel' tabindex='-1'>Volume:</span>";
+	newNewsEntry += "			&nbsp;<input type='text' id='volumeNotesText" + newIdNumber + "' class='volumeNotesText'>";
 	newNewsEntry += "	 	</div>";
 	newNewsEntry += "    </div>";
 	newNewsEntry += " 	 <div id='chartDiv" + newIdNumber + "' class='chartDiv'>"; 
@@ -1284,6 +1287,7 @@ $("#printButton").click(function(){
  				var lowValuePercentage = $("#low" + currentId).html(); 
  				var highRiskSpike = $("#highRiskValueDiv" + currentId).text(); 
 				var offering = $("#offerPrice" + currentId).val(); 
+				var volumeNotes = $("#volumeNotesText" + currentId).val(); 
 
  				highRiskSpike = highRiskSpike.trim(); 
 
@@ -1298,7 +1302,7 @@ $("#printButton").click(function(){
  				}
 
 
- 				finalString += "DON'T FORGET TO CANCEL YOUR TRADES\n\n" +  "*** " + symbol + " " + orderInput + " -- Low was " + lowValue + " (" + lowValuePercentage +  "%) " + highRiskSpike + offering +  "\n--" + indiviualNotes + "\n\n";
+ 				finalString += "DON'T FORGET TO CANCEL YOUR TRADES\n\n" +  "*** " + symbol + " " + orderInput + " -- Low was " + lowValue + " (" + lowValuePercentage +  "%) " + highRiskSpike + offering +  "\n--" + indiviualNotes + "\n" + "Volume notes: " + volumeNotes + "\n\n";
 
 			}); 
 
@@ -1423,7 +1427,7 @@ $(document.body).on('click', ".expandContractNews", function(){
 	if ($("#upDownArrow" + currentId).attr("src") == "images/downArrow_smaller.jpg")
 	{
 		$("#upDownArrow" + currentId).attr("src", "images/upArrow_smaller.jpg")
-		$("#div" + currentId).css("height", "243px");
+		$("#div" + currentId).css("height", "270px");
 	}
 	else
 	{

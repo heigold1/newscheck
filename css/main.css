@@ -755,7 +755,7 @@
 			border: 1px solid #333;
 			margin-left: 1px; 
 			margin-top: 1px; 
-			height: 212px; 
+			height: 239px; 
 /*			border-radius: 10px; */
 			width: 780px;
 			background-color: #F5F5F0;
@@ -768,9 +768,9 @@
 			border: 1px solid #333;
 			margin-left: 1px; 
 			margin-top: 1px; 
-			height: 212px; 
+			height: 239px; 
 /*			border-radius: 10px;  */
-			width: 360px;
+			width: 399px;
 			background-color: #F5F5F0;
 			overflow: hidden;
 			display: inline-block;
@@ -915,6 +915,21 @@
 			overflow: hidden; 
 		}
 
+		.volumeNotesDiv{
+/*			vertical-align: top;  */
+			position: relative;
+			border: 1px solid #333;
+			margin-left: 0px; 
+			margin-top: 2px;   
+			height: 23px; 
+/*			border-radius: 10px;   */ 
+			width: 770px;
+			background-color: #EBEBE0;
+			font-size: 12px;
+			overflow: hidden; 
+		}
+
+
 		.individualNotesLabel{
 			margin-top: 3px; 
 			margin-left: 10px;
@@ -924,8 +939,31 @@
 
 		}
 
+		.volumeNotesLabel{
+			margin-top: 3px; 
+			margin-left: 10px;
+			font-size: 12px; 
+			height: 10px ;
+			background-color: #E0E0D1;
+
+		}
+
+		.volumeNotesLabel{
+			margin-top: 3px; 
+			margin-left: 10px;
+			font-size: 12px; 
+			height: 10px ;
+			background-color: #E0E0D1;
+
+		}
+
 		.individualNotesText{
-			width: 605px;
+			width: 715px;
+			height: 22px;
+		}
+
+		.volumeNotesText{
+			width: 705px;
 			height: 22px;
 		}
 
