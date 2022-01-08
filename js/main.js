@@ -1561,12 +1561,10 @@ $(document.body).on('click', ".checkPK", function(){
 
  	if ($(this).is(':checked'))
  	{
-		$("#symbol" + currentId).css("background-color", "rgb(255,192,203)"); 
 		$("#orderInput" + currentId).css("background-color", "rgb(255,192,203)"); 
 	}
 	else
 	{
-		$("#symbol" + currentId).css("background-color", "rgb(255,255,255)"); 
 		$("#orderInput" + currentId).css("background-color", "rgb(255,255,255)"); 
 	}
 
@@ -1579,12 +1577,10 @@ $(document.body).on('click', ".checkBB", function(){
 
  	if ($(this).is(':checked'))
  	{
-		$("#symbol" + currentId).css("background-color", "rgb(255, 207, 158)"); 
 		$("#orderInput" + currentId).css("background-color", "rgb(255, 207, 158)"); 
  	}
  	else
  	{
-		$("#symbol" + currentId).css("background-color", "rgb(255, 255, 255)"); 
 		$("#orderInput" + currentId).css("background-color", "rgb(255, 255, 255)"); 
  	}
 });  // Highlight BB orders orange.
@@ -1670,11 +1666,26 @@ $(document.body).on('paste', ".orderInput", function(){
     		else 
     		{
 				$("#orderInput" + currentId).css("background-color", "#CCE6FF"); 
-				$("#symbol" + currentId).css("background-color", "#CCE6FF");
 				$("#playVolumeSound" + currentId).prop('checked', true); 
 				$("#turnVolumeRed" + currentId).prop('checked', true);
+				$("#symbol" + currentId).css("background-color", "#CCE6FF");
     		}
 
+			var dateObj = new Date(); 
+			var hours = dateObj.getHours(); 
+			var minutes = dateObj.getMinutes();
+			var currentTime = hours.toString().concat(minutes); 
+			currentTime = parseInt(currentTime); 
+
+			if (currentTime < 630)
+			{
+				$("#symbol" + currentId).css("background-color", "orange"); 
+			}
+			else 
+			if (currentTime < 650)
+			{
+				$("#symbol" + currentId).css("background-color", "yellow"); 
+			}
 
     		// Handle high-risk previous day spike-ups
     		if (orderStub.search("HR_") != -1) {
