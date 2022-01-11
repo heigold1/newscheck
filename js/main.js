@@ -1674,8 +1674,14 @@ $(document.body).on('paste', ".orderInput", function(){
 			var dateObj = new Date(); 
 			var hours = dateObj.getHours(); 
 			var minutes = dateObj.getMinutes();
+			if (minutes < 10)
+			{
+				minutes = "0" + minutes.toString(); 
+			}
 			var currentTime = hours.toString().concat(minutes); 
 			currentTime = parseInt(currentTime); 
+
+			console.log("currentTime is " + currentTime); 
 
 			if (currentTime < 630)
 			{
