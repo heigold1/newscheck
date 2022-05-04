@@ -103,6 +103,8 @@ function checkSecond(sec) {
   return sec;
 }
 
+
+
 function writeTradeStamp(id)
 {
 
@@ -329,6 +331,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
+	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "		<div class='newsLinks' tabindex='-1'> "; 
 	newNewsEntry += " 			<span class='storedLinkLabel' tabIndex='-1'>Original Yahoo Link:</span> "; 
@@ -1611,6 +1614,32 @@ console.log("Full order's value is " + copyTextarea.val());
 	writeTradeStamp(currentId);
 
 });  // Copy current order to clipboard 
+
+    // email the trade to Jay 
+$(document.body).on('click', ".emailOrder", function(){
+
+	currentId = $(this).attr("id"); 
+	currentId = currentId.replace("emailOrder", ""); 
+
+	var orderStub = $("#orderInput" + currentId).val();
+	var orderStringSplit = orderStub.split(" "); 
+
+	var symbol = $("#symbol" + currentId).val(); 
+	var orderString = symbol + " " + orderStringSplit[0] + " " + orderStringSplit[1] + " " + orderStringSplit[2] + " " + orderStringSplit[3]; 
+
+	alert("orderString is " + orderString); 
+
+	  $.ajax({
+	      url: "email.php",
+	      data: {trade: orderString},
+	       async: false, 
+	      dataType: 'html',
+	      success:  function (data) {
+	        alert(data);
+	      }
+	  });  // end of AJAX call 
+
+}); // end of e-mail trade button 
 
 
 $(document.body).on('paste', ".orderInput", function(){
