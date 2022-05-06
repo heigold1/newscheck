@@ -258,6 +258,9 @@ function createNewNewsEntry() {
 	newNewsEntry += "		<input id='orderInput" + newIdNumber + "' class='orderInput'>"; 
  	newNewsEntry += "	 	<div id='prevClose" + newIdNumber + "' class='prevClose'></div>"; 
 	newNewsEntry += "	</div>"; 
+	newNewsEntry += " 	<div class='downButtonDiv'>"; 
+	newNewsEntry += "		<button id='downButton" + newIdNumber + "' class='downButton' type='button'>D</button>"; 
+	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div class='lowInfo'>"; 
 	newNewsEntry += "	<input id='lowValue" + newIdNumber + "' class='lowValue' value='0.0'>";
 	newNewsEntry += "		<div id='lowWrapper" + newIdNumber + "' class='lowWrapper'>"; 
@@ -1626,8 +1629,6 @@ $(document.body).on('click', ".emailOrder", function(){
 
 	var symbol = $("#symbol" + currentId).val(); 
 	var orderString = symbol + " " + orderStringSplit[0] + " " + orderStringSplit[1] + " " + orderStringSplit[2] + " " + orderStringSplit[3]; 
-
-	alert("orderString is " + orderString); 
 
 	  $.ajax({
 	      url: "email.php",
