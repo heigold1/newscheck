@@ -1421,6 +1421,35 @@ $(document.body).on('click', ".controlButton", function(){
 
 });  // when the user clicks the "start" button
 
+
+// When the user clicks on the "D" (for down) button, to lower the percentage down 1 percent at a time. 
+$(document.body).on('click', ".downButton", function(){
+
+	currentId = $(this).attr("id"); 
+	currentId = currentId.replace("downButton", ""); 
+
+	var orderStub = $("#orderInput" + currentId).val();
+
+	var orderStringSplit = orderStub.split(" "); 
+	var percentage = orderStringSplit[3]; 
+
+	percentage = percentage.slice(1, -1); 
+	percentage = percentage.slice(0, -1); 
+
+	percentageFloat = parseFloat(percentage); 
+	percentageFloat = percentageFloat + 1; 
+
+	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " " + orderStringSplit[2] + " (" + percentageFloat.toFixed(2) + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
+
+	$("#orderInput" + currentId).val(newOrderStub); 
+
+	reCalcOrderStub(currentId); 
+
+//	orderString = $("#orderInput" + currentId).
+
+}); 
+
+
 // clicking on the up/down arrows to expand/contract the area which 
 // displays the news links 
 
