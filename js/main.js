@@ -317,8 +317,8 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='lowVolumeDiv" + newIdNumber+ "' class='lowVolumeDiv' tabindex='-1'>";
 	newNewsEntry += "		<span class='lowVolumeSpan' tabindex='-1'>L</span>"; 
 	newNewsEntry += "	</div>";
-	newNewsEntry += "	<div id='reverseSplitDiv" + newIdNumber + "' class='reverseSplitDiv' tabindex='-1'>"; 
-	newNewsEntry += "		<span class='reverseSplitSpan' tabindex='-1'>R</span>";
+	newNewsEntry += "	<div id='averageDownDiv" + newIdNumber + "' class='averageDownDiv' tabindex='-1'>"; 
+	newNewsEntry += "		<span class='averageDownSpan' tabindex='-1'>R</span>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='offeringDiv" + newIdNumber + "' class='offeringDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='offeringSpan' tabindex='-1'>O</span>";
@@ -330,7 +330,6 @@ function createNewNewsEntry() {
 	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc the 5th 'W/R/Z' char, '.WS' '.PD', etc...'"; 
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
- 	newNewsEntry += "			Avg Vol: <input type='text' id='avgVolume" + newIdNumber + "' class='avgVolume'>"; 
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
@@ -1564,6 +1563,8 @@ $(document.body).on('click', ".lowVolumeDiv", function(){
 	currentId = $(this).attr("id"); 
  	currentId = currentId.replace("lowVolumeDiv", ""); 
 
+	$("#volume30DayInput" + currentId).val("900,000"); 
+
     if ($("#lowVolumeDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
     {  
 			$("#lowVolumeDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
@@ -1574,18 +1575,18 @@ $(document.body).on('click', ".lowVolumeDiv", function(){
     }	
 });  // on clicking high risk box with the "L"
 
-$(document.body).on('click', ".reverseSplitDiv", function(){
+$(document.body).on('click', ".averageDownDiv", function(){
 	
 	currentId = $(this).attr("id"); 
- 	currentId = currentId.replace("reverseSplitDiv", ""); 
+ 	currentId = currentId.replace("averageDownDiv", ""); 
 
-    if ($("#reverseSplitDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
+    if ($("#averageDownDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
     {  
-			$("#reverseSplitDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
+			$("#averageDownDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
     } 
     else 
     {
-    		$("#reverseSplitDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
+    		$("#averageDownDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
 });  // on clicking offering box with the "R"
 
@@ -1646,6 +1647,48 @@ console.log("Full order's value is " + copyTextarea.val());
 	writeTradeStamp(currentId);
 
 });  // Copy current order to clipboard 
+
+
+//split the order in half, to average down 
+$(document.body).on('click', ".halfOrder", function(){
+	
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("halfOrder", ""); 
+	
+	var orderStub = $("#orderInput" + currentId).val(); 
+	var orderStringSplit = 	orderStub.split(" "); 
+
+	var numShares = orderStringSplit[1]; 
+	numShares = parseInt(numShares); 
+	numShares = numShares/2; 
+
+	$("#orderInput" + currentId).val(orderStringSplit[0] + " " +  numShares + " " + orderStringSplit[2] + " " + orderStringSplit[3] + " " + orderStringSplit[4] + " " + orderStringSplit[5]); 
+
+ 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
+
+  	var copyTextarea = $("#fullOrder" + currentId);
+	console.log("Full order's value is " + copyTextarea.val());
+  	copyTextarea.select();
+  	try 
+  	{
+	    var successful = document.execCommand('copy');
+	    var msg = successful ? 'successful' : 'unsuccessful';
+		console.log('Copying text command was ' + msg);
+	    alert($("#fullOrder" + currentId).val() + " succesfully copied");
+  	} 
+  	catch (err) 
+  	{
+	    alert('Order did not succesfully copy');
+    	console.log('Order did not succesfully copy');
+  	}
+
+	$("#averageDownDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
+
+	writeTradeStamp(currentId);
+
+});  // Split the order in half, to average down
+
+
 
     // email the trade to Jay 
 $(document.body).on('click', ".emailOrder", function(){
@@ -1826,26 +1869,6 @@ $(document.body).on('keyup', ".symbolTextInput", function(){
 
 });  // when you past the order into the orderInput text field.
 
-
-$(document.body).on('keyup', ".avgVolume", function(){
-       
-	currentId = $(this).attr("id"); 
-	currentId = currentId.replace("avgVolume", ""); 
-
-	avgVolume = $("#avgVolume" + currentId).val();
-	avgVolume = avgVolume.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-	$(this).val(avgVolume);
-
-//	alert("number is " + avgVolume);
-
-/*
-	if (currentSymbol.length > 7)
-	{
-		alert("Check symbol for accuracy"); 
-	}  */
-
-});  // when you past the order into the orderInput text field.
 
 
 });  // end of init function

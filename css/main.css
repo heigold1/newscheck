@@ -527,7 +527,8 @@
 		}	
 
 
-		.reverseSplitDiv{
+
+		.averageDownDiv{
 			position: relative;
 			height: 24;
 			width: 24;
@@ -567,7 +568,7 @@
 			font-weight: bold;			
 		}
 
-		.reverseSplitSpan{
+		.averageDownSpan{
 			position: relative;
 			height: 22px;
 			width: 21px;
@@ -678,7 +679,7 @@
 			cursor: pointer;
 		}
 
-		.reverseSplitDiv:hover{
+		.averageDownDiv:hover{
 /*			background-color: #BFBFB6;  */ 
 			cursor: pointer;
 		}
@@ -880,10 +881,6 @@
 			width: 0px;
 			height: 0px;
 			overflow: hidden; 
-		}
-
-		.avgVolume{
-			width: 125px;
 		}
 
 		#add_and_start_text{
