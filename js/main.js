@@ -226,7 +226,7 @@ function reCalcOrderStub(currentId)
  			newCalculatedPrice = newCalculatedPrice.toFixed(4);
  		}
 
-	    $("#orderInput" + currentId).val("BUY " + numSharesWithCommas + " $" + newCalculatedPrice + " (" + thePercentage.toFixed(2) + "%) -- $" + totalValueString + orderType); 
+	    $("#orderInput" + currentId).val("BUY " + numSharesWithCommas + " $" + newCalculatedPrice + " (" + thePercentage.toFixed(2) + "%) -- " + orderStubSplit[5] + orderType); 
 
 	    ctl.setSelectionRange(startPos, startPos); 
 
@@ -333,7 +333,8 @@ function createNewNewsEntry() {
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
-	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"
+	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='halfOrder' id='halfOrder1" + newIdNumber + "'type='button'>Half</button>"; 
+	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "		<div class='newsLinks' tabindex='-1'> "; 
 	newNewsEntry += " 			<span class='storedLinkLabel' tabIndex='-1'>Original Yahoo Link:</span> "; 
@@ -1655,6 +1656,7 @@ $(document.body).on('click', ".halfOrder", function(){
 	currentId = $(this).attr("id"); 
  	currentId = currentId.replace("halfOrder", ""); 
 	
+
 	var orderStub = $("#orderInput" + currentId).val(); 
 	var orderStringSplit = 	orderStub.split(" "); 
 
@@ -1727,6 +1729,7 @@ $(document.body).on('paste', ".orderInput", function(){
 		function() 
 		{
 		    orderStub = $.trim($("#orderInput" + currentId).val());
+
     		var orderStubSplit = orderStub.split(" ");
     		var percentage = orderStubSplit[4];
     		symbol = orderStubSplit[0];
