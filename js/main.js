@@ -318,7 +318,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "		<span class='lowVolumeSpan' tabindex='-1'>L</span>"; 
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='averageDownDiv" + newIdNumber + "' class='averageDownDiv' tabindex='-1'>"; 
-	newNewsEntry += "		<span class='averageDownSpan' tabindex='-1'>R</span>";
+	newNewsEntry += "		<span class='averageDownSpan' tabindex='-1'>A</span>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='offeringDiv" + newIdNumber + "' class='offeringDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='offeringSpan' tabindex='-1'>O</span>";
@@ -333,7 +333,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
-	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='halfOrder' id='halfOrder1" + newIdNumber + "'type='button'>Half</button>"; 
+	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='halfOrder' id='halfOrder" + newIdNumber + "'type='button'>Half</button>"; 
 	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "		<div class='newsLinks' tabindex='-1'> "; 
@@ -353,7 +353,7 @@ function createNewNewsEntry() {
 	newNewsEntry += " 			<div id='storedSECFilingLink" + newIdNumber + "' class='storedLink' tabindex='-1'></div> "; 
 	newNewsEntry += "  		</div> 	"; 
 	newNewsEntry += "	 	<div class='volumeNotesDiv' tabindex='-1'>";
-	newNewsEntry += "			<span class='volumeNotesLabel' tabindex='-1'>Volume:</span>";
+	newNewsEntry += "			<span class='volumeNotesLabel' tabindex='-1'>Notes:</span>";
 	newNewsEntry += "			&nbsp;<input type='text' id='volumeNotesText" + newIdNumber + "' class='volumeNotesText'>";
 	newNewsEntry += "	 	</div>";
 	newNewsEntry += "	 	<div class='individualNotesDiv' tabindex='-1'>";
@@ -1660,9 +1660,26 @@ $(document.body).on('click', ".halfOrder", function(){
 	var orderStub = $("#orderInput" + currentId).val(); 
 	var orderStringSplit = 	orderStub.split(" "); 
 
-	var numShares = orderStringSplit[1]; 
-	numShares = parseInt(numShares); 
-	numShares = numShares/2; 
+	var originalNumShares = orderStringSplit[1]; 
+	numShares = parseInt(originalNumShares); 
+	numShares = numShares/3; 
+
+	numShares = (Math.floor(numShares/50)*50); 
+
+    // if the final number of shares is less than 50 (i.e. 0), then we're going to just start over again and 
+    //  round it to the nearest 10 
+
+    if (numShares < 50)
+    {
+        originalNumShares = orderStringSplit[1]; 
+		numShares = parseInt(originalNumShares); 
+		numShares = numShares/3; 
+        numShares = (Math.floor(numShares/10)*10); 
+        if (numShares < 10)
+        {
+        	numShares = 10; 
+        }
+    }
 
 	$("#orderInput" + currentId).val(orderStringSplit[0] + " " +  numShares + " " + orderStringSplit[2] + " " + orderStringSplit[3] + " " + orderStringSplit[4] + " " + orderStringSplit[5]); 
 
@@ -1724,6 +1741,7 @@ $(document.body).on('paste', ".orderInput", function(){
 	var percentage;
 	var orderStub;
 	var symbol;
+	var entryPrice; 
 
 	setTimeout(
 		function() 
@@ -1733,6 +1751,10 @@ $(document.body).on('paste', ".orderInput", function(){
     		var orderStubSplit = orderStub.split(" ");
     		var percentage = orderStubSplit[4];
     		symbol = orderStubSplit[0];
+    		entryPrice = orderStubSplit[3]; 
+
+    		entryPrice = entryPrice.toString().replace(/\$/g, ""); 
+    		entryPrice = parseFloat(entryPrice); 
 
     		percentage = percentage.toString().replace(/\(/g, ""); 
     		percentage = percentage.toString().replace(/\)/g, ""); 
@@ -1774,6 +1796,13 @@ $(document.body).on('paste', ".orderInput", function(){
 				$("#playVolumeSound" + currentId).prop('checked', true); 
 				$("#turnVolumeRed" + currentId).prop('checked', true);
 				$("#symbol" + currentId).css("background-color", "#CCE6FF");
+    		}
+
+    		// For penny stocks, I want to start tracing them early, so put them under the radar 
+    		// for 9% 
+    		if (entryPrice < 1.00)
+    		{
+    			$("#lowInput" + currentId).val("9"); 
     		}
 
 			var dateObj = new Date(); 
