@@ -317,8 +317,8 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='lowVolumeDiv" + newIdNumber+ "' class='lowVolumeDiv' tabindex='-1'>";
 	newNewsEntry += "		<span class='lowVolumeSpan' tabindex='-1'>L</span>"; 
 	newNewsEntry += "	</div>";
-	newNewsEntry += "	<div id='averageDownDiv" + newIdNumber + "' class='averageDownDiv' tabindex='-1'>"; 
-	newNewsEntry += "		<span class='averageDownSpan' tabindex='-1'>A</span>";
+	newNewsEntry += "	<div id='pennyDiv" + newIdNumber + "' class='pennyDiv' tabindex='-1'>"; 
+	newNewsEntry += "		<span class='pennySpan' tabindex='-1'>P</span>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='offeringDiv" + newIdNumber + "' class='offeringDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='offeringSpan' tabindex='-1'>O</span>";
@@ -333,8 +333,8 @@ function createNewNewsEntry() {
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
-	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='halfOrder' id='halfOrder" + newIdNumber + "'type='button'>Half</button>"; 
 	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
+	newNewsEntry += "           &nbsp; &nbsp; &nbsp; &nbsp; <button class='bigCharts' id='getBigCharts" + newIdNumber + "' type='button'>Big Charts</button>"; 
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "		<div class='newsLinks' tabindex='-1'> "; 
 	newNewsEntry += " 			<span class='storedLinkLabel' tabIndex='-1'>Original Yahoo Link:</span> "; 
@@ -1576,18 +1576,18 @@ $(document.body).on('click', ".lowVolumeDiv", function(){
     }	
 });  // on clicking high risk box with the "L"
 
-$(document.body).on('click', ".averageDownDiv", function(){
+$(document.body).on('click', ".pennyDiv", function(){
 	
 	currentId = $(this).attr("id"); 
- 	currentId = currentId.replace("averageDownDiv", ""); 
+ 	currentId = currentId.replace("pennyDiv", ""); 
 
-    if ($("#averageDownDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
+    if ($("#pennyDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
     {  
-			$("#averageDownDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
+			$("#pennyDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
     } 
     else 
     {
-    		$("#averageDownDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
+    		$("#pennyDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
 });  // on clicking offering box with the "R"
 
@@ -1803,6 +1803,7 @@ $(document.body).on('paste', ".orderInput", function(){
     		if (entryPrice < 1.00)
     		{
     			$("#lowInput" + currentId).val("9"); 
+    			$("#pennyDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
     		}
 
 			var dateObj = new Date(); 

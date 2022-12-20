@@ -528,7 +528,7 @@
 
 
 
-		.averageDownDiv{
+		.pennyDiv{
 			position: relative;
 			height: 24;
 			width: 24;
@@ -568,7 +568,7 @@
 			font-weight: bold;			
 		}
 
-		.averageDownSpan{
+		.pennySpan{
 			position: relative;
 			height: 22px;
 			width: 21px;
@@ -679,7 +679,7 @@
 			cursor: pointer;
 		}
 
-		.averageDownDiv:hover{
+		.pennyDiv:hover{
 /*			background-color: #BFBFB6;  */ 
 			cursor: pointer;
 		}
