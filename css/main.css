@@ -156,6 +156,10 @@
 			background-color: #EBEBE0;
 		}
 
+		.bigChartsLast, .bigChartsPercentage{
+			font-size: 12px;
+		}		
+
 		.controlButtonDiv{
 			vertical-align: top;
 			position: relative;

@@ -333,8 +333,9 @@ function createNewNewsEntry() {
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
-	newNewsEntry += "			&nbsp; &nbsp; &nbsp; &nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
-	newNewsEntry += "           &nbsp; &nbsp; &nbsp; &nbsp; <button class='bigCharts' id='getBigCharts" + newIdNumber + "' type='button'>Big Charts</button>"; 
+	newNewsEntry += "			&nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
+	newNewsEntry += "           &nbsp; <button class='bigCharts' id='getBigCharts" + newIdNumber + "' type='button'>Big Charts</button>"; 
+	newNewsEntry += "           $<span class='bigChartsLast' id='bigChartsLast" + newIdNumber + "' tabindex='-1'>0.0</span> (<span class='bigChartsPercentage' +  id='bigChartsPercentage" + newIdNumber + "' tabindex='-1'>0.0</span>)"; 
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "		<div class='newsLinks' tabindex='-1'> "; 
 	newNewsEntry += " 			<span class='storedLinkLabel' tabIndex='-1'>Original Yahoo Link:</span> "; 
@@ -1732,6 +1733,45 @@ $(document.body).on('click', ".emailOrder", function(){
 	  });  // end of AJAX call 
 
 }); // end of e-mail trade button 
+
+
+    // email the trade to Jay 
+$(document.body).on('click', ".bigCharts", function(){
+
+	currentId = $(this).attr("id");
+	currentId = currentId.replace("getBigCharts", ""); 
+
+    var symbol = $("#symbol" + currentId).val(); 
+
+    $.ajax({
+        url: "../newslookup/proxy.php",
+        data: {symbol: symbol,
+            stockOrFund: "stock", 
+            which_website: "bigcharts", 
+            host_name: "bigcharts.marketwatch.com"},
+        async: false, 
+        dataType: 'html',
+        success:  function (data) {
+          console.log(data);
+          // the daily VIX, so you can see how the volatility goes throughout the day
+
+        var textArray = data.split("|"); 
+         
+        var lastPercentage = textArray[0]; 
+        var lastValue = textArray[1]; 
+        var time = textArray[2]; 
+
+        $("#bigChartsPercentage" + currentId).text(lastPercentage); 
+
+        $("#bigChartsLast" + currentId).text(lastValue); 
+
+        }
+    });  // end of AJAX call to bigcharts   
+
+
+
+}); 
+
 
 
 $(document.body).on('paste', ".orderInput", function(){
