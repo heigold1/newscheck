@@ -1738,37 +1738,55 @@ $(document.body).on('click', ".emailOrder", function(){
     // email the trade to Jay 
 $(document.body).on('click', ".bigCharts", function(){
 
-	currentId = $(this).attr("id");
-	currentId = currentId.replace("getBigCharts", ""); 
 
-    var symbol = $("#symbol" + currentId).val(); 
+	var dateObj = new Date(); 
+	var hours = dateObj.getHours(); 
+	var minutes = dateObj.getMinutes();
+	if (minutes < 10)
+	{
+		minutes = "0" + minutes.toString(); 
+	}
 
-    $.ajax({
-        url: "../newslookup/proxy.php",
-        data: {symbol: symbol,
-            stockOrFund: "stock", 
-            which_website: "bigcharts", 
-            host_name: "bigcharts.marketwatch.com"},
-        async: false, 
-        dataType: 'html',
-        success:  function (data) {
-          console.log(data);
-          // the daily VIX, so you can see how the volatility goes throughout the day
+	var currentTime = hours.toString().concat(minutes); 
+	currentTime = parseInt(currentTime); 
 
-        var textArray = data.split("|"); 
-         
-        var lastPercentage = textArray[0]; 
-        var lastValue = textArray[1]; 
-        var time = textArray[2]; 
+	console.log("currentTime is " + currentTime); 
 
-        $("#bigChartsPercentage" + currentId).text(lastPercentage); 
+	if (currentTime < 651)
+	{
+		alert("Too early to call Big Charts"); 
+	}
+	else 
+	{
+		currentId = $(this).attr("id");
+		currentId = currentId.replace("getBigCharts", ""); 
 
-        $("#bigChartsLast" + currentId).text(lastValue); 
+	    var symbol = $("#symbol" + currentId).val(); 
 
-        }
-    });  // end of AJAX call to bigcharts   
+	    $.ajax({
+	        url: "../newslookup/proxy.php",
+	        data: {symbol: symbol,
+	            stockOrFund: "stock", 
+	            which_website: "bigcharts", 
+	            host_name: "bigcharts.marketwatch.com"},
+	        async: false, 
+	        dataType: 'html',
+	        success:  function (data) {
+	        	console.log(data);
+	          	// the daily VIX, so you can see how the volatility goes throughout the day
 
+	        	var textArray = data.split("|"); 
+	         
+	        	var lastPercentage = textArray[0]; 
+	        	var lastValue = textArray[1]; 
+	        	var time = textArray[2]; 
 
+	        	$("#bigChartsPercentage" + currentId).text(lastPercentage); 
+
+	        	$("#bigChartsLast" + currentId).text(lastValue); 
+        	}
+    	});  // end of AJAX call to bigcharts   
+	}
 
 }); 
 
@@ -1842,7 +1860,7 @@ $(document.body).on('paste', ".orderInput", function(){
     		// for 9% 
     		if (entryPrice < 1.00)
     		{
-    			$("#lowInput" + currentId).val("9"); 
+    			$("#lowInput" + currentId).val("4"); 
     			$("#pennyDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
     		}
 
