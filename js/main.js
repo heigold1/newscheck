@@ -97,6 +97,11 @@ function playCarDriveBy(){
 	carDriveBy.play();
 }
 
+function playCancelHighRiskTrades(){
+	var carDriveBy = new Audio('./wav/cancel-high-risk-trades.wav');
+	carDriveBy.play();
+}
+
 function checkSecond(sec) {
   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
   if (sec < 0) {sec = "59"};
@@ -857,6 +862,7 @@ function checkAllDivsForNews()
 
 	var globalNewsFlag = false;
 	var globalCloseToCurrentLow = false;
+	var globalCancelHighRiskTrades = false; 
 	var globalVolumeAlert = false;
 
 	console.log("Inside checkAllDivsForNews, before calling AJAX.  Symbol array is: "); 
@@ -975,6 +981,27 @@ function checkAllDivsForNews()
 							{
 								globalVolumeAlert = true;
 							}
+						}
+
+						var dateObj = new Date(); 
+						var hours = dateObj.getHours(); 
+						var minutes = dateObj.getMinutes();
+						if (minutes < 10)
+						{
+							minutes = "0" + minutes.toString(); 
+						}
+						var currentTime = hours.toString().concat(minutes); 
+						currentTime = parseInt(currentTime); 
+
+						var highRiskValue = parseInt(document.getElementById('highRiskValueSpan' + currentId).innerHTML);
+
+						if ( ( $("#checkForNewNews" + currentId).prop('checked') || 
+								 $("#checkForLow" + currentId).prop('checked') || 
+								 $("#turnVolumeRed" + currentId).prop('checked') || 
+								 $("#playVolumeSound" + currentId).prop('checked')
+								 ) && (currentTime > 735) && (highRiskValue > 0) )
+						{
+							  globalCancelHighRiskTrades = true; 
 						}
 
 						var lowInput = parseFloat($("#lowInput" + currentId).val());
@@ -1140,6 +1167,11 @@ function checkAllDivsForNews()
 				if (globalCloseToCurrentLow == true)
 				{
 					playWaterSplash(); 
+				}
+
+				if (globalCancelHighRiskTrades == true)
+				{
+					playCancelHighRiskTrades(); 
 				}
 
 				if (globalVolumeAlert == true)
