@@ -999,7 +999,7 @@ function checkAllDivsForNews()
 								 $("#checkForLow" + currentId).prop('checked') || 
 								 $("#turnVolumeRed" + currentId).prop('checked') || 
 								 $("#playVolumeSound" + currentId).prop('checked')
-								 ) && (currentTime > 735) && (highRiskValue > 0) )
+								 ) && (currentTime > 800) && (highRiskValue > 0) )
 						{
 							  globalCancelHighRiskTrades = true; 
 						}
