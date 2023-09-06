@@ -1190,10 +1190,6 @@ function checkAllDivsForNews()
 function timedCount()
 {
 
-/*	timerVariable = setInterval(function () {
-	checkAllDivsForNews(); 
-	}, 0);     */
-
     checkAllDivsForNews(); 
 
 }  // timedCount() 
@@ -1670,7 +1666,7 @@ console.log("Full order's value is " + copyTextarea.val());
 	    var successful = document.execCommand('copy');
 	    var msg = successful ? 'successful' : 'unsuccessful';
 		console.log('Copying text command was ' + msg);
-	    alert($("#fullOrder" + currentId).val() + " succesfully copied");
+	    alert($("#fullOrder" + currentId).val() + " succesfully copied.  MAKE SURE TO BUMP DOWN 10% PAST LOW FOR PENNY STOCKS");
   	} 
   	catch (err) 
   	{
