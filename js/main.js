@@ -262,6 +262,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "		<input id='symbol" + newIdNumber + "' class='symbolTextInput'>"; 
 	newNewsEntry += "		<input id='orderInput" + newIdNumber + "' class='orderInput'>"; 
  	newNewsEntry += "	 	<div id='prevClose" + newIdNumber + "' class='prevClose'></div>"; 
+	newNewsEntry += "   <div id='recovery" + newIdNumber + "' class='recovery'></div>"; 
 	newNewsEntry += "	</div>"; 
 	newNewsEntry += " 	<div class='downButtonDiv'>"; 
 	newNewsEntry += "		<button id='downButton" + newIdNumber + "' class='downButton' type='button'>D</button>"; 
@@ -332,7 +333,7 @@ function createNewNewsEntry() {
 	newNewsEntry += " 	<div class='newsContainer'>"; 
 	newNewsEntry += "		<div class='symbolCheckBox' tabindex='-1'>"
 	newNewsEntry +=	"			<span class='symbolCheckBoxLabel'>" 
-	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc the 5th 'W/R/Z' char, '.WS' '.PD', etc...'"; 
+	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc the 5th 'W/R/Z' char, '.WS' '.PD''"; 
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
@@ -340,7 +341,8 @@ function createNewNewsEntry() {
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
 	newNewsEntry += "			&nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
 	newNewsEntry += "           &nbsp; <button class='bigCharts' id='getBigCharts" + newIdNumber + "' type='button'>Big Charts</button>"; 
-	newNewsEntry += "           $<span class='bigChartsLast' id='bigChartsLast" + newIdNumber + "' tabindex='-1'>0.0</span> (<span class='bigChartsPercentage' +  id='bigChartsPercentage" + newIdNumber + "' tabindex='-1'>0.0</span>)"; 
+	newNewsEntry += "           $<span class='bigChartsLast' id='bigChartsLast" + newIdNumber + "' tabindex='-1'>0.0</span> (<span class='bigChartsPercentage' +  id='bigChartsPercentage" + newIdNumber + "' tabindex='-1'>0.0</span>%)"; 
+	newNewsEntry += "           <span class='bigChartsTime' id='bigChartsTime" + newIdNumber + "' tabindex='-1'></span>" 	
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "		<div class='newsLinks' tabindex='-1'> "; 
 	newNewsEntry += " 			<span class='storedLinkLabel' tabIndex='-1'>Original Yahoo Link:</span> "; 
@@ -1763,7 +1765,7 @@ $(document.body).on('click', ".emailOrder", function(){
 }); // end of e-mail trade button 
 
 
-    // email the trade to Jay 
+    // Get the big charts delayed quote 
 $(document.body).on('click', ".bigCharts", function(){
 
 
@@ -1812,6 +1814,8 @@ $(document.body).on('click', ".bigCharts", function(){
 	        	$("#bigChartsPercentage" + currentId).text(lastPercentage); 
 
 	        	$("#bigChartsLast" + currentId).text(lastValue); 
+
+	        	$("#bigChartsTime" + currentId).text(time); 
         	}
     	});  // end of AJAX call to bigcharts   
 	}
