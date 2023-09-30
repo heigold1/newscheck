@@ -698,7 +698,7 @@ console.log("currentVolume is " + currentVolume);
 	 				// then if there was currently no news stored, 
  					if ($("#storedYahooLink" + currentId).html() == "No news")     
 		 				{
-							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
  							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 							$("#controlButton" + currentId).html("Start"); 
 							newsFlag = true; 
@@ -706,7 +706,7 @@ console.log("currentVolume is " + currentVolume);
 	 					}  // or what just came back is different than what was previously stored
  						else if (yahooFirstLinkTitle != $("#storedYahooLink" + currentId).find("a:first").text()) 
  						{
-							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
  							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 							$("#controlButton" + currentId).html("Start"); 						
 							newsFlag = true; 
@@ -719,14 +719,14 @@ console.log("currentVolume is " + currentVolume);
  				{
 	 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
  					{
-						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - SA Main</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					
 						newsFlag = true; 					
  					}
  					else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
  					{
-						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - SA Main</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 
@@ -739,14 +739,14 @@ console.log("currentVolume is " + currentVolume);
  				{
 					if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
  					{
-						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
  					}
  					else if (mwPartnerHeadlinesLink1Title != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text()) 
  					{
-						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
@@ -759,14 +759,14 @@ console.log("currentVolume is " + currentVolume);
 				{
 					if ($("#storedSECFilingLink" + currentId).html() == "No news")
  					{
-						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
  					}
  					else if (secFilingLink1Title != $("#storedSECFilingLink" + currentId).find("a:first").text()) 
  					{
-						$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
@@ -1035,7 +1035,7 @@ function checkAllDivsForNews()
 			 				// then if there was currently no news stored, 
 	 						if ($("#storedYahooLink" + currentId).html() == "No news")     
 				 				{
-									$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+									$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 	 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 									$("#controlButton" + currentId).html("Start"); 
 									newsFlag = true; 
@@ -1047,7 +1047,7 @@ function checkAllDivsForNews()
 									console.log("yahooFirstLinkTitle is *" + yahooFirstLinkTitle + "*");
 									console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
 
-									$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+									$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 	 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a>");
 									$("#controlButton" + currentId).html("Start"); 						
 									newsFlag = true; 
@@ -1064,7 +1064,7 @@ function checkAllDivsForNews()
 							console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Title.toLowerCase());
 			 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
 	 						{
-								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
 								$("#controlButton" + currentId).html("Start"); 						 					
 								newsFlag = true; 					
@@ -1076,7 +1076,7 @@ function checkAllDivsForNews()
 								console.log("storedLinkMWTitle is *" + storedLinkMWTitle + "*");
 								console.log("mwMainContentLink1Title is *" + mwMainContentLink1Title + "*");
 
-								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - MW Main</a>");
 								$("#controlButton" + currentId).html("Start"); 						 					 					
 								newsFlag = true; 
@@ -1097,7 +1097,7 @@ function checkAllDivsForNews()
 								var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
 								console.log("storedMarketWatchPartnerLink is *No news*");
 								console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
-								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 								$("#controlButton" + currentId).html("Start"); 						 					 					
 								newsFlag = true; 					
@@ -1107,7 +1107,7 @@ function checkAllDivsForNews()
 								var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
 								console.log("storedMarketWatchPartnerLink is *" + storedLinkMWPartnerTitle + "*");
 								console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
-								$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
 								$("#controlButton" + currentId).html("Start"); 						 					 					
 								newsFlag = true; 					
@@ -1120,7 +1120,7 @@ function checkAllDivsForNews()
 					{
 						if ($("#storedSECFilingLink" + currentId).html() == "No news")
 	 					{
-							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 							console.log("storedSECFilingLink is *no news*");
 							console.log("secFilingLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
@@ -1132,7 +1132,7 @@ function checkAllDivsForNews()
 							var storedSECFilingLinkTitle = $("#storedSECFilingLink" + currentId).find("a:first").text(); 
 							console.log("storedSECFilingLink is " + storedSECFilingLinkTitle);
 							console.log("secFilingLink1Title is *" + secFilingLink1Title + "*");
-							$("#newsResultsDiv" + currentId).css("background-color", "#FF0000"); 
+							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 							$("#controlButton" + currentId).html("Start"); 						 					 					
 							newsFlag = true; 					
@@ -1390,6 +1390,10 @@ $(document.body).on('click', ".controlButton", function(){
 
 	if ($(this).html() == "Start")
 	{	
+		var currentTime = getCurrentTimeAMPM();
+		var currentNotesVal = $("#volumeNotesText" + currentId).val(); 
+		var newNotesVal = currentNotesVal + " - Checked news at " + currentTime; 
+		$("#volumeNotesText" + currentId).val(newNotesVal); 
 
 		$("#newsResultsDiv" + currentId).css("background-color", "#EBEBE0");		
 		$("#newsStatusLabel" + currentId).html("Status...")		
@@ -1875,7 +1879,9 @@ $(document.body).on('paste', ".orderInput", function(){
 			}
 */
 
-    		if (percentage >= 34.00)
+    		if (
+    			((percentage >= 34.00) && (entryPrice > 1.00)) || ((percentage >= 55.00) && (entryPrice < 1.00))
+    			)
     		{
 				$("#orderInput" + currentId).css("background-color", "#FFFFFF"); 
 				$("#symbol" + currentId).css("background-color", "#FFFFFF");     			
