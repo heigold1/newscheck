@@ -283,14 +283,16 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div class='controlButtonDiv'>"; 
 	newNewsEntry += "		<button id='controlButton" + newIdNumber + "' class='controlButton' type='button'>Start</button>"; 
 	newNewsEntry += " 	</div>"; 
-	newNewsEntry += " 	"; 
+	newNewsEntry += " 	<div id='noNewsDiv" + newIdNumber + "' class='noNewsDiv' tabindex='-1'>";  
+	newNewsEntry += " 			<span class='noNewsSpan' tabindex='-1'>NN</span>"; 
+  newNewsEntry += "		</div>"; 
 	newNewsEntry += "	<div id='newsResultsDiv" + newIdNumber + "' class='newsResultsDiv' tabindex='-1'>"; 
 	newNewsEntry += " 		<span id='newsStatusLabel" + newIdNumber + "' class='newsStatusLabel' tabindex='-1'>";
 	newNewsEntry += "			Status...</span>"; 
 	newNewsEntry += " 	</div>"; 
 	newNewsEntry += "	<div id='expandContractNews" + newIdNumber + "' class='expandContractNews' tabindex='-1'> "; 
 	newNewsEntry += "		<img id='upDownArrow" + newIdNumber + "' class='arrowImages' src='images/downArrow_smaller.jpg' tabindex='-1'> "; 
-    newNewsEntry += "	</div> "; 
+  newNewsEntry += "	</div> "; 
 	newNewsEntry += "	<div id='refresh" + newIdNumber + "' class='refresh' tabindex='-1'>"; 
 	newNewsEntry += "		<img class='refreshImage' src='images/refresh_smaller.png' tabindex='-1'>"; 
 	newNewsEntry += "	</div>"; 
@@ -1197,7 +1199,6 @@ function timedCount()
 }  // timedCount() 
 
 
-
 // initialize function
 
 $(function () {
@@ -1392,7 +1393,7 @@ $(document.body).on('click', ".controlButton", function(){
 	{	
 		var currentTime = getCurrentTimeAMPM();
 		var currentNotesVal = $("#volumeNotesText" + currentId).val(); 
-		var newNotesVal = currentNotesVal + " - Checked news at " + currentTime; 
+		var newNotesVal = currentNotesVal + " - Reset news at " + currentTime; 
 		$("#volumeNotesText" + currentId).val(newNotesVal); 
 
 		$("#newsResultsDiv" + currentId).css("background-color", "#EBEBE0");		
@@ -1840,6 +1841,11 @@ $(document.body).on('paste', ".orderInput", function(){
 	setTimeout(
 		function() 
 		{
+				if (confirm("Is this a news stock?"))
+				{
+					$("#noNewsDiv" + currentId).css("background-color", "#FFA1A1"); 
+				}
+
 		    orderStub = $.trim($("#orderInput" + currentId).val());
 
     		var orderStubSplit = orderStub.split(" ");

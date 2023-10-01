@@ -151,7 +151,7 @@
 			margin-top: 0.5px; 
 			height: 25px; 
 /*			border-radius: 10px;  */ 
-			width: 370px;
+			width: 330px;
 			display: inline-block;
 			background-color: #EBEBE0;
 		}
@@ -251,7 +251,7 @@
 			margin-top: 1.5px;
 			margin-left: 0px;
 			border-radius: 5px;
-			width: 295px;
+			width: 255px;
 			display: inline-block;
 			background-color: #00FF00;
 			height: 23px; 		
@@ -529,6 +529,34 @@
 /*			background-color: #FF0000;	 */ 
 			font-weight: bold;  
 		}	
+
+
+		.noNewsDiv{
+			position: relative;
+			height: 24;
+			width: 40;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+/*	font-size: 35px; */ 
+			background-color: #EBEBE0;   
+/*			background-color: #FF0000;	 */ 
+			font-weight: bold;  
+		}	
+
+		.noNewsSpan{
+			position: relative;
+			height: 22px;
+			width: 36px;
+			margin-top: 1px;
+			margin-left: 5px ;
+			display: inline-block;
+			font-size: 20px;   
+			vertical-align: top;
+			font-weight: bold;			
+		}
 
 
 
