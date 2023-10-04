@@ -1039,6 +1039,10 @@ function checkAllDivsForNews()
 				 				{
 									$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 	 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a> - " + getCurrentTimeAMPM());
+									if ($("#controlButton" + currentId).html().toString() == 'Stop')
+									{
+// 									 	$("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
+									}	
 									$("#controlButton" + currentId).html("Start"); 
 									newsFlag = true; 
 
@@ -1051,6 +1055,10 @@ function checkAllDivsForNews()
 
 									$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 	 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a> - " + getCurrentTimeAMPM());
+									if ($("#controlButton" + currentId).html().toString() == 'Stop')
+									{
+//									 	$("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
+									}	
 									$("#controlButton" + currentId).html("Start"); 						
 									newsFlag = true; 
 		 						}
@@ -1068,6 +1076,10 @@ function checkAllDivsForNews()
 	 						{
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - Seeking Alpha</a> - " + getCurrentTimeAMPM());
+								if ($("#controlButton" + currentId).html().toString() == 'Stop')
+								{
+//								 	$("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
+								}							
 								$("#controlButton" + currentId).html("Start"); 						 					
 								newsFlag = true; 					
 	 						}
@@ -1080,6 +1092,10 @@ function checkAllDivsForNews()
 
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - Seeking Alpha</a> - " + getCurrentTimeAMPM());
+								if ($("#controlButton" + currentId).html().toString() == 'Stop')
+								{
+//								 	$("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
+								}							
 								$("#controlButton" + currentId).html("Start"); 						 					 					
 								newsFlag = true; 
 	 						}
@@ -1101,6 +1117,10 @@ function checkAllDivsForNews()
 								console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a> - " + getCurrentTimeAMPM());
+								if ($("#controlButton" + currentId).html().toString() == 'Stop')
+								{
+//									 $("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
+								}							
 								$("#controlButton" + currentId).html("Start"); 						 					 					
 								newsFlag = true; 					
 	 						}
@@ -1111,6 +1131,10 @@ function checkAllDivsForNews()
 								console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a> - " + getCurrentTimeAMPM());
+								if ($("#controlButton" + currentId).html().toString() == 'Stop')
+								{
+//								 	$("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
+								}							
 								$("#controlButton" + currentId).html("Start"); 						 					 					
 								newsFlag = true; 					
 	 						}
@@ -1125,7 +1149,11 @@ function checkAllDivsForNews()
 							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 							console.log("storedSECFilingLink is *no news*");
 							console.log("secFilingLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
-							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a> - " + getCurrentTimeAMPM());
+							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
+							if ($("#controlButton" + currentId).html().toString() == 'Stop')
+							{
+//								 $("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
+							}							
 							$("#controlButton" + currentId).html("Start"); 						 					 					
 							newsFlag = true; 					
 	 					}
@@ -1135,7 +1163,11 @@ function checkAllDivsForNews()
 							console.log("storedSECFilingLink is " + storedSECFilingLinkTitle);
 							console.log("secFilingLink1Title is *" + secFilingLink1Title + "*");
 							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
-							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a> - " + getCurrentTimeAMPM());
+							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
+							if ($("#controlButton" + currentId).html().toString() == 'Stop')
+							{
+//								 $("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
+							}							
 							$("#controlButton" + currentId).html("Start"); 						 					 					
 							newsFlag = true; 					
 	 					}
