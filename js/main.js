@@ -1505,7 +1505,7 @@ $(document.body).on('click', ".downButton", function(){
 	percentage = percentage.slice(0, -1); 
 
 	percentageFloat = parseFloat(percentage); 
-	percentageFloat = percentageFloat + 1; 
+	percentageFloat = percentageFloat + 0.5; 
 
 	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " " + orderStringSplit[2] + " (" + percentageFloat.toFixed(2) + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
 
