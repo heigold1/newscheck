@@ -11,6 +11,10 @@ require_once("simple_html_dom.php");
 //error_reporting(E_ALL);
 
 // header('Content-type: text/html');
+if(isset($_GET['checkSec']))
+{
+  $checkSec=intval($_GET['checkSec']); 
+}
 if(isset($_GET['symbol']))
 {
   $symbol=$_GET['symbol'];
@@ -220,7 +224,7 @@ $ret = "";
 $finalReturn = "";
 
 
-function getMarketwatch($symbol, $companyName)
+function getMarketwatch($symbol, $companyName, $checkSec)
 {
 
 $entireMarketwatchPage = "";
@@ -238,130 +242,29 @@ $averageVolume = "";
 
         $url = "https://www.marketwatch.com/investing/$stockOrFund/$symbol"; 
 
-// Commenting this out until we can get around the bot decector. 
-/*
-        $results = grabHTML("www.marketwatch.com", $url);
-
-        if ($results != "")
-        {
-            $html = str_get_html($results);
-
-            $jtabPanes1 = $html->find('div[class="j-tabPanes"]', 0); 
-            $jtabPanes1Html = str_get_html($jtabPanes1); 
-            $articles = $jtabPanes1Html->find('div[class="article__content"]');
-            if ($articles != "")
-            {
-                $articleStructArray = array();
-
-                foreach ($articles as $article)
-                {
-                    $articleLink = "";
-                    $articleTitle = ""; 
-                    $articleHtml = str_get_html($article); 
-                    $articleStruct = array();
-
-                    $articleAnchor = $articleHtml->find('a', 0);  
-
-                    if ($articleAnchor == "")
-                    {
-                        $span = $articleHtml->find('span.link', 0);
-                        $articleTitle = strip_tags($span); 
-                    }
-                    else
-                    {
-                        $articleLink = $articleAnchor->href; 
-                        $articleTitle = strip_tags($articleAnchor); 
-                    }
-
-                    $articleTimestamp = $articleHtml->find('li.article__timestamp', 0);
-                    $dateTimeStamp = $articleTimestamp->{'data-est'}; 
-                    $dateTimeStampLongDate = $articleTimestamp->innertext; 
-                    $longDateInt = strtotime($dateTimeStamp);
-//                    $dateTimeInt = strtotime($dateTimeStamp);
-                    $articleStruct['link'] = $articleLink; 
-                    $articleStruct['title'] = $articleTitle;
-                    $articleStruct['date'] = $dateTimeStamp; 
-//                    $articleStructArray[$dateTimeInt] = $articleStruct; 
-                    $articleStructArray[$longDateInt] = $articleStruct; 
-                }
-
-                krsort($articleStructArray);
-
-                $firstArticle = reset($articleStructArray);
-                $mwMainContentLink1 = $firstArticle['link'];
-                $mwMainContentLink1Title = $firstArticle['title'];
-            }
-
-            $jtabPanes2 = $html->find('div[class="j-tabPanes"]', 1); 
-            $jtabPanes2Html = str_get_html($jtabPanes2); 
-
-            $articles = $jtabPanes2Html->find('div[class="article__content"]');
-            if ($articles != "")
-            {
-
-                $articleStructArray = array();
-
-                foreach ($articles as $article)
-                {
-                    $articleLink = "";
-                    $articleTitle = ""; 
-                    $articleHtml = str_get_html($article); 
-                    $articleStruct = array();
-
-                    $articleAnchor = $articleHtml->find('a', 0);  
-
-                    if ($articleAnchor == "")
-                    {
-                      $span = $articleHtml->find('span.link', 0);
-                      $articleTitle = strip_tags($span); 
-                    }
-                    else
-                    {
-                      $articleLink = $articleAnchor->href; 
-                      $articleTitle = strip_tags($articleAnchor); 
-                    }
-
-                    $articleTimestamp = $articleHtml->find('li.article__timestamp', 0);
-                    $dateTimeStamp = $articleTimestamp->{'data-est'}; 
-                    $dateTimeStampLongDate = $articleTimestamp->innertext; 
-                    $longDateInt = strtotime($dateTimeStamp);
-//                    $dateTimeInt = strtotime($dateTimeStamp);
-                    $articleStruct['link'] = $articleLink; 
-                    $articleStruct['title'] = $articleTitle;
-                    $articleStruct['date'] = $dateTimeStamp; 
-//                    $articleStructArray[$dateTimeInt] = $articleStruct; 
-                    $articleStructArray[$longDateInt] = $articleStruct; 
-                }
-
-                krsort($articleStructArray);
-
-                $firstArticle = reset($articleStructArray);
-                $mwPartnerHeadlinesLink1 = $firstArticle['link'];
-                $mwPartnerHeadlinesLink1Title = $firstArticle['title'];
-            }
-        }
-
-*/
-
-
-
-
     $rssSeekingAlpha = simplexml_load_file("https://seekingalpha.com/api/sa/combined/" . $symbol . ".xml");
     $mwMainContentLink1 = $rssSeekingAlpha->channel->item{0}->link;
     $mwMainContentLink1Title = $rssSeekingAlpha->channel->item{0}->title;
 
-
-
-
-
-// just putting this in here until we can get around the bot detector.
-/* $mwMainContentLink1 = "http://www.microsoft.com";
-$mwMainContentLink1Title = "Nothing";   */
-$mwPartnerHeadlinesLink1 = "http://www.microsoft.com";
-$mwPartnerHeadlinesLink1Title = "Nothing";
+    // just putting this in here until we can get around the bot detector.
+    /* $mwMainContentLink1 = "http://www.microsoft.com";
+    $mwMainContentLink1Title = "Nothing";   */
+    $mwPartnerHeadlinesLink1 = "http://www.microsoft.com";
+    $mwPartnerHeadlinesLink1Title = "Nothing";
 
 
         // now we do the SEC filing 
+
+
+        if ($checkSec == 0)
+        {
+
+          $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
+              '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
+              '"secFiling":{"url":"---","urlTitle":"NO SEC"}}'; 
+
+          return $returnArray;
+        }
 
         $url = "https://www.sec.gov/cgi-bin/browse-edgar?CIK=" . $symbol . "&owner=exclude&action=getcompany&Find=Search"; 
         $result = grabHTML('www.sec.gov', $url); 
@@ -473,7 +376,7 @@ if (isset($which_website) && ($which_website == "marketwatch"))
   $companyName = $statisticsJSON->companyName;
   $companyName = createSECCompanyName($companyName);
   
-  $returnLinks = getMarketwatch($symbol, $companyName);
+  $returnLinks = getMarketwatch($symbol, $companyName, $checkSec);
   echo $returnLinks;
 }
 elseif (isset($which_website) && ($which_website == "yahoo"))
@@ -511,7 +414,7 @@ elseif ($symbols != null)
 
           $stockOrFund = $yahooObject->stockOrFund; 
 
-          $returnArray[$index]['marketwatch_sec'] = getMarketwatch($ticker, $companyName);
+          $returnArray[$index]['marketwatch_sec'] = getMarketwatch($ticker, $companyName, $checkSec);
       }
 
       $returnArray[$index]['symbol'] = $ticker;

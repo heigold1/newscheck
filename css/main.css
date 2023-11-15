@@ -120,6 +120,29 @@
 			font-size: 20px; 
 		}
 
+		#checkbox-sec{
+			position: absolute;  
+			height: 20px;	
+			width: 90px;
+			margin:0px auto;
+			top: 17px;
+			left: 1015px;
+			background-color: #EBEBE0; 
+			border: 1px solid #333;
+			border-radius: 10px;
+			font-size: 20px; 
+		}
+
+		#checkbox-sec-label{
+			position: absolute;  
+			height: 20px;	
+			width: 40px;
+			margin:0px auto;
+			top: 17px;
+			left: 1075px;
+			font-size: 20px; 
+		}
+
 
 		#container{
 			position: absolute;   
@@ -1024,10 +1047,10 @@
 		#notChasing{
 			position: absolute;  
 			height: 40px;	
-			width: 589px;
+			width: 489px;
 /*			margin:0px auto; */
 			top: 6px;
-			left: 1043px;
+			left: 1143px;
 			border: 1px solid #333;
 			font-size: 12px; 
 		}

@@ -406,12 +406,13 @@ var mwPartnerHeadlinesLink1 = "";
 var mwPartnerHeadlinesLink1Title = ""; 
 var secFilingLink1 = "";
 var secFilingLink1Title = "";
+var checkSec = $("#checkbox-sec").is(":checked")?"1":"0";
+
+
 
 	// set the status bar 
 
 	$("#newsStatusLabel" + currentId).html("Looking up symbol...")
-
-
 
 	$.ajax({
 	   	url: "newsproxy.php",
@@ -455,7 +456,8 @@ console.log(XMLHttpRequest);
 	    url: "newsproxy.php",
 	    data: {symbol: currentSymbol,
 	    	   which_website: "marketwatch", 
-	    	   host_name: "www.marketwatch.com"} , 
+	    	   host_name: "www.marketwatch.com",
+	    	 	 checkSec: checkSec} , 
 		async: false,	    	   
 	    dataType: 'json',
 	    success:  function (data) {
@@ -575,6 +577,7 @@ function checkIndividualDivForNews(divId)
    		var original_symbol = currentSymbol; 
    		var symbol;
    		var positionOfPeriod; 
+			var checkSec = $("#checkbox-sec").is(":checked")?"1":"0";
 
    		positionOfPeriod = original_symbol.indexOf(".");
 
@@ -634,7 +637,8 @@ function checkIndividualDivForNews(divId)
 		    	url: "newsproxy.php",
 	    		data: {symbol: symbol,
 	    	   		stockOrFund: stockOrFund, 	    			
-		    	   	which_website: "marketwatch"} , 
+		    	   	which_website: "marketwatch",
+		    	   	checkSec: checkSec} , 
 				async: false,	    	   
 	    		dataType: 'json',
 	    		success:  function (data) {
@@ -802,6 +806,7 @@ function checkAllDivsForNews()
 
 	var symbolArray =  [];
 	var symbolNotFound = false; 
+	var checkSec = $("#checkbox-sec").is(":checked")?"1":"0";
 
 	$(".allDivs").each(function(){
 
@@ -874,7 +879,8 @@ function checkAllDivsForNews()
 
 	$.ajax({
    		url: "newsproxy.php",
-			data: {symbols: JSON.stringify(symbolArray)}, 
+			data: {symbols: JSON.stringify(symbolArray), 
+						 checkSec: checkSec}, 
 		async: true,	   		
 			dataType: 'json',
 			success:  function (data) {
