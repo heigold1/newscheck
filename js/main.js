@@ -115,8 +115,6 @@ function checkSecond(sec) {
 
 
 
-
-
 function writeTradeStamp(id)
 {
 
@@ -892,10 +890,12 @@ function checkAllDivsForNews()
 			dataType: 'json',
 			success:  function (data) {
 
-				if (parseInt(data.tradehalts) == 1) 
+				if (parseInt(data.tradehalts))
 				{
-						playHaltAlert(); 
+					playHaltAlert();
 				}
+				delete data.tradehalts; 
+
 
 				$.each(data, function(index,item) {
 

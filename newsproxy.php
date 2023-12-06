@@ -455,7 +455,6 @@ elseif ($symbols != null)
 
     }
 
-
     $returnArray['tradehalts'] = getTradeHalts(); 
 
     echo (json_encode($returnArray)); 
