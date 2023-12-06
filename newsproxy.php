@@ -392,13 +392,13 @@ function getTradeHalts()
       $child = $feed_item->children($ns["ndaq"]);
 
       $date = $child->HaltDate; 
-      $resumptionDate = $child->ResumptionDate; 
+      $resumptionTime = $child->ResumptionTradeTime; 
       $symbol = trim($feed_item->title); 
       $reasonCode = trim($child->ReasonCode); 
 
-      $returnArray['haltstring'] .= "symbol is " . $symbol . ", date is " . $date . ", currentDate is " . $currentDate . ", child->ResumptionDate is *" . $child->ResumptionDate . "* and reasonCode is *" . $reasonCode . "* "; 
+      $returnArray['haltstring'] .= "symbol is " . $symbol . ", date is " . $date . ", currentDate is " . $currentDate . ", child->ResumptionTradeTime is *" . $resumptionTime . "* and reasonCode is *" . $reasonCode . "* "; 
 
-      if (($date == $currentDate) && ($child->ResumptionDate == "") && ($reasonCode == "LUDP")) 
+      if (($date == $currentDate) && ($resumptionTime == "") && ($reasonCode == "LUDP")) 
       {
 /*          if (in_array($symbol, $ignoreArray))
           {
