@@ -372,12 +372,17 @@ $stockOrFund = "";
 function getTradeHalts()
 {
     $rss_feed = simplexml_load_file("https://www.nasdaqtrader.com/rss.aspx?feed=tradehalts");
+//    $rss_feed = simplexml_load_file("https://www.heigoldinvestments.com/trade-halts.rss");
+
+
+    $returnArray['haltstring'] = ""; 
+    $returnArray['haltalert'] = 0; 
 
     $dateTime = new DateTime(); 
     $dateTime->modify('-8 hours'); 
     $currentDate = $dateTime->format("m/d/Y"); 
 
-    $tradeHaltAlert = 0; 
+//     $tradeHaltAlert = 0; 
 
     $ignoreArray = array(); 
 
@@ -391,20 +396,31 @@ function getTradeHalts()
       $symbol = trim($feed_item->title); 
       $reasonCode = trim($child->ReasonCode); 
 
+      $returnArray['haltstring'] .= "symbol is " . $symbol . ", date is " . $date . ", currentDate is " . $currentDate . ", child->ResumptionDate is *" . $child->ResumptionDate . "* and reasonCode is *" . $reasonCode . "* "; 
+
       if (($date == $currentDate) && ($child->ResumptionDate == "") && ($reasonCode == "LUDP")) 
       {
-          if (in_array($symbol, $ignoreArray))
+/*          if (in_array($symbol, $ignoreArray))
           {
             continue; 
           }
           else 
-          {
-            $tradeHaltAlert = 1; 
-          }
+          { */
+//             $tradeHaltAlert = 1; 
+            $returnArray['haltalert'] = 1; 
+            $returnArray['haltstring'] .= " *********************************** HALT ALERT\n"; 
+/*          } */
       }
-    }
+      else 
+      {
+            $returnArray['haltstring'] .= " NO HALT ALERT\n"; 
 
-    return $tradeHaltAlert; 
+      }
+
+    }
+    return $returnArray; 
+
+//     return $tradeHaltAlert; 
 }
 
 if (isset($which_website) && ($which_website == "marketwatch"))
@@ -466,7 +482,10 @@ elseif ($symbols != null)
 
     }
 
-    $returnArray['tradehalts'] = getTradeHalts(); 
+    $tradeHaltsArray = getTradeHalts(); 
+
+    $returnArray['haltstring'] = $tradeHaltsArray["haltstring"]; 
+    $returnArray['haltalert'] = $tradeHaltsArray["haltalert"]; 
 
     echo (json_encode($returnArray)); 
 }

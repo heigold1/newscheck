@@ -53,7 +53,6 @@ function startTimer() {
   	checkAllDivsForNews();
   }
 
-//  console.log(get24HourTime());
   setTimeout(startTimer, 1000);
 }
 
@@ -427,8 +426,6 @@ var checkSec = $("#checkbox-sec").is(":checked")?"1":"0";
 		async: false,	   		
 	   	dataType: 'json',
 	   	success:  function (data) {
-console.log("Yahoo Finance Data is: "); 
-console.log(data); 
 	   			yahooFirstLink = data.yahooInfo.url;
 	   			yahooFirstLink = yahooFirstLink.replace(/&amp;/g, '&');    			
 	   			yahooFirstLinkTitle = data.yahooInfo.urlTitle; 
@@ -450,10 +447,6 @@ console.log(data);
 
     	}, // end of yahoo success function
     	error: function(XMLHttpRequest, textStatus, errorThrown) {
-console.log("Error in retrieving Yahoo Finance data, error is: "); 
-console.log(errorThrown); 
-console.log("XMLHttpRequest is: ");
-console.log(XMLHttpRequest);
   		}
 	});  // end of ajax call for yahoo finance   
 
@@ -466,9 +459,6 @@ console.log(XMLHttpRequest);
 		async: false,	    	   
 	    dataType: 'json',
 	    success:  function (data) {
-console.log("Marketwatch/SEC data is: "); 
-console.log(data); 
-
 
 				mwMainContentLink1 = data.mwMainHeadlines.url; 
 				mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&');
@@ -667,42 +657,6 @@ function checkIndividualDivForNews(divId)
 					secFilingLink1Title = secFilingLink1Title.replace(/ *(?:&.*;)+ */, ' ');
 					secFilingLink1Title = secFilingLink1Title.replace(/&apos;/g, "'"); 
 
-/*  Not sure if I still want this, so I'll just keep it here in the mean time 
-
-   					currentVolume = data.currentVolume; 
-   					averageVolume = data.averageVolume; 
-   					percentLow = parseFloat(data.percentLow); 
-
-console.log("percentLow is " + percentLow);
-console.log("currentVolume is " + currentVolume); 
-
-					$("#low" + currentId).html(percentLow);
-
-					var orderInput = $("#orderInput" + currentId).val(); 
-					var myRegexp = /\((.*?)\)/g; 
-					var match = myRegexp.exec(orderInput);
-
-					if (match != null)
-					{
-						var lowInput = parseFloat($("#lowInput" + currentId).val());
-						var currentPercentage = match[1];
-						currentPercentage = currentPercentage.replace("%", ""); 	
-						currentPercentage = parseFloat(currentPercentage);
-						var currentMinusLow = currentPercentage - lowInput;
-
-						if ((currentMinusLow) < percentLow)
-						{
-							$("#lowWrapper" + currentId).css("background-color", "#FFA500");
-							globalCloseToCurrentLow = true;
-						}
-						else
-						{
-							$("#lowWrapper" + currentId).css("background-color", "#EBEBE0");
-						}
-					}
-*/     
-
-
 	 			// if we bring back a yahoo link 
 	 			if (yahooFirstLinkTitle != "")
  				{
@@ -879,9 +833,6 @@ function checkAllDivsForNews()
 	var globalCancelHighRiskTrades = false; 
 	var globalVolumeAlert = false;
 
-	console.log("Inside checkAllDivsForNews, before calling AJAX.  Symbol array is: "); 
-	console.log(symbolArray);
-
 	$.ajax({
    		url: "newsproxy.php",
 			data: {symbols: JSON.stringify(symbolArray), 
@@ -890,11 +841,20 @@ function checkAllDivsForNews()
 			dataType: 'json',
 			success:  function (data) {
 
-				if (parseInt(data.tradehalts))
+
+				console.log("Halt string is:"); 
+				console.log(data.haltstring);  
+				console.log("Halt alert is:"); 
+				console.log(data.haltalert); 
+
+				if (parseInt(data.haltalert))
 				{
 					playHaltAlert();
 				}
-				delete data.tradehalts; 
+
+
+				delete data.haltstring;
+				delete data.haltalert; 
 
 
 				$.each(data, function(index,item) {
@@ -920,11 +880,9 @@ function checkAllDivsForNews()
 					var newsFlag = false; 
 
 					currentId = index; 
-						console.log(item);
 
 					if (item.hasOwnProperty('yahoo'))
 					{
-						console.log("yahoo news was brought back");
 						yahooData = JSON.parse(item.yahoo);
 	   					yahooFound = yahooData.found; 
    						yahooCompanyName = yahooData.companyName; 
@@ -937,7 +895,6 @@ function checkAllDivsForNews()
 
 					if (item.hasOwnProperty('marketwatch_sec'))
 					{
-						console.log("marketwatch news was brought back");
 						mktWatchSECData = JSON.parse(item.marketwatch_sec); 
 						mwMainContentLink1 = mktWatchSECData.mwMainHeadlines.url; 
 						mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&'); 
@@ -1048,7 +1005,6 @@ function checkAllDivsForNews()
 		 				&& (yahooFirstLinkTitle.toLowerCase().search("midday movers") == -1)
 		 				)
 	 					{
-							console.log("yahooFirstLinkTitle.toLowerCase() is " + yahooFirstLinkTitle.toLowerCase());
 			 				// then if there was currently no news stored, 
 	 						if ($("#storedYahooLink" + currentId).html() == "No news")     
 				 				{
@@ -1065,8 +1021,6 @@ function checkAllDivsForNews()
 	 							else if (yahooFirstLinkTitle != $("#storedYahooLink" + currentId).find("a:first").text()) 
 	 							{
 									var storedLinkYahooTitle = $("#storedYahooLink" + currentId).find("a:first").text();
-									console.log("yahooFirstLinkTitle is *" + yahooFirstLinkTitle + "*");
-									console.log("storedLinkYahooTitle is *" + storedLinkYahooTitle + "*");
 
 									$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 	 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a> - " + getCurrentTimeAMPM());
@@ -1086,7 +1040,6 @@ function checkAllDivsForNews()
 	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
 	 					)
 	 					{
-							console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Title.toLowerCase());
 			 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
 	 						{
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
@@ -1102,8 +1055,6 @@ function checkAllDivsForNews()
 	 						{
 
 								var storedLinkMWTitle = $("#storedMarketWatchMainLink" + currentId).find("a:first").text(); 
-								console.log("storedLinkMWTitle is *" + storedLinkMWTitle + "*");
-								console.log("mwMainContentLink1Title is *" + mwMainContentLink1Title + "*");
 
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - Seeking Alpha</a> - " + getCurrentTimeAMPM());
@@ -1123,13 +1074,9 @@ function checkAllDivsForNews()
 	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
 	 					)
 	 					{
-							console.log("mwMainContentLink1Title.toLowerCase() is " + mwMainContentLink1Title.toLowerCase());
-
 							if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
 	 						{	
 								var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
-								console.log("storedMarketWatchPartnerLink is *No news*");
-								console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a> - " + getCurrentTimeAMPM());
 								if ($("#controlButton" + currentId).html().toString() == 'Stop')
@@ -1142,8 +1089,6 @@ function checkAllDivsForNews()
 	 						else if (mwPartnerHeadlinesLink1Title != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text()) 
 	 						{
 								var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
-								console.log("storedMarketWatchPartnerLink is *" + storedLinkMWPartnerTitle + "*");
-								console.log("mwPartnerHeadlinesLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a> - " + getCurrentTimeAMPM());
 								if ($("#controlButton" + currentId).html().toString() == 'Stop')
@@ -1162,8 +1107,6 @@ function checkAllDivsForNews()
 						if ($("#storedSECFilingLink" + currentId).html() == "No news")
 	 					{
 							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
-							console.log("storedSECFilingLink is *no news*");
-							console.log("secFilingLink1Title is *" + mwPartnerHeadlinesLink1Title + "*");
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 							if ($("#controlButton" + currentId).html().toString() == 'Stop')
 							{
@@ -1175,8 +1118,6 @@ function checkAllDivsForNews()
 	 					else if (secFilingLink1Title != $("#storedSECFilingLink" + currentId).find("a:first").text()) 
 	 					{
 							var storedSECFilingLinkTitle = $("#storedSECFilingLink" + currentId).find("a:first").text(); 
-							console.log("storedSECFilingLink is " + storedSECFilingLinkTitle);
-							console.log("secFilingLink1Title is *" + secFilingLink1Title + "*");
 							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 							if ($("#controlButton" + currentId).html().toString() == 'Stop')
@@ -1205,8 +1146,6 @@ function checkAllDivsForNews()
 	 					}
 						newsFlag = false; 
 					}
-
-				console.log("------------------------------------------------------");
 
 				});  // $.each 
 
@@ -1713,19 +1652,16 @@ $(document.body).on('click', ".copyOrderToClipboard", function(){
  	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
 
   	var copyTextarea = $("#fullOrder" + currentId);
-console.log("Full order's value is " + copyTextarea.val());
   	copyTextarea.select();
   	try 
   	{
 	    var successful = document.execCommand('copy');
 	    var msg = successful ? 'successful' : 'unsuccessful';
-		console.log('Copying text command was ' + msg);
-	    alert($("#fullOrder" + currentId).val() + " succesfully copied.  MAKE SURE TO BUMP DOWN 10% PAST LOW FOR PENNY STOCKS");
+		  alert($("#fullOrder" + currentId).val() + " succesfully copied.  MAKE SURE TO BUMP DOWN 10% PAST LOW FOR PENNY STOCKS");
   	} 
   	catch (err) 
   	{
 	    alert('Order did not succesfully copy');
-    	console.log('Order did not succesfully copy');
   	}
 
 	writeTradeStamp(currentId);
@@ -1769,19 +1705,16 @@ $(document.body).on('click', ".halfOrder", function(){
  	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
 
   	var copyTextarea = $("#fullOrder" + currentId);
-	console.log("Full order's value is " + copyTextarea.val());
   	copyTextarea.select();
   	try 
   	{
 	    var successful = document.execCommand('copy');
 	    var msg = successful ? 'successful' : 'unsuccessful';
-		console.log('Copying text command was ' + msg);
 	    alert($("#fullOrder" + currentId).val() + " succesfully copied");
   	} 
   	catch (err) 
   	{
 	    alert('Order did not succesfully copy');
-    	console.log('Order did not succesfully copy');
   	}
 
 	$("#averageDownDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
@@ -1832,8 +1765,6 @@ $(document.body).on('click', ".bigCharts", function(){
 	var currentTime = hours.toString().concat(minutes); 
 	currentTime = parseInt(currentTime); 
 
-	console.log("currentTime is " + currentTime); 
-
 	if (currentTime < 651)
 	{
 		alert("Too early to call Big Charts"); 
@@ -1854,8 +1785,6 @@ $(document.body).on('click', ".bigCharts", function(){
 	        async: false, 
 	        dataType: 'html',
 	        success:  function (data) {
-	        	console.log(data);
-	          	// the daily VIX, so you can see how the volatility goes throughout the day
 
 	        	var textArray = data.split("|"); 
 	         
@@ -1965,8 +1894,6 @@ $(document.body).on('paste', ".orderInput", function(){
 			var currentTime = hours.toString().concat(minutes); 
 			currentTime = parseInt(currentTime); 
 
-			console.log("currentTime is " + currentTime); 
-
 			if (currentTime < 630)
 			{
 				$("#symbol" + currentId).css("background-color", "orange"); 
@@ -1979,7 +1906,6 @@ $(document.body).on('paste', ".orderInput", function(){
 
     		// Handle high-risk previous day spike-ups
     		if (orderStub.search("HR_") != -1) {
-    			console.log("Highlighting the high risk"); 
     			$("#highRiskDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
     			$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
     			highRiskValue = orderStub.toString().match(/HR_(.*)/g); 
