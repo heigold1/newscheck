@@ -368,6 +368,34 @@ $stockOrFund = "";
 } // if ($which_website == "yahoo")
 
 
+
+function getTradeHalts()
+{
+    $rss_feed = simplexml_load_file("https://www.nasdaqtrader.com/rss.aspx?feed=tradehalts");
+
+    $dateTime = new DateTime(); 
+    $dateTime->modify('-8 hours'); 
+    $currentDate = $dateTime->format("m/d/Y"); 
+
+    $tradeHaltAlert = 0; 
+
+    foreach ($rss_feed->channel->item as $feed_item) {
+
+      $ns = $feed_item->getNamespaces(true); 
+      $child = $feed_item->children($ns["ndaq"]);
+
+      $date = $child->HaltDate; 
+      $resumptionDate = $child->ResumptionDate; 
+
+      if (($date == $currentDate) && ($child->ResumptionDate == "")) 
+      {
+        $tradeHaltAlert = 1; 
+      }
+    }
+
+    return $tradeHaltAlert; 
+}
+
 if (isset($which_website) && ($which_website == "marketwatch"))
 {
   $statistics = getStatistics($symbol, $offerPrice, $lowValue);
@@ -426,6 +454,9 @@ elseif ($symbols != null)
       $returnArray[$index]['checkNews'] = $checkNews;
 
     }
+
+
+    $returnArray['tradehalts'] = getTradeHalts(); 
 
     echo (json_encode($returnArray)); 
 }

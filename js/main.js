@@ -102,11 +102,18 @@ function playCancelHighRiskTrades(){
 	carDriveBy.play();
 }
 
+function playHaltAlert(){
+	var carDriveBy = new Audio('./wav/halt-alert.wav');
+	carDriveBy.play();
+}
+
 function checkSecond(sec) {
   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
   if (sec < 0) {sec = "59"};
   return sec;
 }
+
+
 
 
 
@@ -885,8 +892,10 @@ function checkAllDivsForNews()
 			dataType: 'json',
 			success:  function (data) {
 
-			console.log("returned data is: "); 
-			console.log(data);
+				if (parseInt(data.tradehalts) == 1) 
+				{
+						playHaltAlert(); 
+				}
 
 				$.each(data, function(index,item) {
 
