@@ -379,6 +379,8 @@ function getTradeHalts()
 
     $tradeHaltAlert = 0; 
 
+    $ignoreArray = array(); 
+
     foreach ($rss_feed->channel->item as $feed_item) {
 
       $ns = $feed_item->getNamespaces(true); 
@@ -386,10 +388,19 @@ function getTradeHalts()
 
       $date = $child->HaltDate; 
       $resumptionDate = $child->ResumptionDate; 
+      $symbol = trim($feed_item->title); 
+      $reasonCode = trim($child->ReasonCode); 
 
-      if (($date == $currentDate) && ($child->ResumptionDate == "")) 
+      if (($date == $currentDate) && ($child->ResumptionDate == "") && ($reasonCode == "LUDP")) 
       {
-        $tradeHaltAlert = 1; 
+          if (in_array($symbol, $ignoreArray))
+          {
+            continue; 
+          }
+          else 
+          {
+            $tradeHaltAlert = 1; 
+          }
       }
     }
 
