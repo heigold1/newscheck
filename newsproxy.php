@@ -398,7 +398,7 @@ function getTradeHalts()
 
       $returnArray['haltstring'] .= "symbol is " . $symbol . ", date is " . $date . ", currentDate is " . $currentDate . ", child->ResumptionTradeTime is *" . $resumptionTime . "* and reasonCode is *" . $reasonCode . "* "; 
 
-      if (($date == $currentDate) && ($resumptionTime == "") && ($reasonCode == "LUDP")) 
+      if (($date == $currentDate) && ($resumptionTime == "") && (($reasonCode == "LUDP") || ($reasonCode ==  "M"))) 
       {
 /*          if (in_array($symbol, $ignoreArray))
           {
