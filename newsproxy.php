@@ -372,8 +372,6 @@ $stockOrFund = "";
 function getTradeHalts()
 {
     $rss_feed = simplexml_load_file("https://www.nasdaqtrader.com/rss.aspx?feed=tradehalts");
-//    $rss_feed = simplexml_load_file("https://www.heigoldinvestments.com/trade-halts.rss");
-
 
     $returnArray['haltstring'] = ""; 
     $returnArray['haltalert'] = 0; 
@@ -381,8 +379,6 @@ function getTradeHalts()
     $dateTime = new DateTime(); 
     $dateTime->modify('-8 hours'); 
     $currentDate = $dateTime->format("m/d/Y"); 
-
-//     $tradeHaltAlert = 0; 
 
     $ignoreArray = array(); 
 
@@ -398,7 +394,7 @@ function getTradeHalts()
 
       $returnArray['haltstring'] .= "symbol is " . $symbol . ", date is " . $date . ", currentDate is " . $currentDate . ", child->ResumptionTradeTime is *" . $resumptionTime . "* and reasonCode is *" . $reasonCode . "* "; 
 
-      if (($date == $currentDate) && ($resumptionTime == "") && (($reasonCode == "LUDP") || ($reasonCode ==  "M"))) 
+      if (($date == $currentDate) && ($resumptionTime == ""))
       {
 /*          if (in_array($symbol, $ignoreArray))
           {
