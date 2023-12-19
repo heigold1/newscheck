@@ -380,8 +380,6 @@ function getTradeHalts()
     $dateTime->modify('-8 hours'); 
     $currentDate = $dateTime->format("m/d/Y"); 
 
-    $ignoreArray = array(); 
-
     foreach ($rss_feed->channel->item as $feed_item) {
 
       $ns = $feed_item->getNamespaces(true); 
@@ -391,32 +389,26 @@ function getTradeHalts()
       $resumptionTime = $child->ResumptionTradeTime; 
       $symbol = trim($feed_item->title); 
       $reasonCode = trim($child->ReasonCode); 
+      $ignoreArray = array('');
+
 
       $returnArray['haltstring'] .= "symbol is " . $symbol . ", date is " . $date . ", currentDate is " . $currentDate . ", child->ResumptionTradeTime is *" . $resumptionTime . "* and reasonCode is *" . $reasonCode . "* "; 
 
       if (($date == $currentDate) && ($resumptionTime == ""))
       {
-/*          if (in_array($symbol, $ignoreArray))
-          {
-            continue; 
-          }
-          else 
-          { */
-//             $tradeHaltAlert = 1; 
+        if (!in_array($symbol, $ignoreArray)) {
             $returnArray['haltalert'] = 1; 
             $returnArray['haltstring'] .= " *********************************** HALT ALERT\n"; 
-/*          } */
+        }
+
       }
       else 
       {
             $returnArray['haltstring'] .= " NO HALT ALERT\n"; 
-
       }
 
     }
     return $returnArray; 
-
-//     return $tradeHaltAlert; 
 }
 
 if (isset($which_website) && ($which_website == "marketwatch"))
