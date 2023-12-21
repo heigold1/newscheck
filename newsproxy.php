@@ -375,6 +375,7 @@ function getTradeHalts()
 
     $returnArray['haltstring'] = ""; 
     $returnArray['haltalert'] = 0; 
+    $haltSymbolList = array(); 
 
     $dateTime = new DateTime(); 
     $dateTime->modify('-8 hours'); 
@@ -389,7 +390,7 @@ function getTradeHalts()
       $resumptionTime = $child->ResumptionTradeTime; 
       $symbol = trim($feed_item->title); 
       $reasonCode = trim($child->ReasonCode); 
-      $ignoreArray = array('');
+      $ignoreArray = array(''); 
 
 
       $returnArray['haltstring'] .= "symbol is " . $symbol . ", date is " . $date . ", currentDate is " . $currentDate . ", child->ResumptionTradeTime is *" . $resumptionTime . "* and reasonCode is *" . $reasonCode . "* "; 
@@ -399,6 +400,7 @@ function getTradeHalts()
         if (!in_array($symbol, $ignoreArray)) {
             $returnArray['haltalert'] = 1; 
             $returnArray['haltstring'] .= " *********************************** HALT ALERT\n"; 
+            array_push($haltSymbolList, $symbol); 
         }
 
       }
@@ -408,6 +410,7 @@ function getTradeHalts()
       }
 
     }
+    $returnArray['halt_symbol_list'] = json_encode($haltSymbolList); 
     return $returnArray; 
 }
 
@@ -445,8 +448,8 @@ elseif ($symbols != null)
           $originalSymbol = $symbol->originalSymbol; 
       }
 
-      $returnArray[$index]['stastistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue);
-      $statisticsJSON = json_decode($returnArray[$index]['stastistics']); 
+      $returnArray[$index]['statistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue);
+      $statisticsJSON = json_decode($returnArray[$index]['statistics']); 
       $companyName = $statisticsJSON->companyName;
       $companyName = createSECCompanyName($companyName);
 
@@ -474,6 +477,7 @@ elseif ($symbols != null)
 
     $returnArray['haltstring'] = $tradeHaltsArray["haltstring"]; 
     $returnArray['haltalert'] = $tradeHaltsArray["haltalert"]; 
+    $returnArray['halt_symbol_list'] = $tradeHaltsArray['halt_symbol_list']; 
 
     echo (json_encode($returnArray)); 
 }

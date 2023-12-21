@@ -320,8 +320,8 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='importantDiv" + newIdNumber + "' class='importantDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='importantSpan' tabindex='-1'>!</span>"; 
 	newNewsEntry += "	</div>"; 
-	newNewsEntry += "	<div id='highRiskDiv" + newIdNumber + "' class='highRiskDiv' tabindex='-1'>"; 
-	newNewsEntry += "		<span class='highRiskSpan' tabindex='-1'>H</span>";
+	newNewsEntry += "	<div id='haltDiv" + newIdNumber + "' class='haltDiv' tabindex='-1'>"; 
+	newNewsEntry += "		<span class='haltSpan' tabindex='-1'>H</span>";
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='highRiskValueDiv" + newIdNumber + "' class='highRiskValueDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span id='highRiskValueSpan" + newIdNumber + "' class='highRiskValueSpan' tabindex='-1'></span>"; 
@@ -850,6 +850,8 @@ function checkAllDivsForNews()
 				if (parseInt(data.haltalert))
 				{
 					playHaltAlert();
+					console.log("Halt symbol list is:"); 
+					console.log(data.halt_symbol_list); 
 				}
 
 
@@ -912,9 +914,12 @@ function checkAllDivsForNews()
 						secFilingLink1Title = mktWatchSECData.secFiling.urlTitle;
 					}
 
-					statisticsData = JSON.parse(item.stastistics);
+					statisticsData = JSON.parse(item.statistics);
    					currentVolume = statisticsData.currentVolume; 
    					averageVolume = statisticsData.averageVolume; 
+
+console.log("averageVolume is ");
+console.log(averageVolume); 
 
    					averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
    					volumeRatio = parseFloat($("#volumeRatio" + currentId).val());
@@ -1547,20 +1552,18 @@ $(document.body).on('click', ".offeringDiv", function(){
     }	
 });  // on clicking offering box with the "O"
 
-$(document.body).on('click', ".highRiskDiv", function(){
+$(document.body).on('click', ".haltDiv", function(){
 	
 	currentId = $(this).attr("id"); 
- 	currentId = currentId.replace("highRiskDiv", ""); 
+ 	currentId = currentId.replace("haltDiv", ""); 
 
-    if ($("#highRiskDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
+    if ($("#haltDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
     {  
-			$("#highRiskDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
-			$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
+			$("#haltDiv" + currentId).css("background-color", "rgb(255, 0, 0)"); 
     } 
     else 
     {
-    		$("#highRiskDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
-    		$("#highRiskValueDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
+    		$("#haltDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
 });  // on clicking high risk box with the "H"
 
@@ -1906,7 +1909,6 @@ $(document.body).on('paste', ".orderInput", function(){
 
     		// Handle high-risk previous day spike-ups
     		if (orderStub.search("HR_") != -1) {
-    			$("#highRiskDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
     			$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
     			highRiskValue = orderStub.toString().match(/HR_(.*)/g); 
 

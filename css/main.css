@@ -497,7 +497,7 @@
 			font-weight: bold;			
 		}
 
-		.highRiskDiv{
+		.haltDiv{
 			position: relative;
 			height: 24;
 			width: 24;
@@ -599,7 +599,7 @@
 		}		
 
 
-		.highRiskSpan{
+		.haltSpan{
 			position: relative;
 			height: 22px;
 			width: 21px;
@@ -724,7 +724,7 @@
 			cursor: pointer;
 		}
 
-		.highRiskDiv:hover{
+		.haltDiv:hover{
 /*			background-color: #BFBFB6;  */ 
 			cursor: pointer;
 		}
