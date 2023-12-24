@@ -106,6 +106,11 @@ function playHaltAlert(){
 	carDriveBy.play();
 }
 
+function playOrderHasHaltedStock(){
+	var playHaltedStock = new Audio('./wav/order-has-halted-stock.wav');
+	playHaltedStock.play();
+}
+
 function checkSecond(sec) {
   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
   if (sec < 0) {sec = "59"};
@@ -290,6 +295,9 @@ function createNewNewsEntry() {
 	newNewsEntry += " 	<div id='noNewsDiv" + newIdNumber + "' class='noNewsDiv' tabindex='-1'>";  
 	newNewsEntry += " 			<span class='noNewsSpan' tabindex='-1'>NN</span>"; 
   newNewsEntry += "		</div>"; 
+	newNewsEntry += "	<div id='haltDiv" + newIdNumber + "' class='haltDiv' tabindex='-1'>"; 
+	newNewsEntry += "		<span class='haltSpan' tabindex='-1'>H</span>";
+	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='newsResultsDiv" + newIdNumber + "' class='newsResultsDiv' tabindex='-1'>"; 
 	newNewsEntry += " 		<span id='newsStatusLabel" + newIdNumber + "' class='newsStatusLabel' tabindex='-1'>";
 	newNewsEntry += "			Status...</span>"; 
@@ -320,9 +328,6 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='importantDiv" + newIdNumber + "' class='importantDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='importantSpan' tabindex='-1'>!</span>"; 
 	newNewsEntry += "	</div>"; 
-	newNewsEntry += "	<div id='haltDiv" + newIdNumber + "' class='haltDiv' tabindex='-1'>"; 
-	newNewsEntry += "		<span class='haltSpan' tabindex='-1'>H</span>";
-	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='highRiskValueDiv" + newIdNumber + "' class='highRiskValueDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span id='highRiskValueSpan" + newIdNumber + "' class='highRiskValueSpan' tabindex='-1'></span>"; 
 	newNewsEntry += "	</div>"; 
@@ -847,16 +852,16 @@ function checkAllDivsForNews()
 				console.log("Halt alert is:"); 
 				console.log(data.haltalert); 
 
-				if (parseInt(data.haltalert))
+				if (data.haltalert == 1)
 				{
-					playHaltAlert();
-					console.log("Halt symbol list is:"); 
-					console.log(data.halt_symbol_list); 
+					playHaltAlert(); 
 				}
 
+				var haltSymbolList = data.halt_symbol_list; 
 
 				delete data.haltstring;
 				delete data.haltalert; 
+				delete data.halt_symbol_list; 
 
 
 				$.each(data, function(index,item) {
@@ -871,7 +876,6 @@ function checkAllDivsForNews()
 					var mwPartnerHeadlinesLink1Title = "";
 					var secFilingLink1 = "";
 					var secFilingLink1Title = "";
-
 					var currentVolume = 0;
 					var averageVolume = 0; 
 					var averageVoulme30Day = 0;
@@ -879,9 +883,28 @@ function checkAllDivsForNews()
 					var percentLow = 0.0;
 					var offerPrice = 0.0;
 
+
 					var newsFlag = false; 
 
 					currentId = index; 
+
+					var currentSymbol = $("#symbol" + currentId).val(); 
+
+					console.log("currentId is " + currentId); 
+					console.log("currentSymbol is " + currentSymbol); 
+
+					// here we check if the current symbol (with no news and the "halt" button not checked) matches any halted symbols 
+					// for non-news stocks, then we need to alert. 
+
+					if (
+						haltSymbolList.includes(currentSymbol) && 
+						($("#noNewsDiv" + currentId).css("background-color") == "rgb(255, 161, 161)" ) && 
+						 ($("#haltDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
+						)
+					{
+						playOrderHasHaltedStock(); 
+						$("#div" + currentId).css("background-color", "rgb(255, 0, 0)"); 
+					}
 
 					if (item.hasOwnProperty('yahoo'))
 					{
@@ -917,9 +940,6 @@ function checkAllDivsForNews()
 					statisticsData = JSON.parse(item.statistics);
    					currentVolume = statisticsData.currentVolume; 
    					averageVolume = statisticsData.averageVolume; 
-
-console.log("averageVolume is ");
-console.log(averageVolume); 
 
    					averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
    					volumeRatio = parseFloat($("#volumeRatio" + currentId).val());
@@ -1135,7 +1155,7 @@ console.log(averageVolume);
 
 					} // if we bring back a marketwatch or SEC
 
-					$("#div" + currentId).css("background-color", "#ADAD85"); 
+// 					$("#div" + currentId).css("background-color", "#ADAD85"); 
 
 					if ($("#checkForNewNews" + currentId).is(':checked'))
 					{
@@ -1556,6 +1576,8 @@ $(document.body).on('click', ".haltDiv", function(){
 	
 	currentId = $(this).attr("id"); 
  	currentId = currentId.replace("haltDiv", ""); 
+
+	$("#div" + currentId).css("background-color", "#ADAD85"); 
 
     if ($("#haltDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
     {  
