@@ -852,7 +852,7 @@ function checkAllDivsForNews()
 				console.log("Halt alert is:"); 
 				console.log(data.haltalert); 
 
-				if (data.haltalert == 1)
+				if ((data.haltalert == 1) && $("#checkbox-check-halts").is(":checked"))
 				{
 					playHaltAlert(); 
 				}

@@ -143,6 +143,29 @@
 			font-size: 20px; 
 		}
 
+		#checkbox-check-halts{
+			position: absolute;  
+			height: 20px;	
+			width: 90px;
+			margin:0px auto;
+			top: 17px;
+			left: 1085px;
+			background-color: #EBEBE0; 
+			border: 1px solid #333;
+			border-radius: 10px;
+			font-size: 20px; 
+		}
+
+		#checkbox-check-halts-label{
+			position: absolute;  
+			height: 20px;	
+			width: 120px;
+			margin:0px auto;
+			top: 17px;
+			left: 1145px;
+			font-size: 20px; 
+		}
+
 
 		#container{
 			position: absolute;   
@@ -1047,10 +1070,10 @@
 		#notChasing{
 			position: absolute;  
 			height: 40px;	
-			width: 489px;
+			width: 369px;
 /*			margin:0px auto; */
 			top: 6px;
-			left: 1143px;
+			left: 1263px;
 			border: 1px solid #333;
 			font-size: 12px; 
 		}
