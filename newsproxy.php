@@ -224,6 +224,109 @@ $ret = "";
 $finalReturn = "";
 
 
+function getStreetInsider($symbol)
+{
+    $servername = "localhost";
+    $username = "superuser";
+    $password = "heimer27";
+    $db = "daytrade"; 
+    $mysqli = null;
+    $date = date("Y-m-d"); 
+    $streetInsiderTitle = "";
+    $streetInsiderLink = ""; 
+    $link = null; 
+    $query = null; 
+    $reScrape = false; 
+
+    // Check connection
+    try {
+        $link = mysqli_connect($servername, $username, $password, $db) or die($link); 
+    } catch (mysqli_sql_exception $e) {
+
+    } 
+
+    $SQL = "SELECT symbol, lastLink, lastTitle, lastUpdated FROM streetinsider WHERE symbol = '" . $symbol . "'"; 
+    try 
+    {
+        $link->set_charset("utf8");
+        $query = mysqli_query($link, $SQL);
+        if(!$query)
+        {
+            echo "Error: " . mysqli_error($link);
+        }
+    } 
+    catch (mysqli_sql_exception $e) 
+    {
+        echo "Error when selecting from database is " . $e->errorMessage() . "<br>"; 
+    } 
+
+    $rowCount = mysqli_num_rows($query); 
+    $currentTimeInt = strtotime('- 8 hours'); 
+    $currentTime = date('Y-m-d H:i:s', $currentTimeInt); 
+
+    // If it's been over 25 minutes since we last scraped, or we haven't scraped it yet (i.e. no rows in the database) 
+    // then we re-scrape (i.e. $reScrape = true) 
+    if ($rowCount >= 1)
+    {
+        while ($myRow = mysqli_fetch_assoc($query))
+        {
+            $lastUpdatedInt = strtotime($myRow['lastUpdated'] . "- 8 hours");
+            $lastUpdated = date('Y-m-d H:i:s', $lastUpdatedInt); 
+            $timeDiff = ($currentTimeInt - $lastUpdatedInt)/60; 
+            // If it's newer than 25 minutes then just use what's stored in the database, because
+            // the StreetInsider bot hasn't expired. 
+            if ($timeDiff < 25.00)
+            {
+                $streetInsiderLink = $myRow['lastLink'];
+                $streetInsiderTitle = $myRow['lastTitle'];
+            }
+            else 
+            {
+                $reScrape = true; 
+            }
+        }
+    }
+    else 
+    {
+        $reScrape = true; 
+    }
+
+    if ($reScrape == true)
+    {    
+        $rssStreetInsider = "https://www.streetinsider.com/freefeed.php?ticker=" . $symbol;
+        $xmlStreetInsider=grabHTML('www.streetinsider.com', $rssStreetInsider);
+        $xmlFinalObject = produce_XML_object_tree($xmlStreetInsider); 
+
+        $streetInsiderLink = $xmlFinalObject->channel->item{0}->link;
+        $streetInsiderTitle = $xmlFinalObject->channel->item{0}->title;
+
+        try 
+        {
+            $link->set_charset("utf8");
+
+            $sqlStatement = "REPLACE INTO streetinsider (symbol, lastLink, lastTitle) VALUES ('" . $symbol . "', '" . $streetInsiderLink . "', '" . $streetInsiderTitle . "')"; 
+
+            $query = mysqli_query($link, $sqlStatement);
+            if(!$query)
+            {
+                echo "Error: " . mysqli_error($link);
+            }
+        } 
+        catch (mysqli_sql_exception $e) 
+        {
+            echo "Error when writing to database is " . $e->errorMessage() . "<br>"; 
+        } 
+
+    }
+
+
+    $returnArray['link'] = $streetInsiderLink; 
+    $returnArray['title'] = $streetInsiderTitle; 
+
+    return $returnArray; 
+
+}
+
 function getMarketwatch($symbol, $companyName, $checkSec)
 {
 
@@ -240,8 +343,6 @@ $percentLow = "";
 $currentVolume = "";
 $averageVolume = ""; 
 
-        $url = "https://www.marketwatch.com/investing/$stockOrFund/$symbol"; 
-
     $rssSeekingAlpha = simplexml_load_file("https://seekingalpha.com/api/sa/combined/" . $symbol . ".xml");
     $mwMainContentLink1 = $rssSeekingAlpha->channel->item{0}->link;
     $mwMainContentLink1Title = $rssSeekingAlpha->channel->item{0}->title;
@@ -249,9 +350,12 @@ $averageVolume = "";
     // just putting this in here until we can get around the bot detector.
     /* $mwMainContentLink1 = "http://www.microsoft.com";
     $mwMainContentLink1Title = "Nothing";   */
-    $mwPartnerHeadlinesLink1 = "http://www.microsoft.com";
-    $mwPartnerHeadlinesLink1Title = "Nothing";
+//     $mwPartnerHeadlinesLink1 = "http://www.microsoft.com";
+//     $mwPartnerHeadlinesLink1Title = "Nothing";
 
+    $streetInsider = getStreetInsider($symbol);
+    $mwPartnerHeadlinesLink1 = $streetInsider['link'];
+    $mwPartnerHeadlinesLink1Title = $streetInsider['title']; 
 
         // now we do the SEC filing 
 

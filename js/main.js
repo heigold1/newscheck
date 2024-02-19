@@ -356,15 +356,15 @@ function createNewNewsEntry() {
 	newNewsEntry += "           <span class='bigChartsTime' id='bigChartsTime" + newIdNumber + "' tabindex='-1'></span>" 	
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "		<div class='newsLinks' tabindex='-1'> "; 
-	newNewsEntry += " 			<span class='storedLinkLabel' tabIndex='-1'>Original Yahoo Link:</span> "; 
+	newNewsEntry += " 			<span class='storedLinkLabel' tabIndex='-1'>Yahoo:</span> "; 
 	newNewsEntry += " 			<div id='storedYahooLink" + newIdNumber + "' class='storedLink' tabIndex='-1'></div> "; 
 	newNewsEntry += " 		</div> "; 
 	newNewsEntry += " 		<div class='newsLinks' tabindex='-1'> "; 
-	newNewsEntry += "			<span class='storedLinkLabel' tabindex='-1'>Original Seeking Alpha Link:</span> "; 
+	newNewsEntry += "			<span class='storedLinkLabel' tabindex='-1'>Seeking Alpha:</span> "; 
 	newNewsEntry += " 			<div id='storedMarketWatchMainLink" + newIdNumber + "' class='storedLink' tabindex='-1'></div> "; 
 	newNewsEntry += " 		</div> "; 
 	newNewsEntry += " 		<div class='newsLinks' tabindex='-1'> "; 
-	newNewsEntry += " 			<span class='storedLinkLabel' tabindex='-1'>Original Marketwatch Other News Link:</span> "; 
+	newNewsEntry += " 			<span class='storedLinkLabel' tabindex='-1'>Street Insider:</span> "; 
 	newNewsEntry += " 			<div id='storedMarketWatchPartnerLink" + newIdNumber + "' class='storedLink' tabindex='-1'></div> "; 
 	newNewsEntry += " 		</div> 	"; 
 	newNewsEntry += "	 	<div class='newsLinks' tabindex='-1'> "; 
