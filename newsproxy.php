@@ -224,6 +224,22 @@ $ret = "";
 $finalReturn = "";
 
 
+function produce_XML_object_tree($raw_XML) {
+    libxml_use_internal_errors(true);
+    try {
+        $xmlTree = new SimpleXMLElement($raw_XML);
+    } catch (Exception $e) {
+        // Something went wrong.
+        $error_message = 'SimpleXMLElement threw an exception.';
+        foreach(libxml_get_errors() as $error_line) {
+            $error_message .= "\t" . $error_line->message;
+        }
+        trigger_error($error_message);
+        return false;
+    }
+    return $xmlTree;
+}
+
 function getStreetInsider($symbol)
 {
     $servername = "localhost";
@@ -273,12 +289,14 @@ function getStreetInsider($symbol)
             $lastUpdatedInt = strtotime($myRow['lastUpdated'] . "- 8 hours");
             $lastUpdated = date('Y-m-d H:i:s', $lastUpdatedInt); 
             $timeDiff = ($currentTimeInt - $lastUpdatedInt)/60; 
-            // If it's newer than 25 minutes then just use what's stored in the database, because
+            // If it's newer than 2 minutes then just use what's stored in the database, because
             // the StreetInsider bot hasn't expired. 
-            if ($timeDiff < 25.00)
+            if ($timeDiff < 15.00)
             {
                 $streetInsiderLink = $myRow['lastLink'];
                 $streetInsiderTitle = $myRow['lastTitle'];
+
+error_log("timeDiff is " . $timeDiff . " minutes, grabbing from the database"); 
             }
             else 
             {
@@ -300,21 +318,28 @@ function getStreetInsider($symbol)
         $streetInsiderLink = $xmlFinalObject->channel->item{0}->link;
         $streetInsiderTitle = $xmlFinalObject->channel->item{0}->title;
 
+error_log("Re-scraping and grabbing from the server"); 
+error_log("Link is " . $streetInsiderLink); 
+error_log("Title is " . $streetInsiderTitle); 
+
         try 
         {
             $link->set_charset("utf8");
 
-            $sqlStatement = "REPLACE INTO streetinsider (symbol, lastLink, lastTitle) VALUES ('" . $symbol . "', '" . $streetInsiderLink . "', '" . $streetInsiderTitle . "')"; 
+            $sqlStatement = "UPDATE streetinsider SET  lastLink = '" . $streetInsiderLink . "', lastTitle = '" . $streetInsiderTitle . "', lastUpdated = NOW() WHERE symbol = '" . $symbol . "'"; 
+
+error_log("sqlStatement is " . $sqlStatement); 
+
 
             $query = mysqli_query($link, $sqlStatement);
             if(!$query)
             {
-                echo "Error: " . mysqli_error($link);
+                error_log("Error: " . mysqli_error($link));
             }
         } 
         catch (mysqli_sql_exception $e) 
         {
-            echo "Error when writing to database is " . $e->errorMessage() . "<br>"; 
+            error_log("Error when writing to database is " . $e->errorMessage()); 
         } 
 
     }
