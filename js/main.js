@@ -690,14 +690,14 @@ function checkIndividualDivForNews(divId)
 	 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
  					{
 						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - SA Main</a> - " + getCurrentTimeAMPM());
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - Seeking Alpha</a> - " + getCurrentTimeAMPM());
 						$("#controlButton" + currentId).html("Start"); 						 					
 						newsFlag = true; 					
  					}
  					else if (mwMainContentLink1Title != $("#storedMarketWatchMainLink" + currentId).find("a:first").text()) 
  					{
 						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - SA Main</a> - " + getCurrentTimeAMPM());
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - Seeking Alpha</a> - " + getCurrentTimeAMPM());
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 
  					}
@@ -710,14 +710,14 @@ function checkIndividualDivForNews(divId)
 					if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
  					{
 						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - Street Insider</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
  					}
  					else if (mwPartnerHeadlinesLink1Title != $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text()) 
  					{
 						$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
-						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a>");
+						$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - Street Insider</a>");
 						$("#controlButton" + currentId).html("Start"); 						 					 					
 						newsFlag = true; 					
  					}
@@ -1103,7 +1103,7 @@ function checkAllDivsForNews()
 	 						{	
 								var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
-								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a> - " + getCurrentTimeAMPM());
+								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - Street Insider</a> - " + getCurrentTimeAMPM());
 								if ($("#controlButton" + currentId).html().toString() == 'Stop')
 								{
 //									 $("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
@@ -1115,7 +1115,7 @@ function checkAllDivsForNews()
 	 						{
 								var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
 								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
-								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - MW Other</a> - " + getCurrentTimeAMPM());
+								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - Street Insider</a> - " + getCurrentTimeAMPM());
 								if ($("#controlButton" + currentId).html().toString() == 'Stop')
 								{
 //								 	$("#newsStatusLabel" + currentId).append(" - " + getCurrentTimeAMPM()); 
