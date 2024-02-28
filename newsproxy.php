@@ -318,8 +318,8 @@ error_log("timeDiff is " . $timeDiff . " minutes, grabbing from the database");
         $streetInsiderLink = $xmlFinalObject->channel->item{0}->link;
         $streetInsiderTitle = $xmlFinalObject->channel->item{0}->title;
 
-        $streetInsiderLink = mysql_real_escape_string($streetInsiderLink);
-        $streetInsiderTitle = mysql_real_escape_string($streetInsiderTitle);
+        $streetInsiderLink = mysqli_real_escape_string($link, $streetInsiderLink);
+        $streetInsiderTitle = mysqli_real_escape_string($link, $streetInsiderTitle);
 
 error_log("Re-scraping and grabbing from the server"); 
 error_log("Link is " . $streetInsiderLink); 
