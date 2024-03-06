@@ -1587,6 +1587,14 @@ $(document.body).on('click', ".haltDiv", function(){
     {
     		$("#haltDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
+
+		var currentTime = getCurrentTimeAMPM();
+		var currentNotesVal = $("#volumeNotesText" + currentId).val(); 
+		var newNotesVal = currentNotesVal + " - Halt inspected " + currentTime; 
+		$("#volumeNotesText" + currentId).val(newNotesVal); 
+
+
+
 });  // on clicking high risk box with the "H"
 
 $(document.body).on('click', ".highRiskValueDiv", function(){
