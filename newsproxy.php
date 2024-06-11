@@ -468,16 +468,18 @@ $averageVolume = "";
 function getYahoo($symbol)
 {
 
-$ret = "";
 $url = "";
 $urlTitle = "";
-$full_company_name = "";
-$currentVolume = "";
-$stockOrFund = "";
 
 
     // grab the news 
 
+      $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-yahoo-finance-newscheck-links.py ' . $symbol);
+      $returnArray = shell_exec($command);
+
+      return $returnArray; 
+
+/*
       $rss = simplexml_load_file("http://feeds.finance.yahoo.com/rss/2.0/headline?s=$symbol&region=US&lang=en-US");
 
         if (preg_match('/RSS feed not found/i', $rss->channel->item{0}->title))
@@ -496,6 +498,9 @@ $stockOrFund = "";
       $returnArray = '{"yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
 
     return $returnArray; 
+
+
+*/
 
 } // if ($which_website == "yahoo")
 

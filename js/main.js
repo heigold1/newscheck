@@ -344,7 +344,7 @@ function createNewNewsEntry() {
 	newNewsEntry += " 	<div class='newsContainer'>"; 
 	newNewsEntry += "		<div class='symbolCheckBox' tabindex='-1'>"
 	newNewsEntry +=	"			<span class='symbolCheckBoxLabel'>" 
-	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc the 5th 'W/R/Z' char, '.WS' '.PD''"; 
+	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc 5th 'W/R/Z' char, '.WS' '.PD''"; 
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
@@ -352,6 +352,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
 	newNewsEntry += "			&nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
 	newNewsEntry += "           &nbsp; <button class='bigCharts' id='getBigCharts" + newIdNumber + "' type='button'>Big Charts</button>"; 
+  newNewsEntry += "     <span id='bigchartsLink" + newIdNumber + "' tabIndex='-1'>..</span> "	; 
 	newNewsEntry += "           $<span class='bigChartsLast' id='bigChartsLast" + newIdNumber + "' tabindex='-1'>0.0</span> (<span class='bigChartsPercentage' +  id='bigChartsPercentage" + newIdNumber + "' tabindex='-1'>0.0</span>%)"; 
 	newNewsEntry += "           <span class='bigChartsTime' id='bigChartsTime" + newIdNumber + "' tabindex='-1'></span>" 	
 	newNewsEntry += "		</div>"; 
@@ -509,6 +510,8 @@ var checkSec = $("#checkbox-sec").is(":checked")?"1":"0";
 				secFilingLink1Title = secFilingLink1Title.replace(/&#xD;&#xA;/g, '');  				
 
  				// yahoo main 
+
+				$("#bigchartsLink" + currentId).html("<a target='_blank' href='https://bigcharts.marketwatch.com/quickchart/quickchart.asp?symb=" + currentSymbol + "&insttype=&freq=1&show=&time=8&rand=" + Math.random() + "'>..</a>"); 
 
 				if (yahooFirstLinkTitle != "")
 				{
