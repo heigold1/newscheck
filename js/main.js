@@ -344,7 +344,7 @@ function createNewNewsEntry() {
 	newNewsEntry += " 	<div class='newsContainer'>"; 
 	newNewsEntry += "		<div class='symbolCheckBox' tabindex='-1'>"
 	newNewsEntry +=	"			<span class='symbolCheckBoxLabel'>" 
-	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc 5th 'W/R/Z' char, '.WS' '.PD''"; 
+	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc 5th 'W/R/Z', '.WS' '.PD''"; 
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
@@ -1833,6 +1833,7 @@ $(document.body).on('click', ".bigCharts", function(){
 	        	$("#bigChartsLast" + currentId).text(lastValue); 
 
 	        	$("#bigChartsTime" + currentId).text(time); 
+						$("#bigChartsTime" + currentId).css("font-size", "12px"); 
         	}
     	});  // end of AJAX call to bigcharts   
 	}
