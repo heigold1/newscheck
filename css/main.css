@@ -197,7 +197,7 @@
 			margin-top: 0.5px; 
 			height: 25px; 
 /*			border-radius: 10px;  */ 
-			width: 330px;
+			width: 315px;
 			display: inline-block;
 			background-color: #EBEBE0;
 		}
@@ -297,7 +297,7 @@
 			margin-top: 1.5px;
 			margin-left: 0px;
 			border-radius: 5px;
-			width: 255px;
+			width: 240px;
 			display: inline-block;
 			background-color: #00FF00;
 			height: 23px; 		
@@ -605,23 +605,6 @@
 		}
 
 
-
-		.pennyDiv{
-			position: relative;
-			height: 24;
-			width: 24;
-			margin-top: 1px;
-			margin-left: 0px ;
-			border: 1px solid #333;
-			display: inline-block;
-			vertical-align: top;
-/*	font-size: 35px; */ 
-			background-color: #EBEBE0;   
-/*			background-color: #FF0000;	 */ 
-			font-weight: bold;  
-		}		
-
-
 		.haltSpan{
 			position: relative;
 			height: 22px;
@@ -635,18 +618,6 @@
 		}
 
 		.lowVolumeSpan{
-			position: relative;
-			height: 22px;
-			width: 21px;
-			margin-top: 1px;
-			margin-left: 5px ;
-			display: inline-block;
-			font-size: 20px;   
-			vertical-align: top;
-			font-weight: bold;			
-		}
-
-		.pennySpan{
 			position: relative;
 			height: 22px;
 			width: 21px;
@@ -753,11 +724,6 @@
 		}
 
 		.lowVolumeDiv:hover{
-/*			background-color: #BFBFB6;  */ 
-			cursor: pointer;
-		}
-
-		.pennyDiv:hover{
 /*			background-color: #BFBFB6;  */ 
 			cursor: pointer;
 		}

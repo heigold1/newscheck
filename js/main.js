@@ -334,9 +334,6 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='lowVolumeDiv" + newIdNumber+ "' class='lowVolumeDiv' tabindex='-1'>";
 	newNewsEntry += "		<span class='lowVolumeSpan' tabindex='-1'>L</span>"; 
 	newNewsEntry += "	</div>";
-	newNewsEntry += "	<div id='pennyDiv" + newIdNumber + "' class='pennyDiv' tabindex='-1'>"; 
-	newNewsEntry += "		<span class='pennySpan' tabindex='-1'>P</span>";
-	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='offeringDiv" + newIdNumber + "' class='offeringDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='offeringSpan' tabindex='-1'>O</span>";
 	newNewsEntry += "	</div>";
@@ -1633,21 +1630,6 @@ $(document.body).on('click', ".lowVolumeDiv", function(){
     		$("#lowVolumeDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
 });  // on clicking high risk box with the "L"
-
-$(document.body).on('click', ".pennyDiv", function(){
-	
-	currentId = $(this).attr("id"); 
- 	currentId = currentId.replace("pennyDiv", ""); 
-
-    if ($("#pennyDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
-    {  
-			$("#pennyDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
-    } 
-    else 
-    {
-    		$("#pennyDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
-    }	
-});  // on clicking offering box with the "R"
 
 $(document.body).on('click', ".checkPK", function(){
 	
