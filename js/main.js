@@ -812,6 +812,7 @@ function checkAllDivsForNews()
  		var currentId = currentId.replace("div", "");
  		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
 		var lowValue = $.trim($("#lowValue" + currentId).val()); 
+ 		var checkBigCharts = $("#checkForBigCharts" + currentId).is(':checked')? "1": "0";
 
 		var originalSymbol = $.trim($("#symbol" + currentId).val()); 
 		var offerPrice = $.trim($("#offerPrice" + currentId).val());
@@ -838,7 +839,8 @@ function checkAllDivsForNews()
 			"offerPrice" : offerPrice, 
 			"checkNews" : checkNews, 
 			"idNumber": currentId, 
-			"lowValue": lowValue
+			"lowValue": lowValue, 
+			"checkBigCharts": checkBigCharts 
 		});
 
 	}); // allDivs.each()
@@ -1461,12 +1463,14 @@ $(document.body).on('click', ".controlButton", function(){
 		var currentTime = getCurrentTimeAMPM();
 		var currentNotesVal = $("#volumeNotesText" + currentId).val(); 
 		var newNotesVal = currentNotesVal + " - reset " + currentTime; 
+		var checkBigCharts = 0;   // first time around we aren't checking bigCharts 
 		$("#volumeNotesText" + currentId).val(newNotesVal); 
 
 		$("#newsResultsDiv" + currentId).css("background-color", "#EBEBE0");		
 		$("#newsStatusLabel" + currentId).html("Status...")		
 		currentSymbol = $.trim($("#symbol" + currentId).val()); 
 		currentSymbol = currentSymbol.toUpperCase(); 
+
 		if (currentSymbol == "")
 		{
 			alert("Please type in a symbol");

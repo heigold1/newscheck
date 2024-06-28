@@ -145,8 +145,11 @@ function getETradeAPIData($symbol)
     return json_decode($eTradeObject); 
 }
 
-function getBigChartsPercentage($symbol)
+function getBigChartsPercentage($symbol, $checkBigCharts)
 {
+
+    if ($checkBigCharts == 1)
+    {
       $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-bigcharts.py ' . $symbol);
       $bigChartsValues = shell_exec($command);
 
@@ -155,11 +158,16 @@ function getBigChartsPercentage($symbol)
       $bigChartsPercentage = $values[0];
       $bigChartsPercentage = str_replace("%", "", $bigChartsPercentage);
       $bigChartsPercentage = str_replace("-", "", $bigChartsPercentage);
+    }
+    else 
+    {
+      $bigChartsPercentage = ""; 
+    }
 
-      return $bigChartsPercentage; 
+    return $bigChartsPercentage; 
 }
 
-function getStatistics($symbol, $offerPrice, $lowValue)
+function getStatistics($symbol, $offerPrice, $lowValue, $checkBigCharts)
 {
     $currentVolume = ""; 
     $averageVolume = "";
@@ -167,7 +175,8 @@ function getStatistics($symbol, $offerPrice, $lowValue)
     $low = 0.0;
 
     $etradeAPIData = getEtradeAPIData($symbol);
-    $bigChartsPercentage = getBigChartsPercentage($symbol);
+
+    $bigChartsPercentage = getBigChartsPercentage($symbol, $checkBigCharts);
 
     if ($etradeAPIData != null)
     {
@@ -309,8 +318,6 @@ function getStreetInsider($symbol)
             {
                 $streetInsiderLink = $myRow['lastLink'];
                 $streetInsiderTitle = $myRow['lastTitle'];
-
-error_log("timeDiff is " . $timeDiff . " minutes, grabbing from the database"); 
             }
             else 
             {
@@ -335,18 +342,11 @@ error_log("timeDiff is " . $timeDiff . " minutes, grabbing from the database");
         $streetInsiderLink = mysqli_real_escape_string($link, $streetInsiderLink);
         $streetInsiderTitle = mysqli_real_escape_string($link, $streetInsiderTitle);
 
-error_log("Re-scraping and grabbing from the server"); 
-error_log("Link is " . $streetInsiderLink); 
-error_log("Title is " . $streetInsiderTitle); 
-
         try 
         {
             $link->set_charset("utf8");
 
             $sqlStatement = "UPDATE streetinsider SET  lastLink = '" . $streetInsiderLink . "', lastTitle = '" . $streetInsiderTitle . "', lastUpdated = NOW() WHERE symbol = '" . $symbol . "'"; 
-
-error_log("sqlStatement is " . $sqlStatement); 
-
 
             $query = mysqli_query($link, $sqlStatement);
             if(!$query)
@@ -567,7 +567,8 @@ function getTradeHalts()
 
 if (isset($which_website) && ($which_website == "marketwatch"))
 {
-  $statistics = getStatistics($symbol, $offerPrice, $lowValue);
+  $checkBigCharts = 0; // we're not checking bigCharts first time around 
+  $statistics = getStatistics($symbol, $offerPrice, $lowValue, $checkBigCharts);
   $statisticsJSON = json_decode($statistics); 
 
   $companyName = $statisticsJSON->companyName;
@@ -593,13 +594,14 @@ elseif ($symbols != null)
       $ticker = $symbol->ticker;
       $checkNews = $symbol->checkNews; 
       $lowValue = $symbol->lowValue; 
+      $checkBigCharts = $symbol->checkBigCharts; 
 
       if (isset($symbol->originalSymbol))
       {
           $originalSymbol = $symbol->originalSymbol; 
       }
 
-      $returnArray[$index]['statistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue);
+      $returnArray[$index]['statistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts);
       $statisticsJSON = json_decode($returnArray[$index]['statistics']); 
       $companyName = $statisticsJSON->companyName;
       $companyName = createSECCompanyName($companyName);
