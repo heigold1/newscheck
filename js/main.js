@@ -111,6 +111,11 @@ function playOrderHasHaltedStock(){
 	playHaltedStock.play();
 }
 
+function playBigCharts(){
+	var playHaltedStock = new Audio('./wav/big-charts-mild.wav');
+	playHaltedStock.play();
+}
+
 function checkSecond(sec) {
   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
   if (sec < 0) {sec = "59"};
@@ -286,7 +291,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div class='checkForLowWrapper'>";
 	newNewsEntry += "&nbsp;<input type='checkbox' id='checkForLow" + newIdNumber + "' class='checkForLow' checked>";
 	newNewsEntry += "	</div>";
-  newNewsEntry += "<div class='bigChartsInfo'>"; 
+  newNewsEntry += "&nbsp;<div class='bigChartsInfo'>"; 
   newNewsEntry += "&nbsp;<input type='checkbox' id='checkForBigCharts" + newIdNumber + "' class='checkForBigCharts' checked>"; 
 	newNewsEntry += "  <div id='bigChartsWrapper" + newIdNumber+ "' class='bigChartsWrapper'>"; 
   newNewsEntry += "		 &nbsp;<span id='bigChartsPercentage" + newIdNumber + "' class='bigChartsPercentageMain'></span>"; 
@@ -843,6 +848,7 @@ function checkAllDivsForNews()
 	var globalCloseToCurrentLow = false;
 	var globalCancelHighRiskTrades = false; 
 	var globalVolumeAlert = false;
+	var globalBigChartsAlert = false; 
 
 	$.ajax({
    		url: "newsproxy.php",
@@ -945,16 +951,25 @@ function checkAllDivsForNews()
 
 					statisticsData = JSON.parse(item.statistics);
 
-   					currentVolume = statisticsData.currentVolume; 
-   					averageVolume = statisticsData.averageVolume; 
+   				currentVolume = statisticsData.currentVolume; 
+   				averageVolume = statisticsData.averageVolume; 
    					
-   					bigChartsPercentage = statisticsData.bigChartsPercentage; 
-   					$("#bigChartsPercentage" + currentId).html(bigChartsPercentage);  
+   				bigChartsPercentage = statisticsData.bigChartsPercentage; 
+   				if (bigChartsPercentage == "ERR")
+   				{
+   				  bigChartsPercentage = 0.00; 
+   				}
+   				else 
+   				{
+   				  bigChartsPercentage = parseFloat(bigChartsPercentage); 
+   				}
 
-   					averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
-   					volumeRatio = parseFloat($("#volumeRatio" + currentId).val());
-   					percentLow = parseFloat(statisticsData.percentLow); 
-   					lowValue = parseFloat(statisticsData.lowValue);
+   				$("#bigChartsPercentage" + currentId).html(bigChartsPercentage); 
+
+   				averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
+   				volumeRatio = parseFloat($("#volumeRatio" + currentId).val());
+   				percentLow = parseFloat(statisticsData.percentLow); 
+   				lowValue = parseFloat(statisticsData.lowValue);
 
 					$("#low" + currentId).html(percentLow);
 					$("#lowValue" + currentId).val(lowValue);
@@ -1033,6 +1048,26 @@ function checkAllDivsForNews()
 						{
 							$("#lowWrapper" + currentId).css("background-color", "#EBEBE0");
 						}
+
+						var bigChartsDifference = currentPercentage - bigChartsPercentage; 
+						
+						if ($("#checkForBigCharts" + currentId).is(':checked'))
+						{
+							if ((bigChartsDifference) < 9.5)							
+							{
+								$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
+								globalBigChartsAlert = true;
+							}
+							else
+							{
+								$("#bigChartsWrapper" + currentId).css("background-color", "#EBEBE0");
+							}
+						}
+						else
+						{
+							$("#bigChartsWrapper" + currentId).css("background-color", "#EBEBE0");
+						}
+
 					}
 
 		 			if (
@@ -1202,6 +1237,11 @@ function checkAllDivsForNews()
 				if (globalVolumeAlert == true)
 				{
 					playCarDriveBy();
+				}
+
+				if (globalBigChartsAlert == true)
+				{
+					playBigCharts(); 
 				}
 
 			}  // end of yahoo success function

@@ -154,6 +154,7 @@ function getBigChartsPercentage($symbol)
 
       $bigChartsPercentage = $values[0];
       $bigChartsPercentage = str_replace("%", "", $bigChartsPercentage);
+      $bigChartsPercentage = str_replace("-", "", $bigChartsPercentage);
 
       return $bigChartsPercentage; 
 }
