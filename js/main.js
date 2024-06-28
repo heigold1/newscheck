@@ -1054,9 +1054,9 @@ function checkAllDivsForNews()
 						// We don't start checking BigCharts until 6:50 AM, 650 
 						if (getCurrentTime() > 650)
 						{
-   							$("#bigChartsPercentage" + currentId).html(bigChartsPercentage); 
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
+   								$("#bigChartsPercentage" + currentId).html(bigChartsPercentage); 
 									if ((bigChartsDifference) < 9.5)							
 									{
 										$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
@@ -1070,6 +1070,7 @@ function checkAllDivsForNews()
 								else
 								{
 									$("#bigChartsWrapper" + currentId).css("background-color", "#EBEBE0");
+   								$("#bigChartsPercentage" + currentId).html(""); 
 								}
 						}
 
