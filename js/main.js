@@ -1052,7 +1052,7 @@ function checkAllDivsForNews()
 						var bigChartsDifference = currentPercentage - bigChartsPercentage; 
 						
 						// We don't start checking BigCharts until 6:50 AM, 650 
-						if (getCurrentTime() > 649)
+						if (getCurrentTime() > 650)
 						{
    							$("#bigChartsPercentage" + currentId).html(bigChartsPercentage); 
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
