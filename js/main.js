@@ -286,6 +286,12 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div class='checkForLowWrapper'>";
 	newNewsEntry += "&nbsp;<input type='checkbox' id='checkForLow" + newIdNumber + "' class='checkForLow' checked>";
 	newNewsEntry += "	</div>";
+  newNewsEntry += "<div class='bigChartsInfo'>"; 
+  newNewsEntry += "&nbsp;<input type='checkbox' id='checkForBigCharts" + newIdNumber + "' class='checkForBigCharts' checked>"; 
+	newNewsEntry += "  <div id='bigChartsWrapper" + newIdNumber+ "' class='bigChartsWrapper'>"; 
+  newNewsEntry += "		 &nbsp;<span id='bigChartsPercentage" + newIdNumber + "' class='bigChartsPercentageMain'></span>"; 
+	newNewsEntry += "		</div>"; 
+	newNewsEntry += "</div>"; 
 	newNewsEntry += "	<div class='checkForNewNewsWrapper'>"; 
  	newNewsEntry += "		&nbsp;<input type='checkbox' id='checkForNewNews" + newIdNumber + "' class='checkForNewNews' checked>"; 
 	newNewsEntry += "	</div>"; 
@@ -938,8 +944,12 @@ function checkAllDivsForNews()
 					}
 
 					statisticsData = JSON.parse(item.statistics);
+
    					currentVolume = statisticsData.currentVolume; 
    					averageVolume = statisticsData.averageVolume; 
+   					
+   					bigChartsPercentage = statisticsData.bigChartsPercentage; 
+   					$("#bigChartsPercentage" + currentId).html(bigChartsPercentage);  
 
    					averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
    					volumeRatio = parseFloat($("#volumeRatio" + currentId).val());

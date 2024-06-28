@@ -197,7 +197,7 @@
 			margin-top: 0.5px; 
 			height: 25px; 
 /*			border-radius: 10px;  */ 
-			width: 315px;
+			width: 325px;
 			display: inline-block;
 			background-color: #EBEBE0;
 		}
@@ -297,7 +297,7 @@
 			margin-top: 1.5px;
 			margin-left: 0px;
 			border-radius: 5px;
-			width: 240px;
+			width: 250px;
 			display: inline-block;
 			background-color: #00FF00;
 			height: 23px; 		
@@ -320,7 +320,7 @@
 			margin-top: 0.5px; 
 			height: 25px; 
 /*			border-radius: 10px;  */ 
-			width: 312px;
+			width: 265px;
 			display: inline-block;
 			background-color: #EBEBE0;
 			font-size: 10px;
@@ -334,7 +334,7 @@
 		.newsStatusLabel{
 			position: relative;
 			height: 20px;
-			width: 310px;
+			width: 250px;
 			margin-top: 3px;
 			margin-left: 2px ;
 			display: inline-block;
@@ -1063,6 +1063,48 @@
 			vertical-align: top;
 			background-color: #EBEBE0;
 			border: 1px solid #333;
+		}
+
+		.bigChartsInfo{
+			position: relative;
+			height: 25px;
+			width: 65px;
+			margin-top: 0.5px;
+			margin-left: 0px ;
+			display: inline-block;
+			font-size: 10px;
+			vertical-align: top;
+			background-color: #EBEBE0;
+			border: 1px solid #333;
+		}
+
+		.checkForBigCharts{
+			position: relative;
+			margin-top: 5.5px;
+			margin-left: 3.5px ;
+			display: inline-block;
+			vertical-align: top;
+		}
+
+		.bigChartsWrapper{
+			position: relative;
+			height: 20px;
+			width: 35px;
+			margin-top: 1.5px;
+			margin-left: 1px ;
+			display: inline-block;
+			vertical-align: top;
+			border: 1px solid #333;
+			border-radius: 3px;
+			text-align: middle;
+			background-color:  #EBEBE0;
+		}	
+
+		.bigChartsPercentageMain{
+			position: relative;
+			margin-top: 3.5px;
+			display: inline-block;
+			font-size: 11px;
 		}
 
 		.lowWrapper{

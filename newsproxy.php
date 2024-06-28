@@ -145,6 +145,18 @@ function getETradeAPIData($symbol)
     return json_decode($eTradeObject); 
 }
 
+function getBigChartsPercentage($symbol)
+{
+      $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-bigcharts.py ' . $symbol);
+      $bigChartsValues = shell_exec($command);
+
+      $values = explode('|', $bigChartsValues); 
+
+      $bigChartsPercentage = $values[0];
+      $bigChartsPercentage = str_replace("%", "", $bigChartsPercentage);
+
+      return $bigChartsPercentage; 
+}
 
 function getStatistics($symbol, $offerPrice, $lowValue)
 {
@@ -154,6 +166,7 @@ function getStatistics($symbol, $offerPrice, $lowValue)
     $low = 0.0;
 
     $etradeAPIData = getEtradeAPIData($symbol);
+    $bigChartsPercentage = getBigChartsPercentage($symbol);
 
     if ($etradeAPIData != null)
     {
@@ -215,7 +228,7 @@ function getStatistics($symbol, $offerPrice, $lowValue)
        }
     }
 
-    $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '", "companyName": "' . $companyName . '"}'; 
+    $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '", "companyName": "' . $companyName . '", "bigChartsPercentage": "' . $bigChartsPercentage .'"}'; 
 
     return $returnArray; 
 }
