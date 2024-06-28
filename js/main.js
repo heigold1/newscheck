@@ -1059,7 +1059,7 @@ function checkAllDivsForNews()
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
    								$("#bigChartsPercentage" + currentId).html(bigChartsPercentage); 
-									if ((bigChartsDifference) < 9.5)							
+									if ((bigChartsDifference) < 9.75)							
 									{
 										$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
 										globalBigChartsAlert = true;
