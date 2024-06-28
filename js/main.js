@@ -14,9 +14,11 @@ var railroad1300 = 0;
 
 function getCurrentTime() {
         var date = new Date();
-        var hours = getHours();
+        var hours = date.getHours();
         var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-        time = parseInt(hours + minutes);
+
+        time = hours.toString() + minutes.toString();
+        time = parseInt(time); 
         return time;
    };
 
@@ -964,8 +966,6 @@ function checkAllDivsForNews()
    				  bigChartsPercentage = parseFloat(bigChartsPercentage); 
    				}
 
-   				$("#bigChartsPercentage" + currentId).html(bigChartsPercentage); 
-
    				averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
    				volumeRatio = parseFloat($("#volumeRatio" + currentId).val());
    				percentLow = parseFloat(statisticsData.percentLow); 
@@ -1051,21 +1051,26 @@ function checkAllDivsForNews()
 
 						var bigChartsDifference = currentPercentage - bigChartsPercentage; 
 						
-						if ($("#checkForBigCharts" + currentId).is(':checked'))
+						// We don't start checking BigCharts until 6:50 AM, 650 
+						if (getCurrentTime() > 649)
 						{
-							if ((bigChartsDifference) < 9.5)							
-							{
-								$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
-								globalBigChartsAlert = true;
-							}
-							else
-							{
-								$("#bigChartsWrapper" + currentId).css("background-color", "#EBEBE0");
-							}
-						}
-						else
-						{
-							$("#bigChartsWrapper" + currentId).css("background-color", "#EBEBE0");
+   							$("#bigChartsPercentage" + currentId).html(bigChartsPercentage); 
+								if ($("#checkForBigCharts" + currentId).is(':checked'))
+								{
+									if ((bigChartsDifference) < 9.5)							
+									{
+										$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
+										globalBigChartsAlert = true;
+									}
+									else
+									{
+										$("#bigChartsWrapper" + currentId).css("background-color", "#EBEBE0");
+									}
+								}
+								else
+								{
+									$("#bigChartsWrapper" + currentId).css("background-color", "#EBEBE0");
+								}
 						}
 
 					}
