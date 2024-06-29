@@ -257,6 +257,31 @@
 			vertical-align: top; 
 		}
 
+		.bigChartsSeparationDiv{
+			vertical-align: top;
+			position: relative;
+			border: 1px solid #333;
+			margin-left: 0px; 
+			margin-top: 0.5px; 
+			height: 24px; 
+			border-radius: 10px;
+			width: 35px;
+			display: inline-block;
+			background-color: #EBEBE0;
+		}		
+
+		.bigChartsSeparation{
+			margin-top: 1px;
+			margin-left: 0px;
+			border-radius: 10px;
+			width: 33px;
+			display: inline-block;
+			background-color: #E0E0D1;
+			height: 23px; 		
+			font-size: 15px;
+			vertical-align: top; 
+		}
+
 
 		.textLabel{
 			position: relative;

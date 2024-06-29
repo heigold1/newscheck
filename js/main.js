@@ -283,6 +283,9 @@ function createNewNewsEntry() {
 	newNewsEntry += " 	<div class='downButtonDiv'>"; 
 	newNewsEntry += "		<button id='downButton" + newIdNumber + "' class='downButton' type='button'>D</button>"; 
 	newNewsEntry += "	</div>"; 
+	newNewsEntry += "	<div class='bigChartsSeparation'>"; 
+  newNewsEntry += "		<button id='bigChartsSeparation" + newIdNumber + "' class='bigChartsSeparation' type='button'>10</button>"; 
+	newNewsEntry += "</div>"; 
 	newNewsEntry += "	<div class='lowInfo'>"; 
 	newNewsEntry += "	<input id='lowValue" + newIdNumber + "' class='lowValue' value='0.0'>";
 	newNewsEntry += "		<div id='lowWrapper" + newIdNumber + "' class='lowWrapper'>"; 
@@ -318,9 +321,13 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div id='expandContractNews" + newIdNumber + "' class='expandContractNews' tabindex='-1'> "; 
 	newNewsEntry += "		<img id='upDownArrow" + newIdNumber + "' class='arrowImages' src='images/downArrow_smaller.jpg' tabindex='-1'> "; 
   newNewsEntry += "	</div> "; 
+
+/*
+Not using the individual refresh anymore but I'll keep it here just in case 
 	newNewsEntry += "	<div id='refresh" + newIdNumber + "' class='refresh' tabindex='-1'>"; 
 	newNewsEntry += "		<img class='refreshImage' src='images/refresh_smaller.png' tabindex='-1'>"; 
 	newNewsEntry += "	</div>"; 
+*/
 	newNewsEntry += "   <div id='closeDiv" + newIdNumber + "' class='closeNewsEntry' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='closeNewsX' tabindex='-1'>X</span>"; 
 	newNewsEntry += "  	</div>"; 
@@ -812,7 +819,17 @@ function checkAllDivsForNews()
  		var currentId = currentId.replace("div", "");
  		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
 		var lowValue = $.trim($("#lowValue" + currentId).val()); 
- 		var checkBigCharts = $("#checkForBigCharts" + currentId).is(':checked')? "1": "0";
+    var checkBigCharts; 
+
+		// We don't start checking BigCharts until 6:50 AM, 650 
+		if (getCurrentTime() > 700)
+		{
+    	checkBigCharts = $("#checkForBigCharts" + currentId).is(':checked')? "1": "0";
+    }
+    else 
+    {
+    	checkBigCharts = 0; 
+    }
 
 		var originalSymbol = $.trim($("#symbol" + currentId).val()); 
 		var offerPrice = $.trim($("#offerPrice" + currentId).val());
@@ -1054,12 +1071,12 @@ function checkAllDivsForNews()
 						var bigChartsDifference = currentPercentage - bigChartsPercentage; 
 						
 						// We don't start checking BigCharts until 6:50 AM, 650 
-						if (getCurrentTime() > 650)
+						if (getCurrentTime() > 700)
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
    								$("#bigChartsPercentage" + currentId).html(bigChartsPercentage); 
-									if ((bigChartsDifference) < 10.00)							
+									if ((bigChartsDifference) < 9.99)							
 									{
 										$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
 										globalBigChartsAlert = true;
@@ -1553,6 +1570,47 @@ $(document.body).on('click', ".downButton", function(){
 	reCalcOrderStub(currentId); 
 
 //	orderString = $("#orderInput" + currentId).
+
+}); 
+
+// When the user clicks on the "10" percent big charts separation button, to bump it down 10% past whatever the 
+// last bigcharts value was 
+$(document.body).on('click', ".bigChartsSeparation", function(){
+
+	currentId = $(this).attr("id"); 
+	currentId = currentId.replace("bigChartsSeparation", ""); 
+
+	var orderStub = $("#orderInput" + currentId).val();
+
+	var orderStringSplit = orderStub.split(" "); 
+
+	var percentage = $("#bigChartsPercentage" + currentId).html();  
+	percentageFloat = parseFloat(percentage); 
+	percentageFloat += 10.00; 
+
+	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " " + orderStringSplit[2] + " (" + percentageFloat.toFixed(2) + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
+
+	$("#orderInput" + currentId).val(newOrderStub); 
+
+	reCalcOrderStub(currentId); 
+
+  // now we copy the order to the clipboard 
+ 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
+
+  	var copyTextarea = $("#fullOrder" + currentId);
+  	copyTextarea.select();
+  	try 
+  	{
+	    var successful = document.execCommand('copy');
+	    var msg = successful ? 'successful' : 'unsuccessful';
+		  alert($("#fullOrder" + currentId).val() + " succesfully copied.");
+  	} 
+  	catch (err) 
+  	{
+	    alert('Order did not succesfully copy');
+  	}
+
+	writeTradeStamp(currentId);
 
 }); 
 
