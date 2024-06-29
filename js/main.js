@@ -283,8 +283,11 @@ function createNewNewsEntry() {
 	newNewsEntry += " 	<div class='downButtonDiv'>"; 
 	newNewsEntry += "		<button id='downButton" + newIdNumber + "' class='downButton' type='button'>D</button>"; 
 	newNewsEntry += "	</div>"; 
+	newNewsEntry += "&nbsp;<div class='lowSeparation'>"
+	newNewsEntry += "		<button id='lowSeparation" + newIdNumber + "' class='lowSeparation' type='button'>L</button>"; 
+	newNewsEntry += "</div>"; 
 	newNewsEntry += "	<div class='bigChartsSeparation'>"; 
-  newNewsEntry += "		<button id='bigChartsSeparation" + newIdNumber + "' class='bigChartsSeparation' type='button'>10</button>"; 
+  newNewsEntry += "		<button id='bigChartsSeparation" + newIdNumber + "' class='bigChartsSeparation' type='button'>B</button>"; 
 	newNewsEntry += "</div>"; 
 	newNewsEntry += "	<div class='lowInfo'>"; 
 	newNewsEntry += "	<input id='lowValue" + newIdNumber + "' class='lowValue' value='0.0'>";
@@ -1573,7 +1576,55 @@ $(document.body).on('click', ".downButton", function(){
 
 }); 
 
-// When the user clicks on the "10" percent big charts separation button, to bump it down 10% past whatever the 
+// When the user clicks on the "L" button for 10 percent below the current low button, to bump it down 10% past whatever the 
+// current low-of-the-day is, if it recovered 5% ore more from it 
+$(document.body).on('click', ".lowSeparation", function(){
+
+	currentId = $(this).attr("id"); 
+	currentId = currentId.replace("lowSeparation", ""); 
+
+	var orderStub = $("#orderInput" + currentId).val();
+
+	var orderStringSplit = orderStub.split(" "); 
+
+	var percentage = $("#low" + currentId).html();  
+	percentageFloat = parseFloat(percentage); 
+	percentageFloat += 10.00; 
+
+	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " " + orderStringSplit[2] + " (" + percentageFloat.toFixed(2) + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
+
+	$("#orderInput" + currentId).val(newOrderStub); 
+
+	reCalcOrderStub(currentId); 
+
+  // now we copy the order to the clipboard 
+ 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
+
+  	var copyTextarea = $("#fullOrder" + currentId);
+  	copyTextarea.select();
+  	try 
+  	{
+	    var successful = document.execCommand('copy');
+	    var msg = successful ? 'successful' : 'unsuccessful';
+		  alert($("#fullOrder" + currentId).val() + " succesfully copied.");
+  	} 
+  	catch (err) 
+  	{
+	    alert('Order did not succesfully copy');
+  	}
+
+	writeTradeStamp(currentId);
+
+}); 
+
+
+
+
+
+
+
+
+// When the user clicks on the "B" button for 10 percent big charts separation button, to bump it down 10% past whatever the 
 // last bigcharts value was 
 $(document.body).on('click', ".bigChartsSeparation", function(){
 
