@@ -822,7 +822,7 @@ function checkAllDivsForNews()
     var checkBigCharts; 
 
 		// We don't start checking BigCharts until 6:50 AM, 650 
-		if (getCurrentTime() > 5 /*700*/)
+		if (getCurrentTime() > 700)
 		{
     	checkBigCharts = $("#checkForBigCharts" + currentId).is(':checked')? "1": "0";
     }
@@ -1070,7 +1070,7 @@ function checkAllDivsForNews()
 						
 						// We don't start checking BigCharts until 6:50 AM, 650 
 
-						if (getCurrentTime() > 5 /*700*/)
+						if (getCurrentTime() > 700)
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
@@ -1593,32 +1593,7 @@ $(document.body).on('click', ".lowSeparation", function(){
 
 	reCalcOrderStub(currentId); 
 
-  // now we copy the order to the clipboard 
- 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
-
-  	var copyTextarea = $("#fullOrder" + currentId);
-  	copyTextarea.select();
-  	try 
-  	{
-	    var successful = document.execCommand('copy');
-	    var msg = successful ? 'successful' : 'unsuccessful';
-		  alert($("#fullOrder" + currentId).val() + " succesfully copied.");
-  	} 
-  	catch (err) 
-  	{
-	    alert('Order did not succesfully copy');
-  	}
-
-	writeTradeStamp(currentId);
-
 }); 
-
-
-
-
-
-
-
 
 // When the user clicks on the "B" button for 10 percent big charts separation button, to bump it down 10% past whatever the 
 // last bigcharts value was 
@@ -1640,24 +1615,6 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 	$("#orderInput" + currentId).val(newOrderStub); 
 
 	reCalcOrderStub(currentId); 
-
-  // now we copy the order to the clipboard 
- 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
-
-  	var copyTextarea = $("#fullOrder" + currentId);
-  	copyTextarea.select();
-  	try 
-  	{
-	    var successful = document.execCommand('copy');
-	    var msg = successful ? 'successful' : 'unsuccessful';
-		  alert($("#fullOrder" + currentId).val() + " succesfully copied.");
-  	} 
-  	catch (err) 
-  	{
-	    alert('Order did not succesfully copy');
-  	}
-
-	writeTradeStamp(currentId);
 
 }); 
 
