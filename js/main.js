@@ -334,9 +334,6 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += "   <div id='closeDiv" + newIdNumber + "' class='closeNewsEntry' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='closeNewsX' tabindex='-1'>X</span>"; 
 	newNewsEntry += "  	</div>"; 
-	newNewsEntry += " 	<div id='volumeDiv" + newIdNumber + "' class='volumeDiv' tabindex='-1'>";
-	newNewsEntry += " 		<span id='volumeSpan" + newIdNumber + "' class='volumeSpan' tabindex='-1'>V</span>";
-	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div class='turnVolumeRedWrapper'>";
  	newNewsEntry += "		&nbsp;<input type='checkbox' id='turnVolumeRed" + newIdNumber + "' class='turnVolumeRed'>";
 	newNewsEntry += "	</div>";
@@ -825,7 +822,7 @@ function checkAllDivsForNews()
     var checkBigCharts; 
 
 		// We don't start checking BigCharts until 6:50 AM, 650 
-		if (getCurrentTime() > 700)
+		if (getCurrentTime() > 5 /*700*/)
 		{
     	checkBigCharts = $("#checkForBigCharts" + currentId).is(':checked')? "1": "0";
     }
@@ -1009,17 +1006,14 @@ function checkAllDivsForNews()
 							if (parseInt(currentVolume) > (averageVolume30Day*volumeRatio))
 							{
 								$("#volumeAmountDiv" + currentId).css("background-color", "rgb(255, 0, 0)"); 
-								$("#volumeDiv" + currentId).css("background-color", "rgb(255, 0, 0)"); 
 							}
 							else
 							{	
-								$("#volumeDiv" + currentId).css("background-color", "#EBEBE0");	
 								$("#volumeAmountDiv" + currentId).css("background-color", "#EBEBE0");	
 							}
 						}
 						else
 						{
-							$("#volumeDiv" + currentId).css("background-color", "#EBEBE0");	
 							$("#volumeAmountDiv" + currentId).css("background-color", "#EBEBE0");	
 						}
 
@@ -1072,13 +1066,15 @@ function checkAllDivsForNews()
 						}
 
 						var bigChartsDifference = currentPercentage - bigChartsPercentage; 
+						bigChartsDifference = bigChartsDifference.toFixed(2); 
 						
 						// We don't start checking BigCharts until 6:50 AM, 650 
-						if (getCurrentTime() > 700)
+
+						if (getCurrentTime() > 5 /*700*/)
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
-   								$("#bigChartsPercentage" + currentId).html(bigChartsPercentage); 
+   								$("#bigChartsPercentage" + currentId).html(bigChartsPercentage + " (" + bigChartsDifference + ")"); 
 									if ((bigChartsDifference) < 9.99)							
 									{
 										$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
