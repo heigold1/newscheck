@@ -206,6 +206,7 @@ function reCalcOrderStub(currentId)
     var numShares = orderStubSplit[1];
     var price = orderStubSplit[2];
     var prevClose = $("#prevClose" + currentId).html();
+    var orderType = ""; 
 
     price = price.replace(/\$/g, "");
     numSharesWithoutCommas = numShares.replace(/,/g, ""); 
@@ -246,7 +247,7 @@ function reCalcOrderStub(currentId)
  			newCalculatedPrice = newCalculatedPrice.toFixed(4);
  		}
 
-	    $("#orderInput" + currentId).val("BUY " + numSharesWithCommas + " $" + newCalculatedPrice + " (" + thePercentage.toFixed(2) + "%)"); 
+	    $("#orderInput" + currentId).val("BUY " + numSharesWithCommas + " $" + newCalculatedPrice + " (" + thePercentage.toFixed(2) + "%) -- " + orderStubSplit[5] + orderType); 
 
 	    ctl.setSelectionRange(startPos, startPos); 
 
@@ -981,7 +982,10 @@ function checkAllDivsForNews()
    				}
    				else 
    				{
-   				  bigChartsPercentage = parseFloat(bigChartsPercentage); 
+   					if (bigChartsPercentage != "NF") 
+   					{	
+	   				  bigChartsPercentage = parseFloat(bigChartsPercentage); 
+	   				}
    				}
 
    				averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
@@ -1073,7 +1077,15 @@ function checkAllDivsForNews()
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
-   								$("#bigChartsPercentage" + currentId).html(bigChartsPercentage + " (" + bigChartsDifference + ")"); 
+									if (bigChartsPercentage == "NF")
+   								{
+   				  				$("#bigChartsPercentage" + currentId).html("NOT FOUND"); 
+   								}
+   								else
+   								{
+   									$("#bigChartsPercentage" + currentId).html(bigChartsPercentage + " (" + bigChartsDifference + ")"); 
+   								}
+
 									if ((bigChartsDifference) < 9.99)							
 									{
 										$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
@@ -1788,8 +1800,6 @@ $(document.body).on('click', ".copyOrderToClipboard", function(){
 	currentId = $(this).attr("id"); 
  	currentId = currentId.replace("copyOrderToClipboard", ""); 
 
-//  	var fullOrder = $("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val(); 
-
  	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
 
   	var copyTextarea = $("#fullOrder" + currentId);
@@ -2059,10 +2069,6 @@ $(document.body).on('paste', ".orderInput", function(){
 	     	calcPrevClose(currentId);    	
     		orderStub = orderStub.replace(/(.*)BUY/, "BUY"); 
     		orderStub = orderStub.replace(/HR_.*/, ""); 
-
-				var index = orderStub.indexOf(" -- ");
-				orderStub = orderStub.substring(0, index);
-
 			$("#orderInput" + currentId).val(orderStub);    	
 
 			if ($.trim($("#symbol" + currentId).val()) == "")
@@ -2086,12 +2092,9 @@ $(document.body).on('keyup', ".orderInput", function(){
 //	orderString = $("#orderInput" + currentId).val();
 
 	var orderStub = $.trim($(this).val());
-
     var orderStubSplit = orderStub.split(" ");
 //    var secondWord = orderStubSplit[1];
     var firstWord = orderStubSplit[0];
-
-
 
 //    if (secondWord == "BUY")
 //    {
