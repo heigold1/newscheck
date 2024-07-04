@@ -280,12 +280,6 @@ function createNewNewsEntry() {
  	newNewsEntry += "	 	<div id='prevClose" + newIdNumber + "' class='prevClose'></div>"; 
 	newNewsEntry += "   <div id='recovery" + newIdNumber + "' class='recovery'></div>"; 
 	newNewsEntry += "	</div>"; 
-	newNewsEntry += " 	<div class='downButtonDiv'>"; 
-	newNewsEntry += "		<button id='downButton" + newIdNumber + "' class='downButton' type='button'>D</button>"; 
-	newNewsEntry += "	</div>"; 
-	newNewsEntry += "	<div class='bigChartsSeparation'>"; 
-  newNewsEntry += "		<button id='bigChartsSeparation" + newIdNumber + "' class='bigChartsSeparation' type='button'>B</button>"; 
-	newNewsEntry += "</div>"; 
 	newNewsEntry += "	<div class='lowInfo'>"; 
 	newNewsEntry += "	<input id='lowValue" + newIdNumber + "' class='lowValue' value='0.0'>";
 	newNewsEntry += "		<div id='lowWrapper" + newIdNumber + "' class='lowWrapper'>"; 
@@ -364,8 +358,14 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
+	newNewsEntry += " 		<div class='downButtonDiv'>"; 
+	newNewsEntry += "				<button id='downButton" + newIdNumber + "' class='downButton' type='button'>D</button>"; 
+	newNewsEntry += "			</div>"; 
 	newNewsEntry += "			&nbsp;<div class='lowSeparation'>"
 	newNewsEntry += "				<button id='lowSeparation" + newIdNumber + "' class='lowSeparation' type='button'>L</button>"; 
+	newNewsEntry += "			</div>";
+	newNewsEntry += "			<div class='bigChartsSeparation'>"; 
+  newNewsEntry += "				<button id='bigChartsSeparation" + newIdNumber + "' class='bigChartsSeparation' type='button'>B</button>"; 
 	newNewsEntry += "			</div>";
 //	newNewsEntry += "			&nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
 	newNewsEntry += "           &nbsp; <button class='bigCharts' id='getBigCharts" + newIdNumber + "' type='button'>Big Charts</button>"; 
