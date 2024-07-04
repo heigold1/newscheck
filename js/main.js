@@ -283,9 +283,6 @@ function createNewNewsEntry() {
 	newNewsEntry += " 	<div class='downButtonDiv'>"; 
 	newNewsEntry += "		<button id='downButton" + newIdNumber + "' class='downButton' type='button'>D</button>"; 
 	newNewsEntry += "	</div>"; 
-	newNewsEntry += "&nbsp;<div class='lowSeparation'>"
-	newNewsEntry += "		<button id='lowSeparation" + newIdNumber + "' class='lowSeparation' type='button'>L</button>"; 
-	newNewsEntry += "</div>"; 
 	newNewsEntry += "	<div class='bigChartsSeparation'>"; 
   newNewsEntry += "		<button id='bigChartsSeparation" + newIdNumber + "' class='bigChartsSeparation' type='button'>B</button>"; 
 	newNewsEntry += "</div>"; 
@@ -367,7 +364,10 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
-	newNewsEntry += "			&nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
+	newNewsEntry += "			&nbsp;<div class='lowSeparation'>"
+	newNewsEntry += "				<button id='lowSeparation" + newIdNumber + "' class='lowSeparation' type='button'>L</button>"; 
+	newNewsEntry += "			</div>";
+//	newNewsEntry += "			&nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
 	newNewsEntry += "           &nbsp; <button class='bigCharts' id='getBigCharts" + newIdNumber + "' type='button'>Big Charts</button>"; 
   newNewsEntry += "     <span id='bigchartsLink" + newIdNumber + "' tabIndex='-1'>..</span> "	; 
 	newNewsEntry += "           $<span class='bigChartsLast' id='bigChartsLast" + newIdNumber + "' tabindex='-1'>0.0</span> (<span class='bigChartsPercentage' +  id='bigChartsPercentage" + newIdNumber + "' tabindex='-1'>0.0</span>%)"; 
@@ -1594,15 +1594,37 @@ $(document.body).on('click', ".lowSeparation", function(){
 
 	var orderStringSplit = orderStub.split(" "); 
 
-	var percentage = $("#low" + currentId).html();  
-	percentageFloat = parseFloat(percentage); 
-	percentageFloat += 10.00; 
+  var currentLow = parseFloat($("#lowValue" + currentId).val()); 
+  var newPrice = currentLow - currentLow*0.1;
 
-	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " " + orderStringSplit[2] + " (" + percentageFloat.toFixed(2) + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
+  var previousClose = orderStringSplit[5]; 
+  previousClose = parseFloat(previousClose.replace("$", "")); 
+
+	var newPercentage = ((previousClose - newPrice)/prevClose)*100; 
+	var newPercentage = newPercentage.toFixed(2); 
+
+	var price = orderStringSplit[2]; 
+
+	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " $" + newPrice + " (" + newPercentage + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
 
 	$("#orderInput" + currentId).val(newOrderStub); 
 
-	reCalcOrderStub(currentId); 
+ 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
+
+  	var copyTextarea = $("#fullOrder" + currentId);
+  	copyTextarea.select();
+  	try 
+  	{
+	    var successful = document.execCommand('copy');
+	    var msg = successful ? 'successful' : 'unsuccessful';
+		  alert($("#fullOrder" + currentId).val() + " successfully copied");
+  	} 
+  	catch (err) 
+  	{
+	    alert('Order did not succesfully copy');
+  	}
+
+	writeTradeStamp(currentId);	 
 
 }); 
 
@@ -1619,6 +1641,7 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 
 	var percentage = $("#bigChartsPercentage" + currentId).html();  
 	percentageFloat = parseFloat(percentage); 
+
 	percentageFloat += 10.00; 
 
 	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " " + orderStringSplit[2] + " (" + percentageFloat.toFixed(2) + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
@@ -1626,6 +1649,22 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 	$("#orderInput" + currentId).val(newOrderStub); 
 
 	reCalcOrderStub(currentId); 
+
+ 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
+
+  	var copyTextarea = $("#fullOrder" + currentId);
+  	copyTextarea.select();
+  	try 
+  	{
+	    var successful = document.execCommand('copy');
+	    var msg = successful ? 'successful' : 'unsuccessful';
+		  alert($("#fullOrder" + currentId).val() + " succesfully copied.");
+  	} 
+  	catch (err) 
+  	{
+	    alert('Order did not succesfully copy');
+  	}
+
 
 }); 
 
@@ -1808,7 +1847,7 @@ $(document.body).on('click', ".copyOrderToClipboard", function(){
   	{
 	    var successful = document.execCommand('copy');
 	    var msg = successful ? 'successful' : 'unsuccessful';
-		  alert($("#fullOrder" + currentId).val() + " succesfully copied.  MAKE SURE TO BUMP DOWN 10% PAST LOW FOR PENNY STOCKS");
+		  alert($("#fullOrder" + currentId).val() + " successfully copied.");
   	} 
   	catch (err) 
   	{
