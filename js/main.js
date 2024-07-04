@@ -992,17 +992,10 @@ function checkAllDivsForNews()
    				bigChartsPercentage = statisticsData.bigChartsPercentage; 
    				bigChartsPrice = statisticsData.bigChartsPrice; 
 
+
    				if (bigChartsPercentage == "ERR")
    				{
-   				  bigChartsPercentage = 0.00; 
-   				  bigChartsPrice = 0.00; 
-   				}
-   				else 
-   				{
-   					if (bigChartsPercentage != "NF") 
-   					{	
-	   				  bigChartsPercentage = parseFloat(bigChartsPercentage); 
-	   				}
+   					bigChartsPercentage = "GT 0"; 
    				}
 
    				averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
