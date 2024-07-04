@@ -124,6 +124,20 @@ function checkSecond(sec) {
   return sec;
 }
 
+function calculateBigChartsDifference(currentId, bigChartsPrice)
+{
+		var orderStub = $("#orderInput" + currentId).val(); 
+		var orderStubSplit = orderStub.split(" ");
+		var price = orderStubSplit[2];
+		price = parseFloat(price.replace("$", "")); 
+		bigChartsPrice = parseFloat(bigChartsPrice); 
+
+		var difference = ((bigChartsPrice - price)/bigChartsPrice)*100; 
+
+		difference = difference.toFixed(2); 
+
+		return difference; 
+}
 
 
 function writeTradeStamp(id)
@@ -972,21 +986,16 @@ function checkAllDivsForNews()
 
 					statisticsData = JSON.parse(item.statistics);
 
-console.log("statisticsData is "); 
-console.log(statisticsData); 
-
    				currentVolume = statisticsData.currentVolume; 
    				averageVolume = statisticsData.averageVolume; 
    					
    				bigChartsPercentage = statisticsData.bigChartsPercentage; 
    				bigChartsPrice = statisticsData.bigChartsPrice; 
 
-alert("bigChartsPrice is " + bigChartsPrice); 
-
-
    				if (bigChartsPercentage == "ERR")
    				{
    				  bigChartsPercentage = 0.00; 
+   				  bigChartsPrice = 0.00; 
    				}
    				else 
    				{
@@ -1076,9 +1085,8 @@ alert("bigChartsPrice is " + bigChartsPrice);
 							$("#lowWrapper" + currentId).css("background-color", "#EBEBE0");
 						}
 
-						var bigChartsDifference = currentPercentage - bigChartsPercentage; 
-						bigChartsDifference = bigChartsDifference.toFixed(2); 
-						
+						var bigChartsDifference = calculateBigChartsDifference(currentId, bigChartsPrice); 
+
 						// We don't start checking BigCharts until 6:50 AM, 650 
 
 						if (getCurrentTime() > 700)
@@ -1091,10 +1099,10 @@ alert("bigChartsPrice is " + bigChartsPrice);
    								}
    								else
    								{
-   									$("#bigChartsPercentage" + currentId).html(bigChartsPercentage + " (" + bigChartsDifference + ")"); 
+   									$("#bigChartsPercentage" + currentId).html("$" + bigChartsPrice + " (" + bigChartsPercentage + "%) (" + bigChartsDifference + ")"); 
    								}
 
-									if ((bigChartsDifference) < 9.99)							
+									if ((bigChartsDifference) < 10.00)							
 									{
 										$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
 										globalBigChartsAlert = true;
@@ -1643,16 +1651,34 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 	currentId = $(this).attr("id"); 
 	currentId = currentId.replace("bigChartsSeparation", ""); 
 
+	var bigChartsString = $("#bigChartsPercentage" + currentId).html(); 
+	var bigChartsValues = bigChartsString.split(" "); 
+	var bigChartsPrice = bigChartsValues[0]; 
+	bigChartsPrice = bigChartsPrice.replace("$", ""); 
+	bigChartsPrice = parseFloat(bigChartsPrice); 
+
 	var orderStub = $("#orderInput" + currentId).val();
-
 	var orderStringSplit = orderStub.split(" "); 
+	var previousClose = orderStringSplit[5]; 
+	previousClose = previousClose.replace("$", ""); 
+	previousClose = parseFloat(previousClose); 
 
-	var percentage = $("#bigChartsPercentage" + currentId).html();  
-	percentageFloat = parseFloat(percentage); 
+	var newPrice = bigChartsPrice - bigChartsPrice*0.10;
 
-	percentageFloat += 10.00; 
+	if (previousClose > 1.00)
+	{
+		newPrice = newPrice.toFixed(2); 
+	}
+	else
+	{
+		newPrice = newPrice.toFixed(4); 
+	}
 
-	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " " + orderStringSplit[2] + " (" + percentageFloat.toFixed(2) + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
+	var newPercentage = ((previousClose - newPrice)/previousClose)*100; 
+	newPercentage = newPercentage.toFixed(2); 
+
+
+	var newOrderStub = 	orderStringSplit[0] + " " + orderStringSplit[1] + " $" + newPrice + " (" + newPercentage + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
 
 	$("#orderInput" + currentId).val(newOrderStub); 
 
