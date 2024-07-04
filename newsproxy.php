@@ -145,8 +145,9 @@ function getETradeAPIData($symbol)
     return json_decode($eTradeObject); 
 }
 
-function getBigChartsPercentage($symbol, $checkBigCharts)
+function getBigChartsData($symbol, $checkBigCharts)
 {
+    $bigChartsData = "|"; 
 
     if ($checkBigCharts == 1)
     {
@@ -158,13 +159,13 @@ function getBigChartsPercentage($symbol, $checkBigCharts)
       $bigChartsPercentage = $values[0];
       $bigChartsPercentage = str_replace("%", "", $bigChartsPercentage);
       $bigChartsPercentage = str_replace("-", "", $bigChartsPercentage);
-    }
-    else 
-    {
-      $bigChartsPercentage = ""; 
+      $bigChartsPrice = $values[1]; 
+      $bigChartsPrice = str_replace("$", "", $bigChartsPrice);
+
+      $bigChartsData = $bigChartsPercentage . "|" . $bigChartsPrice; 
     }
 
-    return $bigChartsPercentage; 
+    return $bigChartsData; 
 }
 
 function getStatistics($symbol, $offerPrice, $lowValue, $checkBigCharts)
@@ -176,7 +177,11 @@ function getStatistics($symbol, $offerPrice, $lowValue, $checkBigCharts)
 
     $etradeAPIData = getEtradeAPIData($symbol);
 
-    $bigChartsPercentage = getBigChartsPercentage($symbol, $checkBigCharts);
+    $bigChartsData = getBigChartsData($symbol, $checkBigCharts);
+
+    $bigChartsValues = explode('|', $bigChartsData); 
+    $bigChartsPercentage = $bigChartsValues[0];
+    $bigChartsPrice = $bigChartsValues[1]; 
 
     if ($etradeAPIData != null)
     {
@@ -238,7 +243,7 @@ function getStatistics($symbol, $offerPrice, $lowValue, $checkBigCharts)
        }
     }
 
-    $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '", "companyName": "' . $companyName . '", "bigChartsPercentage": "' . $bigChartsPercentage .'"}'; 
+    $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '", "companyName": "' . $companyName . '", "bigChartsPercentage": "' . $bigChartsPercentage .'", "bigChartsPrice": "' . $bigChartsPrice . '"}'; 
 
     return $returnArray; 
 }

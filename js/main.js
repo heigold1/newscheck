@@ -37,7 +37,7 @@ function getCurrentTimeAMPM() {
 
 function startTimer() {
   var presentTime = document.getElementById('timeLeftSpan').innerHTML;
-  var timeArray = presentTime.split(/[:]+/);
+  var timeArray = presentTime.split(/[:]+/)
   var m = timeArray[0];
   var s = checkSecond((timeArray[1] - 1));
   var time; 
@@ -972,10 +972,18 @@ function checkAllDivsForNews()
 
 					statisticsData = JSON.parse(item.statistics);
 
+console.log("statisticsData is "); 
+console.log(statisticsData); 
+
    				currentVolume = statisticsData.currentVolume; 
    				averageVolume = statisticsData.averageVolume; 
    					
    				bigChartsPercentage = statisticsData.bigChartsPercentage; 
+   				bigChartsPrice = statisticsData.bigChartsPrice; 
+
+alert("bigChartsPrice is " + bigChartsPrice); 
+
+
    				if (bigChartsPercentage == "ERR")
    				{
    				  bigChartsPercentage = 0.00; 
