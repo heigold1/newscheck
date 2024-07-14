@@ -1609,10 +1609,24 @@ $(document.body).on('click', ".lowSeparation", function(){
   var previousClose = orderStringSplit[5]; 
   previousClose = parseFloat(previousClose.replace("$", "")); 
 
+  if (newPrice > 1.00)
+  {
+  		newPrice = newPrice.toFixed(2);
+  }
+  else 
+  {
+  		if (previousClose > 1.00)
+  		{
+  				newPrice = newPrice.toFixed(2);
+  		}
+  		else 
+  		{
+  				newPrice = newPrice.toFixed(4); 
+  		}
+  }
+
 	var newPercentage = ((previousClose - newPrice)/prevClose)*100; 
 	var newPercentage = newPercentage.toFixed(2); 
-
-	var price = orderStringSplit[2]; 
 
 	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " $" + newPrice + " (" + newPercentage + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
 
