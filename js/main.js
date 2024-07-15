@@ -2094,7 +2094,7 @@ $(document.body).on('paste', ".orderInput", function(){
 */
 
     		if (
-    			((percentage >= 34.00) && (entryPrice > 1.00)) || ((percentage >= 55.00) && (entryPrice < 1.00))
+    			((percentage >= 34.00) && (entryPrice > 1.00)) || ((percentage >= 45.00) && (entryPrice < 1.00))
     			)
     		{
 				$("#orderInput" + currentId).css("background-color", "#FFFFFF"); 
@@ -2106,6 +2106,11 @@ $(document.body).on('paste', ".orderInput", function(){
 				$("#playVolumeSound" + currentId).prop('checked', true); 
 				$("#turnVolumeRed" + currentId).prop('checked', true);
 				$("#symbol" + currentId).css("background-color", "#CCE6FF");
+    		}
+
+    		if (percentage > 80.00)
+    		{
+    				$("#checkForBigCharts" + currentId).prop('checked', false); 
     		}
 
     		// For penny stocks, I want to start tracing them early, so put them under the radar 
