@@ -307,7 +307,7 @@ function createNewNewsEntry() {
   newNewsEntry += "&nbsp;<div class='bigChartsInfo'>"; 
   newNewsEntry += "&nbsp;<input type='checkbox' id='checkForBigCharts" + newIdNumber + "' class='checkForBigCharts' checked>"; 
 	newNewsEntry += "  <div id='bigChartsWrapper" + newIdNumber+ "' class='bigChartsWrapper'>"; 
-  newNewsEntry += "		 &nbsp;<span id='bigChartsPercentage" + newIdNumber + "' class='bigChartsPercentageMain'></span>"; 
+  newNewsEntry += "		 &nbsp;<span id='bigChartsPercentageMain" + newIdNumber + "' class='bigChartsPercentageMain'></span>"; 
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "</div>"; 
 	newNewsEntry += "	<div class='checkForNewNewsWrapper'>"; 
@@ -366,7 +366,7 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += " 	<div class='newsContainer'>"; 
 	newNewsEntry += "		<div class='symbolCheckBox' tabindex='-1'>"
 	newNewsEntry +=	"			<span class='symbolCheckBoxLabel'>" 
-	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc 5th 'W/R/Z', '.WS' '.PD''"; 
+	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc 'W/R/Z', '.WS' '.PD''"; 
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
@@ -375,6 +375,9 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += " 		<div class='downButtonDiv'>"; 
 	newNewsEntry += "				<button id='downButton" + newIdNumber + "' class='downButton' type='button'>D</button>"; 
 	newNewsEntry += "			</div>"; 
+	newNewsEntry += "			<div class='doubleButtonDiv'>"; 
+	newNewsEntry += "				<button id='doubleButton" + newIdNumber + "' class='doubleButton' type='button'>DOU</button>"; 
+	newNewsEntry += "			</div>"; 
 	newNewsEntry += "			&nbsp;<div class='lowSeparation'>"
 	newNewsEntry += "				<button id='lowSeparation" + newIdNumber + "' class='lowSeparation' type='button'>L</button>"; 
 	newNewsEntry += "			</div>";
@@ -382,7 +385,7 @@ Not using the individual refresh anymore but I'll keep it here just in case
   newNewsEntry += "				<button id='bigChartsSeparation" + newIdNumber + "' class='bigChartsSeparation' type='button'>B</button>"; 
 	newNewsEntry += "			</div>";
 //	newNewsEntry += "			&nbsp; <button class='emailOrder' id='emailOrder" + newIdNumber + "' type='button'>Email</button>"; 
-	newNewsEntry += "           &nbsp; <button class='bigCharts' id='getBigCharts" + newIdNumber + "' type='button'>Big Charts</button>"; 
+	newNewsEntry += "           &nbsp; <button class='bigCharts' id='getBigCharts" + newIdNumber + "' type='button'>BigChrt</button>"; 
   newNewsEntry += "     <span id='bigchartsLink" + newIdNumber + "' tabIndex='-1'>..</span> "	; 
 	newNewsEntry += "           $<span class='bigChartsLast' id='bigChartsLast" + newIdNumber + "' tabindex='-1'>0.0</span> (<span class='bigChartsPercentage' +  id='bigChartsPercentage" + newIdNumber + "' tabindex='-1'>0.0</span>%)"; 
 	newNewsEntry += "           <span class='bigChartsTime' id='bigChartsTime" + newIdNumber + "' tabindex='-1'></span>" 	
@@ -836,7 +839,7 @@ function checkAllDivsForNews()
     var checkBigCharts; 
 
 		// We don't start checking BigCharts until 6:50 AM, 650 
-		if (getCurrentTime() > 700)
+		if (getCurrentTime() > 1 /* > 700 */)
 		{
     	checkBigCharts = $("#checkForBigCharts" + currentId).is(':checked')? "1": "0";
     }
@@ -1082,17 +1085,17 @@ function checkAllDivsForNews()
 
 						// We don't start checking BigCharts until 6:50 AM, 650 
 
-						if (getCurrentTime() > 700)
+						if (getCurrentTime() > 1 /* > 700 */)
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
 									if (bigChartsPercentage == "NF")
    								{
-   				  				$("#bigChartsPercentage" + currentId).html("NOT FOUND"); 
+   				  				$("#bigChartsPercentageMain" + currentId).html("NOT FOUND"); 
    								}
    								else
    								{
-   									$("#bigChartsPercentage" + currentId).html("$" + bigChartsPrice + " (" + bigChartsPercentage + "%) (" + bigChartsDifference + ")"); 
+   									$("#bigChartsPercentageMain" + currentId).html("$" + bigChartsPrice + " (" + bigChartsPercentage + "%) (" + bigChartsDifference + ")"); 
    								}
 
 									if ((bigChartsDifference) < 10.00)							
@@ -1108,7 +1111,7 @@ function checkAllDivsForNews()
 								else
 								{
 									$("#bigChartsWrapper" + currentId).css("background-color", "#EBEBE0");
-   								$("#bigChartsPercentage" + currentId).html(""); 
+   								$("#bigChartsPercentageMain" + currentId).html(""); 
 								}
 						}
 
@@ -1592,6 +1595,25 @@ $(document.body).on('click', ".downButton", function(){
 
 }); 
 
+// When the user clicks on the "DOU" (for double the amount of shares) button, to increase the amount of shares by X2 
+$(document.body).on('click', ".doubleButton", function(){
+
+	currentId = $(this).attr("id"); 
+	currentId = currentId.replace("doubleButton", ""); 
+
+	var orderStub = $("#orderInput" + currentId).val();
+
+	var orderStringSplit = orderStub.split(" "); 
+
+	var numShares = parseInt(orderStringSplit[1]); 
+	numShares = numShares * 2; 
+
+	var newOrderStub = orderStringSplit[0] + " " + numShares + " " + orderStringSplit[2] + " " + orderStringSplit[3] + " " + orderStringSplit[4] + " " + orderStringSplit[5]; 
+
+	$("#orderInput" + currentId).val(newOrderStub); 
+
+}); 
+
 // When the user clicks on the "L" button for 10 percent below the current low button, to bump it down 10% past whatever the 
 // current low-of-the-day is, if it recovered 5% ore more from it 
 $(document.body).on('click', ".lowSeparation", function(){
@@ -1625,7 +1647,7 @@ $(document.body).on('click', ".lowSeparation", function(){
   		}
   }
 
-	var newPercentage = ((previousClose - newPrice)/prevClose)*100; 
+	var newPercentage = ((previousClose - newPrice)/prevClose)*100.00; 
 	var newPercentage = newPercentage.toFixed(2); 
 
 	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " $" + newPrice + " (" + newPercentage + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
@@ -1658,7 +1680,7 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 	currentId = $(this).attr("id"); 
 	currentId = currentId.replace("bigChartsSeparation", ""); 
 
-	var bigChartsString = $("#bigChartsPercentage" + currentId).html(); 
+	var bigChartsString = $("#bigChartsPercentageMain" + currentId).html(); 
 	var bigChartsValues = bigChartsString.split(" "); 
 	var bigChartsPrice = bigChartsValues[0]; 
 	bigChartsPrice = bigChartsPrice.replace("$", ""); 
@@ -1672,16 +1694,29 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 
 	var newPrice = bigChartsPrice - bigChartsPrice*0.10;
 
-	if (previousClose > 1.00)
+	if (previousClose >= 1.00)
 	{
 		newPrice = newPrice.toFixed(2); 
+
+    let numberStr = newPrice.toString();
+
+    // Split the number by the decimal point
+    let parts = numberStr.split('.');
+
+    // Truncate the last two decimal places
+    let truncatedDecimal = parts[1].substring(0, 2);
+
+    // Combine the integer part with the truncated decimal part
+    let truncatedNumberStr = parts[0] + '.' + truncatedDecimal;
+
+    newPrice = truncatedNumberStr; 
 	}
 	else
 	{
 		newPrice = newPrice.toFixed(4); 
 	}
 
-	var newPercentage = ((previousClose - newPrice)/previousClose)*100; 
+	var newPercentage = ((previousClose - newPrice)/previousClose)*100.00; 
 	newPercentage = newPercentage.toFixed(2); 
 
 
@@ -1996,7 +2031,7 @@ $(document.body).on('click', ".bigCharts", function(){
 	var currentTime = hours.toString().concat(minutes); 
 	currentTime = parseInt(currentTime); 
 
-	if (currentTime < 651)
+	if (currentTime < 700)
 	{
 		alert("Too early to call Big Charts"); 
 	}
