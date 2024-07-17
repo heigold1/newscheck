@@ -839,7 +839,7 @@ function checkAllDivsForNews()
     var checkBigCharts; 
 
 		// We don't start checking BigCharts until 6:50 AM, 650 
-		if (getCurrentTime() > 1 /* > 700 */)
+		if (getCurrentTime() > 700)
 		{
     	checkBigCharts = $("#checkForBigCharts" + currentId).is(':checked')? "1": "0";
     }
@@ -1083,9 +1083,9 @@ function checkAllDivsForNews()
 
 						var bigChartsDifference = calculateBigChartsDifference(currentId, bigChartsPrice); 
 
-						// We don't start checking BigCharts until 6:50 AM, 650 
+						// We don't start checking BigCharts until 7:00 AM
 
-						if (getCurrentTime() > 1 /* > 700 */)
+						if (getCurrentTime() > 700)
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
@@ -1649,6 +1649,13 @@ $(document.body).on('click', ".lowSeparation", function(){
 
 	var newPercentage = ((previousClose - newPrice)/prevClose)*100.00; 
 	var newPercentage = newPercentage.toFixed(2); 
+
+
+alert("Current Low Price is: " + currentLow + "\n\nNew Price is: " + newPrice + "\n\nPrevious Close is: " + previousClose + "\n\nNew Percentage is: " + newPercentage)
+
+
+
+
 
 	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " $" + newPrice + " (" + newPercentage + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
 
