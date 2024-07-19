@@ -1631,13 +1631,13 @@ $(document.body).on('click', ".lowSeparation", function(){
   var previousClose = orderStringSplit[5]; 
   previousClose = parseFloat(previousClose.replace("$", "")); 
 
-  if (newPrice > 1.00)
+  if (newPrice >= 1.00)
   {
   		newPrice = newPrice.toFixed(2);
   }
   else 
   {
-  		if (previousClose > 1.00)
+  		if (previousClose >= 1.00)
   		{
   				newPrice = newPrice.toFixed(2);
   		}
@@ -1647,13 +1647,14 @@ $(document.body).on('click', ".lowSeparation", function(){
   		}
   }
 
+var prevCloseMinusNewPrice = previousClose - newPrice;
+var prevCloseMinusNewPriceDivPrevClose = prevCloseMinusNewPrice/prevClose; 
+
 	var newPercentage = ((previousClose - newPrice)/prevClose)*100.00; 
 	var newPercentage = newPercentage.toFixed(2); 
 
 
-alert("Current Low Price is: " + currentLow + "\n\nNew Price is: " + newPrice + "\n\nPrevious Close is: " + previousClose + "\n\nNew Percentage is: " + newPercentage)
-
-
+alert("Current Low Price is: " + currentLow + "\n\nNew Price is: " + newPrice + "\n\nPrevious Close is: " + previousClose + "\n\nPrevious Close minus New Price is: "+ prevCloseMinusNewPrice + "\n\nPrevious Close Minuse New Price div Previous Close is: " + prevCloseMinusNewPriceDivPrevClose + "\n\nNew Percentage is : " + newPercentage);
 
 
 
