@@ -111,6 +111,8 @@ function createSECCompanyName($companyName)
     $companyName = preg_replace('/ COM.*/', '', $companyName);
     $companyName = preg_replace('/ LTD.*/', '', $companyName);
     $companyName = preg_replace('/ NEW.*/', '', $companyName);
+    $companyName = preg_replace('/ SHS.*/', '', $companyName);
+    $companyName = preg_replace('/ CORPORATION.*/', ' CORP', $companyName); 
 
     $companyNameArray = explode(" ", $companyName);
     $arrayLength = count($companyNameArray);
@@ -374,7 +376,7 @@ function getStreetInsider($symbol)
 
 }
 
-function getMarketwatch($symbol, $companyName, $checkSec)
+function getSEC($symbol, $companyName, $checkSec)
 {
 
 $entireMarketwatchPage = "";
@@ -406,79 +408,26 @@ $averageVolume = "";
 
         // now we do the SEC filing 
 
+        $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $symbol . " " . $companyName);
+        $secValues = shell_exec($command);
+/*
+echo "json string is: <br><br>"; 
+echo $secValues . "<br><br>"; 
+*/
+        $secValuesObject = json_decode($secValues); 
+/*
+echo "returned object is: <br><br>"; 
+var_dump($secValuesObject);  
+die(); 
+*/
 
-        if ($checkSec == 0)
-        {
+        $secUrl = $secValuesObject->url;
+        $secUrlTitle = $secValuesObject->url_title; 
 
-          $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
-              '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
-              '"secFiling":{"url":"---","urlTitle":"NO SEC"}}'; 
-
-          return $returnArray;
-        }
-
-        $url = "https://www.sec.gov/cgi-bin/browse-edgar?CIK=" . $symbol . "&owner=exclude&action=getcompany&Find=Search"; 
-        $result = grabHTML('www.sec.gov', $url); 
-
-        if (preg_match('/No matching Ticker Symbol/i', $result))
-        {
-
-            $url = "https://www.sec.gov/cgi-bin/browse-edgar?company=" . $companyName . "&owner=include&action=getcompany"; 
-
-            $result = grabHTML('www.sec.gov', $url); 
-
-            if (
-              preg_match('/No matching companies/i', $result) || 
-              preg_match('/Companies with names matching/', $result)
-            )
-            {
-
-                  $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
-                      '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
-                      '"secFiling":{"url":"---","urlTitle":"NO SEC"}}'; 
-
-                  return $returnArray;
-            }
-        }
-
-        $html = str_get_html($result);
-
-        $tableRow1 = $html->find('.tableFile2 tbody tr'); 
-
-        $row = str_get_html($tableRow1[1]);
-
-        if (is_null($row) || ($row == 0))
-        {
-
-            $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
-                '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
-                '"secFiling":{"url":"---","urlTitle":"NO SEC"}}'; 
-
-            return $returnArray;
-        }
-
-        $td = $row->find('td'); 
-        $linkTd = $td[1]->find('a');  
-
-        $td0 = $td[0]; 
-        $td2 = $td[2]->plaintext;
-
-        $td2 = preg_replace('/Acc-no.*MB/', '', $td2);
-        $td2 = preg_replace('/Acc-no.*KB/', '', $td2);
-        $td2 = trim($td2);
-
-        $firstLink  = 'https://www.sec.gov' . $linkTd[0]->href; 
-        $firstLinkResults = grabHTML('www.sec.gov', $firstLink); 
-        $html2 = str_get_html($firstLinkResults);
-        $tableRow2 = $html2->find('tr'); 
-        $td2nd = $tableRow2[1]->find('td'); 
-        $a2 = $td2nd[2]->find('a');
-        $secFilingLink1 = 'https://www.sec.gov' . $a2[0]->href;
-        $secFilingLink1 = trim($secFilingLink1);
 
         $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
               '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
-              '"secFiling":{"url":"' . $secFilingLink1 . '","urlTitle":"' . $td2 . '"}}'; 
+              '"secFiling":{"url":"' . $secUrl . '","urlTitle":"' . $secUrlTitle . '"}}'; 
 
         return $returnArray;
 
@@ -579,7 +528,7 @@ if (isset($which_website) && ($which_website == "marketwatch"))
   $companyName = $statisticsJSON->companyName;
   $companyName = createSECCompanyName($companyName);
   
-  $returnLinks = getMarketwatch($symbol, $companyName, $checkSec);
+  $returnLinks = getSEC($symbol, $companyName, $checkSec);
   echo $returnLinks;
 }
 elseif (isset($which_website) && ($which_website == "yahoo"))
@@ -618,7 +567,7 @@ elseif ($symbols != null)
 
           $stockOrFund = $yahooObject->stockOrFund; 
 
-          $returnArray[$index]['marketwatch_sec'] = getMarketwatch($ticker, $companyName, $checkSec);
+          $returnArray[$index]['marketwatch_sec'] = getSEC($ticker, $companyName, $checkSec);
       }
 
       $returnArray[$index]['symbol'] = $ticker;
