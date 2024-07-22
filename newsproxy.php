@@ -410,16 +410,8 @@ $averageVolume = "";
 
         $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $symbol . " " . $companyName);
         $secValues = shell_exec($command);
-/*
-echo "json string is: <br><br>"; 
-echo $secValues . "<br><br>"; 
-*/
+
         $secValuesObject = json_decode($secValues); 
-/*
-echo "returned object is: <br><br>"; 
-var_dump($secValuesObject);  
-die(); 
-*/
 
         $secUrl = $secValuesObject->url;
         $secUrlTitle = $secValuesObject->url_title; 
