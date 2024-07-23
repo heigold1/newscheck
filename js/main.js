@@ -292,6 +292,7 @@ function createNewNewsEntry() {
 	newNewsEntry += "		<input id='symbol" + newIdNumber + "' class='symbolTextInput'>"; 
 	newNewsEntry += "		<input id='orderInput" + newIdNumber + "' class='orderInput'>"; 
  	newNewsEntry += "	 	<div id='prevClose" + newIdNumber + "' class='prevClose'></div>"; 
+	newNewsEntry += "   <div id='cikNumber" + newIdNumber + "' class='cikNumber'></div>"; 
 	newNewsEntry += "   <div id='recovery" + newIdNumber + "' class='recovery'></div>"; 
 	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div class='lowInfo'>"; 
@@ -451,8 +452,7 @@ var mwPartnerHeadlinesLink1Title = "";
 var secFilingLink1 = "";
 var secFilingLink1Title = "";
 var checkSec = $("#checkbox-sec").is(":checked")?"1":"0";
-
-
+var cikNumber = $("#cikNumber" + currentId).html(); 
 
 	// set the status bar 
 
@@ -495,7 +495,8 @@ var checkSec = $("#checkbox-sec").is(":checked")?"1":"0";
 	    data: {symbol: currentSymbol,
 	    	   which_website: "marketwatch", 
 	    	   host_name: "www.marketwatch.com",
-	    	 	 checkSec: checkSec} , 
+	    	 	 checkSec: checkSec,
+	    	 	 cikNumber: cikNumber} , 
 		async: false,	    	   
 	    dataType: 'json',
 	    success:  function (data) {
@@ -836,6 +837,7 @@ function checkAllDivsForNews()
  		var currentId = currentId.replace("div", "");
  		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
 		var lowValue = $.trim($("#lowValue" + currentId).val()); 
+		var cikNumber= $.trim($("#cikNumber" + currentId).val()); 
     var checkBigCharts; 
 
 		// We don't start checking BigCharts until 6:50 AM, 650 
@@ -874,7 +876,8 @@ function checkAllDivsForNews()
 			"checkNews" : checkNews, 
 			"idNumber": currentId, 
 			"lowValue": lowValue, 
-			"checkBigCharts": checkBigCharts 
+			"checkBigCharts": checkBigCharts, 
+			"cikNumber": cikNumber 
 		});
 
 	}); // allDivs.each()
@@ -2184,19 +2187,26 @@ $(document.body).on('paste', ".orderInput", function(){
 				$("#symbol" + currentId).css("background-color", "yellow"); 
 			}
 
-    		// Handle high-risk previous day spike-ups
-    		if (orderStub.search("HR_") != -1) {
-    			$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
-    			highRiskValue = orderStub.toString().match(/HR_(.*)/g); 
+    	// Handle high-risk previous day spike-ups
+    	if (orderStub.search("HR_") != -1) {
+    		$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
+    		highRiskValue = orderStub.toString().match(/HR_(.*)/g); 
 
-    			highRiskValue = highRiskValue[0]; 
-    			highRiskValue = highRiskValue.replace(/HR_/, ""); 
-    			$("#highRiskValueSpan" + currentId).html(highRiskValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")); 
-    		}
+    		highRiskValue = highRiskValue[0]; 
+    		highRiskValue = highRiskValue.replace(/HR_/, ""); 
+    		$("#highRiskValueSpan" + currentId).html(highRiskValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")); 
+    	}
 
-	     	calcPrevClose(currentId);    	
-    		orderStub = orderStub.replace(/(.*)BUY/, "BUY"); 
-    		orderStub = orderStub.replace(/HR_.*/, ""); 
+
+    	// Grab the cik number from the string 
+			var cikRegex = /CIK_(\d+|NOT_FOUND)/;
+			var cikRegexMatch = orderStub.match(cikRegex); 
+			$("#cikNumber" + currentId).html(cikRegexMatch[1]); 
+			orderStub = orderStub.replace(cikRegex, '').trim(); 
+
+	    calcPrevClose(currentId);    	
+    	orderStub = orderStub.replace(/(.*)BUY/, "BUY"); 
+    	orderStub = orderStub.replace(/HR_\d+/, ""); 
 			$("#orderInput" + currentId).val(orderStub);    	
 
 			if ($.trim($("#symbol" + currentId).val()) == "")

@@ -15,6 +15,10 @@ if(isset($_GET['checkSec']))
 {
   $checkSec=intval($_GET['checkSec']); 
 }
+if(isset($_GET['cikNumber']))
+{
+  $cikNumber=$_GET['cikNumber']; 
+}
 if(isset($_GET['symbol']))
 {
   $symbol=$_GET['symbol'];
@@ -376,7 +380,7 @@ function getStreetInsider($symbol)
 
 }
 
-function getSEC($symbol, $companyName, $checkSec)
+function getSEC($symbol, $companyName, $checkSec, $cikNumber)
 {
 
 $entireMarketwatchPage = "";
@@ -408,7 +412,7 @@ $averageVolume = "";
 
         // now we do the SEC filing 
 
-        $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $symbol . " " . $companyName);
+        $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $symbol . " " . $cikNumber . " " . $companyName);
         $secValues = shell_exec($command);
 
         $secValuesObject = json_decode($secValues); 
@@ -519,8 +523,8 @@ if (isset($which_website) && ($which_website == "marketwatch"))
 
   $companyName = $statisticsJSON->companyName;
   $companyName = createSECCompanyName($companyName);
-  
-  $returnLinks = getSEC($symbol, $companyName, $checkSec);
+
+  $returnLinks = getSEC($symbol, $companyName, $checkSec, $cikNumber);
   echo $returnLinks;
 }
 elseif (isset($which_website) && ($which_website == "yahoo"))
@@ -541,6 +545,7 @@ elseif ($symbols != null)
       $checkNews = $symbol->checkNews; 
       $lowValue = $symbol->lowValue; 
       $checkBigCharts = $symbol->checkBigCharts; 
+      $cikNumber = $symbol->cikNumber; 
 
       if (isset($symbol->originalSymbol))
       {
@@ -559,7 +564,7 @@ elseif ($symbols != null)
 
           $stockOrFund = $yahooObject->stockOrFund; 
 
-          $returnArray[$index]['marketwatch_sec'] = getSEC($ticker, $companyName, $checkSec);
+          $returnArray[$index]['marketwatch_sec'] = getSEC($ticker, $companyName, $checkSec, $cikNumber);
       }
 
       $returnArray[$index]['symbol'] = $ticker;
