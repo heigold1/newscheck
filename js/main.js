@@ -437,7 +437,7 @@ Not using the individual refresh anymore but I'll keep it here just in case
 // (the marketwatch main content table, the marketwatch partner headlines table, 
 // and the marketwatch pr headlines table).
 
-function storeOriginalStateOfNews(currentSymbol, currentId){
+function storeOriginalStateOfNews(originalSymbol, modifiedSymbol, currentId){
 
 var yahooFound = "";     		// was the symbol even found on the yahoo website? 
 var yahooCompanyName = "";      // the company name parsed out of the yahoo page
@@ -460,7 +460,7 @@ var cikNumber = $("#cikNumber" + currentId).html();
 
 	$.ajax({
 	   	url: "newsproxy.php",
-	   	data: {symbol: currentSymbol,
+	   	data: {modifiedSymbol: modifiedSymbol,
 	   		which_website: "yahoo", 
 	   		host_name: "finance.yahoo.com"} , 
 		async: false,	   		
@@ -492,7 +492,8 @@ var cikNumber = $("#cikNumber" + currentId).html();
 
  	$.ajax({
 	    url: "newsproxy.php",
-	    data: {symbol: currentSymbol,
+	    data: {modifiedSymbol: modifiedSymbol,
+	    			originalSymbol: originalSymbol, 
 	    	   which_website: "marketwatch", 
 	    	   host_name: "www.marketwatch.com",
 	    	 	 checkSec: checkSec,
@@ -546,7 +547,7 @@ var cikNumber = $("#cikNumber" + currentId).html();
 
  				// yahoo main 
 
-				$("#bigchartsLink" + currentId).html("<a target='_blank' href='https://bigcharts.marketwatch.com/quickchart/quickchart.asp?symb=" + currentSymbol + "&insttype=&freq=1&show=&time=8&rand=" + Math.random() + "'>..</a>"); 
+				$("#bigchartsLink" + currentId).html("<a target='_blank' href='https://bigcharts.marketwatch.com/quickchart/quickchart.asp?symb=" + originalSymbol + "&insttype=&freq=1&show=&time=8&rand=" + Math.random() + "'>..</a>"); 
 
 				if (yahooFirstLinkTitle != "")
 				{
@@ -794,7 +795,7 @@ function checkIndividualDivForNews(divId)
 			}); // end of ajax call to Marketwatch 
 
 			$("#chartDiv" + currentId).html("");
-			$("#chartDiv" + currentId).html("<img style='max-width:100%; max-height:100%;' src='https://api.wsj.net/api/kaavio/charts/big.chart?nosettings=1&symb=" + original_symbol + "&uf=0&type=2&size=2&style=320&freq=1&entitlementtoken=0c33378313484ba9b46b8e24ded87dd6&time=4&rand=" + Math.random() + "&compidx=&ma=0&maval=9&lf=1&lf2=0&lf3=0&height=335&width=579&mocktick=1'>");
+			$("#chartDiv" + currentId).html("<img style='max-width:100%; max-height:100%;' src='https://api.wsj.net/api/kaavio/charts/big.chart?nosettings=1&symb=" + originalSymbol + "&uf=0&type=2&size=2&style=320&freq=1&entitlementtoken=0c33378313484ba9b46b8e24ded87dd6&time=4&rand=" + Math.random() + "&compidx=&ma=0&maval=9&lf=1&lf2=0&lf3=0&height=335&width=579&mocktick=1'>");
 
 		} // if (currentSymbol != "")
 
@@ -832,7 +833,7 @@ function checkAllDivsForNews()
 
 	$(".allDivs").each(function(){
 
-		var ticker; 
+		var modifiedSymbol; 
 		var currentId = $(this).attr("id"); 
  		var currentId = currentId.replace("div", "");
  		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
@@ -855,22 +856,22 @@ function checkAllDivsForNews()
 		var positionOfPeriod = originalSymbol.indexOf(".");	
 
 
-        if (positionOfPeriod > -1)
-        {
-            // if any stocks have a ".PD" or a ".WS", etc... 
-            ticker = originalSymbol.substr(0, positionOfPeriod); 
-        }
+    if (positionOfPeriod > -1)
+    {
+        // if any stocks have a ".PD" or a ".WS", etc... 
+        modifiedSymbol = originalSymbol.substr(0, positionOfPeriod); 
+    }
 		else if (originalSymbol.length == 5)
 		{
-			ticker = originalSymbol.slice(0,-1); 
+			modifiedSymbol = originalSymbol.slice(0,-1); 
 		}
 		else
 		{
-			ticker = originalSymbol;    		
+			modifiedSymbol = originalSymbol;    		
 		}
 
 		symbolArray.push({
-			"ticker": ticker, 
+			"modifiedSymbol": modifiedSymbol, 
 			"originalSymbol" : originalSymbol,
 			"offerPrice" : offerPrice, 
 			"checkNews" : checkNews, 
@@ -1519,12 +1520,13 @@ $(document.body).on('click', ".controlButton", function(){
 		}
 		else 
 		{
-   			var original_symbol = currentSymbol; 
+   			var originalSymbol = currentSymbol; 
+   			var modifiedSymbol = currentSymbol; 
    			var symbol;
    			var positionOfPeriod; 
 
-   			positionOfPeriod = original_symbol.indexOf(".");
-   			stringLength = original_symbol.length; 
+   			positionOfPeriod = originalSymbol.indexOf(".");
+   			stringLength = originalSymbol.length; 
 
 			$("#chartDiv" + currentId).html("");
 			$("#storedYahooLink" + currentId).html("");
@@ -1536,26 +1538,25 @@ $(document.body).on('click', ".controlButton", function(){
 		   	// take out the 5th "W/R/Z" for symbols like CBSTZ. 
 
 
-  			if ( $("#stripLastCharacterCheckbox" + currentId).prop('checked') && (positionOfPeriod > -1) )
+  			if (positionOfPeriod > -1)
    			{
    				// if any stocks have a ".PD" or a ".WS", etc... 
-
-				symbol = original_symbol.substr(0, positionOfPeriod); 
+					modifiedSymbol = originalSymbol.substr(0, positionOfPeriod); 
    			}
-   			else if ( $("#stripLastCharacterCheckbox" + currentId).prop('checked') && (original_symbol.length == 5) )
+   			else if (originalSymbol.length == 5)
    			{
-   				symbol = original_symbol.slice(0,-1); 
+   				modifiedSymbol = originalSymbol.slice(0,-1); 
    			}
     		else
    			{
-				symbol = original_symbol;    		
+				modifiedSymbol = originalSymbol;    		
 		   	}
 
-			storeOriginalStateOfNews(symbol, currentId); 
+			storeOriginalStateOfNews(originalSymbol, modifiedSymbol, currentId); 
 
-			original_symbol = original_symbol.replace(/\.p\./gi, ".P"); 
+			originalSymbol = originalSymbol.replace(/\.p\./gi, ".P"); 
 
-			$("#chartDiv" + currentId).html("<img style='max-width:100%; max-height:100%;' src='https://api.wsj.net/api/kaavio/charts/big.chart?nosettings=1&symb=" + original_symbol + "&uf=0&type=2&size=2&style=320&freq=1&entitlementtoken=0c33378313484ba9b46b8e24ded87dd6&time=4&rand=" + Math.random() + "&compidx=&ma=0&maval=9&lf=1&lf2=0&lf3=0&height=335&width=579&mocktick=1'>");
+			$("#chartDiv" + currentId).html("<img style='max-width:100%; max-height:100%;' src='https://api.wsj.net/api/kaavio/charts/big.chart?nosettings=1&symb=" + originalSymbol + "&uf=0&type=2&size=2&style=320&freq=1&entitlementtoken=0c33378313484ba9b46b8e24ded87dd6&time=4&rand=" + Math.random() + "&compidx=&ma=0&maval=9&lf=1&lf2=0&lf3=0&height=335&width=579&mocktick=1'>");
 																								
 //			$("#startStopTimerButton").show();			
 // 			timedCount();

@@ -19,9 +19,13 @@ if(isset($_GET['cikNumber']))
 {
   $cikNumber=$_GET['cikNumber']; 
 }
-if(isset($_GET['symbol']))
+if(isset($_GET['modifiedSymbol']))
 {
-  $symbol=$_GET['symbol'];
+  $modifiedSymbol=$_GET['modifiedSymbol'];
+}
+if(isset($_GET['originalSymbol']))
+{
+  $originalSymbol=$_GET['originalSymbol'];
 }
 if (isset($_GET['offerPrice']))
 {
@@ -145,7 +149,9 @@ function createSECCompanyName($companyName)
 
 function getETradeAPIData($symbol)
 {
+
     $url = $_SERVER['SERVER_NAME'] . '/newslookup/yesterday_close.php?symbol=' . $symbol;
+
     $eTradeObject = curl_get_contents($url);
 
     return json_decode($eTradeObject); 
@@ -174,16 +180,16 @@ function getBigChartsData($symbol, $checkBigCharts)
     return $bigChartsData; 
 }
 
-function getStatistics($symbol, $offerPrice, $lowValue, $checkBigCharts)
+function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts)
 {
     $currentVolume = ""; 
     $averageVolume = "";
     $percentLow = ""; 
     $low = 0.0;
 
-    $etradeAPIData = getEtradeAPIData($symbol);
+    $etradeAPIData = getEtradeAPIData($originalSymbol);
 
-    $bigChartsData = getBigChartsData($symbol, $checkBigCharts);
+    $bigChartsData = getBigChartsData($originalSymbol, $checkBigCharts);
 
     $bigChartsValues = explode('|', $bigChartsData); 
     $bigChartsPercentage = $bigChartsValues[0];
@@ -380,7 +386,7 @@ function getStreetInsider($symbol)
 
 }
 
-function getSEC($symbol, $companyName, $checkSec, $cikNumber)
+function getSEC($originalSymbol, $modifiedSymbol, $companyName, $checkSec, $cikNumber)
 {
 
 $entireMarketwatchPage = "";
@@ -396,23 +402,17 @@ $percentLow = "";
 $currentVolume = "";
 $averageVolume = ""; 
 
-    $rssSeekingAlpha = simplexml_load_file("https://seekingalpha.com/api/sa/combined/" . $symbol . ".xml");
+    $rssSeekingAlpha = simplexml_load_file("https://seekingalpha.com/api/sa/combined/" . $originalSymbol . ".xml");
     $mwMainContentLink1 = $rssSeekingAlpha->channel->item{0}->link;
     $mwMainContentLink1Title = $rssSeekingAlpha->channel->item{0}->title;
 
-    // just putting this in here until we can get around the bot detector.
-    /* $mwMainContentLink1 = "http://www.microsoft.com";
-    $mwMainContentLink1Title = "Nothing";   */
-//     $mwPartnerHeadlinesLink1 = "http://www.microsoft.com";
-//     $mwPartnerHeadlinesLink1Title = "Nothing";
-
-    $streetInsider = getStreetInsider($symbol);
+    $streetInsider = getStreetInsider($modifiedSymbol);
     $mwPartnerHeadlinesLink1 = $streetInsider['link'];
     $mwPartnerHeadlinesLink1Title = $streetInsider['title']; 
 
         // now we do the SEC filing 
 
-        $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $symbol . " " . $cikNumber . " " . $companyName);
+        $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $originalSymbol . " " . $cikNumber . " " . $companyName);
         $secValues = shell_exec($command);
 
         $secValuesObject = json_decode($secValues); 
@@ -429,16 +429,13 @@ $averageVolume = "";
 
 }
 
-function getYahoo($symbol)
+function getYahoo($modifiedSymbol)
 {
 
-$url = "";
-$urlTitle = "";
+    $url = "";
+    $urlTitle = "";
 
-
-    // grab the news 
-
-      $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-yahoo-finance-newscheck-links.py ' . $symbol);
+      $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-yahoo-finance-newscheck-links.py ' . $modifiedSymbol);
       $returnArray = shell_exec($command);
 
       return $returnArray; 
@@ -518,18 +515,20 @@ function getTradeHalts()
 if (isset($which_website) && ($which_website == "marketwatch"))
 {
   $checkBigCharts = 0; // we're not checking bigCharts first time around 
-  $statistics = getStatistics($symbol, $offerPrice, $lowValue, $checkBigCharts);
+
+  $statistics = getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts);
   $statisticsJSON = json_decode($statistics); 
 
   $companyName = $statisticsJSON->companyName;
+
   $companyName = createSECCompanyName($companyName);
 
-  $returnLinks = getSEC($symbol, $companyName, $checkSec, $cikNumber);
+  $returnLinks = getSEC($originalSymbol, $modifiedSymbol, $companyName, $checkSec, $cikNumber);
   echo $returnLinks;
 }
 elseif (isset($which_website) && ($which_website == "yahoo"))
 {
-  $returnLinks = getYahoo($symbol);
+  $returnLinks = getYahoo($modifiedSymbol);
   echo $returnLinks;
 }
 elseif ($symbols != null)
@@ -541,7 +540,7 @@ elseif ($symbols != null)
     {
       $offerPrice = $symbol->offerPrice;
       $index = $symbol->idNumber;
-      $ticker = $symbol->ticker;
+      $modifiedSymbol = $symbol->modifiedSymbol;
       $checkNews = $symbol->checkNews; 
       $lowValue = $symbol->lowValue; 
       $checkBigCharts = $symbol->checkBigCharts; 
@@ -559,15 +558,15 @@ elseif ($symbols != null)
 
       if ((int) $checkNews == 1)
       {
-          $returnArray[$index]['yahoo'] = getYahoo($ticker);
+          $returnArray[$index]['yahoo'] = getYahoo($modifiedSymbol);
           $yahooObject = json_decode($returnArray[$index]['yahoo']); 
 
           $stockOrFund = $yahooObject->stockOrFund; 
 
-          $returnArray[$index]['marketwatch_sec'] = getSEC($ticker, $companyName, $checkSec, $cikNumber);
+          $returnArray[$index]['marketwatch_sec'] = getSEC($originalSymbol, $modifiedSymbol, $companyName, $checkSec, $cikNumber);
       }
 
-      $returnArray[$index]['symbol'] = $ticker;
+      $returnArray[$index]['symbol'] = $modifiedSymbol;
       if (isset($originalSymbol))
       {
           $returnArray[$index]['originalSymbol'] = $originalSymbol;
