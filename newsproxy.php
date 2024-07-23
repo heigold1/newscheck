@@ -412,7 +412,7 @@ $averageVolume = "";
 
         // now we do the SEC filing 
 
-        $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $originalSymbol . " " . $cikNumber . " " . $companyName);
+        $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $modifiedSymbol . " " . $cikNumber . " " . $companyName);
         $secValues = shell_exec($command);
 
         $secValuesObject = json_decode($secValues); 
