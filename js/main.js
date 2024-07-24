@@ -1654,7 +1654,7 @@ $(document.body).on('click', ".lowSeparation", function(){
 var prevCloseMinusNewPrice = previousClose - newPrice;
 var prevCloseMinusNewPriceDivPrevClose = prevCloseMinusNewPrice/prevClose; 
 
-	var newPercentage = ((previousClose - newPrice)/prevClose)*100.00; 
+	var newPercentage = ((previousClose - newPrice)/previousClose)*100.00; 
 	var newPercentage = newPercentage.toFixed(2); 
 
 
@@ -2043,7 +2043,7 @@ $(document.body).on('click', ".bigCharts", function(){
 	var currentTime = hours.toString().concat(minutes); 
 	currentTime = parseInt(currentTime); 
 
-	if (currentTime < 700)
+	if (currentTime < 650)
 	{
 		alert("Too early to call Big Charts"); 
 	}
@@ -2191,7 +2191,7 @@ $(document.body).on('paste', ".orderInput", function(){
     	// Handle high-risk previous day spike-ups
     	if (orderStub.search("HR_") != -1) {
     		$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
-    		highRiskValue = orderStub.toString().match(/HR_(.*)/g); 
+    		highRiskValue = orderStub.toString().match(/HR_(.*) /g); 
 
     		highRiskValue = highRiskValue[0]; 
     		highRiskValue = highRiskValue.replace(/HR_/, ""); 
