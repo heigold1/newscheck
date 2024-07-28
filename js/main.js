@@ -1089,6 +1089,11 @@ function checkAllDivsForNews()
 
 						// We don't start checking BigCharts until 7:00 AM
 
+						var orderStub = $("#orderInput" + currentId).val();
+						var orderStringSplit = orderStub.split(" "); 
+  					var previousClose = orderStringSplit[5]; 
+  					previousClose = parseFloat(previousClose.replace("$", "")); 
+
 						if (getCurrentTime() > 700)
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
@@ -1102,9 +1107,14 @@ function checkAllDivsForNews()
    									$("#bigChartsPercentageMain" + currentId).html("$" + bigChartsPrice + " (" + bigChartsPercentage + "%) (" + bigChartsDifference + ")"); 
    								}
 
-									if ((bigChartsDifference) < 10.00)							
+   								if ((previousClose < 1.00) && (bigChartsDifference < 12.5))
+   								{
+   									$("#bigChartsWrapper" + currentId).css("background-color", "FFA1A1");
+										globalBigChartsAlert = true;
+   								}
+   								else if ((bigChartsDifference) < 10.00)							
 									{
-										$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
+										$("#bigChartsWrapper" + currentId).css("background-color", "#FDC7C7");
 										globalBigChartsAlert = true;
 									}
 									else
@@ -1704,7 +1714,16 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 	previousClose = previousClose.replace("$", ""); 
 	previousClose = parseFloat(previousClose); 
 
-	var newPrice = bigChartsPrice - bigChartsPrice*0.10;
+	var newPrice; 
+
+	if (previousClose < 1.00)
+	{
+		newPrice = bigChartsPrice - bigChartsPrice*0.125;
+	}
+	else 
+	{
+		newPrice = bigChartsPrice - bigChartsPrice*0.10;
+	}
 
 	if (previousClose >= 1.00)
 	{
