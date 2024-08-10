@@ -838,7 +838,7 @@ function checkAllDivsForNews()
  		var currentId = currentId.replace("div", "");
  		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
 		var lowValue = $.trim($("#lowValue" + currentId).val()); 
-		var cikNumber= $.trim($("#cikNumber" + currentId).val()); 
+		var cikNumber= $.trim($("#cikNumber" + currentId).html()); 
     var checkBigCharts; 
 
 		// We don't start checking BigCharts until 6:50 AM, 650 
@@ -880,6 +880,11 @@ function checkAllDivsForNews()
 			"checkBigCharts": checkBigCharts, 
 			"cikNumber": cikNumber 
 		});
+
+
+console.log("symbolArray is:"); 
+console.log(symbolArray); 
+
 
 	}); // allDivs.each()
 

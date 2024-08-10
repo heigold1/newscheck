@@ -553,7 +553,11 @@ elseif ($symbols != null)
 
       $returnArray[$index]['statistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts);
       $statisticsJSON = json_decode($returnArray[$index]['statistics']); 
+
+
+
       $companyName = $statisticsJSON->companyName;
+
       $companyName = createSECCompanyName($companyName);
 
       if ((int) $checkNews == 1)
