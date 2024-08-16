@@ -1746,7 +1746,7 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
     // Combine the integer part with the truncated decimal part
     let truncatedNumberStr = parts[0] + '.' + truncatedDecimal;
 
-    newPrice = truncatedNumberStr; 
+    newPrice = parseFloat(truncatedNumberStr); 
 	}
 	else
 	{
@@ -1763,6 +1763,21 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 	{ 
   	var bigChartsEmergencyModal = document.getElementById('big-charts-emergency');
     bigChartsEmergencyModal.style.display = "block"; 
+
+ 		$("#fullOrder" + currentId).val("--------------");
+
+	  	var copyTextarea = $("#fullOrder" + currentId);
+  		copyTextarea.select();
+  		try 
+  		{
+		    var successful = document.execCommand('copy');
+	    	var msg = successful ? 'successful' : 'unsuccessful';
+		  	alert($("#fullOrder" + currentId).val() + " succesfully copied.");
+  		} 
+  		catch (err) 
+  		{
+		    alert('Order did not succesfully copy');
+  		}
   }
   else
   {
