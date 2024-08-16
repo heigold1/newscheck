@@ -1718,6 +1718,7 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 	var previousClose = orderStringSplit[5]; 
 	previousClose = previousClose.replace("$", ""); 
 	previousClose = parseFloat(previousClose); 
+	var currentPrice = parseFloat(orderStringSplit[3].replace("$", "")); 
 
 	var newPrice; 
 
@@ -1758,24 +1759,33 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 
 	var newOrderStub = 	orderStringSplit[0] + " " + orderStringSplit[1] + " $" + newPrice + " (" + newPercentage + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
 
-	$("#orderInput" + currentId).val(newOrderStub); 
+	if (newPrice > currentPrice)
+	{ 
+  	var bigChartsEmergencyModal = document.getElementById('big-charts-emergency');
+    bigChartsEmergencyModal.style.display = "block"; 
+  }
+  else
+  {
+		$("#orderInput" + currentId).val(newOrderStub); 
 
-	reCalcOrderStub(currentId); 
+		reCalcOrderStub(currentId); 
 
- 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
+ 		$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
 
-  	var copyTextarea = $("#fullOrder" + currentId);
-  	copyTextarea.select();
-  	try 
-  	{
-	    var successful = document.execCommand('copy');
-	    var msg = successful ? 'successful' : 'unsuccessful';
-		  alert($("#fullOrder" + currentId).val() + " succesfully copied.");
-  	} 
-  	catch (err) 
-  	{
-	    alert('Order did not succesfully copy');
-  	}
+	  	var copyTextarea = $("#fullOrder" + currentId);
+  		copyTextarea.select();
+  		try 
+  		{
+		    var successful = document.execCommand('copy');
+	    	var msg = successful ? 'successful' : 'unsuccessful';
+		  	alert($("#fullOrder" + currentId).val() + " succesfully copied.");
+  		} 
+  		catch (err) 
+  		{
+		    alert('Order did not succesfully copy');
+  		}
+	}
+
 
 
 }); 
@@ -2292,5 +2302,10 @@ $(document.body).on('keyup', ".symbolTextInput", function(){
 });  // when you past the order into the orderInput text field.
 
 
+
+$("#big-charts-emergency").click(function(){
+    var bigChartsEmergencyModal = document.getElementById('big-charts-emergency');
+        bigChartsEmergencyModal.style.display = "none"; 
+}); 
 
 });  // end of init function
