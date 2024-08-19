@@ -1928,7 +1928,7 @@ $(document.body).on('click', ".lowVolumeDiv", function(){
 	currentId = $(this).attr("id"); 
  	currentId = currentId.replace("lowVolumeDiv", ""); 
 
-	$("#volume30DayInput" + currentId).val("900,000"); 
+	$("#volume30DayInput" + currentId).val("100,000"); 
 
     if ($("#lowVolumeDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
     {  
