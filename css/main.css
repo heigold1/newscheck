@@ -1049,6 +1049,7 @@
 			background-color: #EBEBE0;
 			font-size: 12px;
 			overflow: hidden; 
+			display: inline-block;
 		}
 
 
@@ -1085,8 +1086,9 @@
 		}
 
 		.volumeNotesText{
-			width: 705px;
+			width: 635px;
 			height: 22px;
+			display: inline-block;
 		}
 
 		#notChasing{
@@ -1258,3 +1260,16 @@
 			height: 0px;
 			overflow: hidden; 
 		}
+
+		#multiple-orders{
+			width: 500px;
+			height: 2000px; 
+			top: 75px;
+			left: 300px;
+		}
+
+		.tierOneButton, .tierTwoButton, .tierThreeButton{
+			display: inline-block;
+		}
+
+			

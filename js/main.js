@@ -410,6 +410,9 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += "	 	<div class='volumeNotesDiv' tabindex='-1'>";
 	newNewsEntry += "			<span class='volumeNotesLabel' tabindex='-1'>Notes:</span>";
 	newNewsEntry += "			&nbsp;<input type='text' id='volumeNotesText" + newIdNumber + "' class='volumeNotesText'>";
+	newNewsEntry += "		  <button id='tierOneButton" + newIdNumber + "' type='button' class='tierOneButton'>1</button>"; 
+	newNewsEntry += "		  <button id='tierTwoButton" + newIdNumber + "' type='button' class='tierTwoButton'>2</button>"; 
+	newNewsEntry += "		  <button id='tierThreeButton" + newIdNumber + "' type='button' class='tierThreeButton'>3</button>"; 
 	newNewsEntry += "	 	</div>";
 	newNewsEntry += "	 	<div class='individualNotesDiv' tabindex='-1'>";
 	newNewsEntry += "			<span class='individualNotesLabel' tabindex='-1'>Notes:</span>";
@@ -1487,6 +1490,9 @@ $("#multipleOrders").click(function(){
  				var symbol = $("#symbol" + currentId).val(); 
  				var orderInput = $("#orderInput" + currentId).val();
  				var highRiskSpike = $("#highRiskValueDiv" + currentId).text(); 
+				var tier = $("#volumeNotesText" + currentId).val(); 
+
+
 
  				highRiskSpike = highRiskSpike.trim(); 
 
@@ -1499,14 +1505,21 @@ $("#multipleOrders").click(function(){
  					highRiskSpike = "NON_HIGH_RISK"; 
  				}
 
-    			if ($("#importantDiv" + currentId).css("background-color") == "rgb(255, 0, 0)")
-    			{  
-    				var orderStringArray = orderInput.split(" ");
-	 				finalString += symbol + " " + orderStringArray[1] + " " + orderStringArray[2] + " " + highRiskSpike + "\n";
-			    } 
+    		if ($("#importantDiv" + currentId).css("background-color") == "rgb(255, 0, 0)")
+    		{  
+    			var orderStringArray = orderInput.split(" ");
+		 			finalString += symbol + " " + orderInput + " " + tier + "<br>"; 
+			  } 
 			}); 
 
-	window.confirm(finalString); 
+			finalString +=  "<br><br>"; 
+
+
+
+		$("#multiple-orders-inner-div").html(finalString); 
+
+		var multipleOrdersModal = document.getElementById('multiple-orders');
+    multipleOrdersModal.style.display = "block"; 
 }); 
 
 // the "Start" button click
@@ -2132,6 +2145,24 @@ $(document.body).on('click', ".bigCharts", function(){
 }); 
 
 
+$(document.body).on('click', ".tierOneButton", function(){
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("tierOneButton", ""); 
+ 	$("#volumeNotesText" + currentId).val("ONE_TIER"); 
+});  
+
+$(document.body).on('click', ".tierTwoButton", function(){
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("tierTwoButton", ""); 
+ 	$("#volumeNotesText" + currentId).val("TWO_TIER"); 
+});  
+
+$(document.body).on('click', ".tierThreeButton", function(){
+	currentId = $(this).attr("id"); 
+ 	currentId = currentId.replace("tierThreeButton", ""); 
+ 	$("#volumeNotesText" + currentId).val("THREE_TIER"); 
+});  
+
 
 $(document.body).on('paste', ".orderInput", function(){
 
@@ -2320,6 +2351,11 @@ $(document.body).on('keyup', ".symbolTextInput", function(){
 
 $("#big-charts-emergency").click(function(){
     var bigChartsEmergencyModal = document.getElementById('big-charts-emergency');
+        bigChartsEmergencyModal.style.display = "none"; 
+}); 
+
+$("#close-multiple-orders-window").click(function(){
+    var bigChartsEmergencyModal = document.getElementById('multiple-orders');
         bigChartsEmergencyModal.style.display = "none"; 
 }); 
 
