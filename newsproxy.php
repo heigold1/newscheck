@@ -27,6 +27,10 @@ if(isset($_GET['originalSymbol']))
 {
   $originalSymbol=$_GET['originalSymbol'];
 }
+if (isset($_GET['previousCloseString']))
+{
+  $previousCloseString=$_GET['previousCloseString'];
+}
 if (isset($_GET['offerPrice']))
 {
   $offerPrice=$_GET['offerPrice'];
@@ -180,7 +184,7 @@ function getBigChartsData($symbol, $checkBigCharts)
     return $bigChartsData; 
 }
 
-function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts)
+function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts, $previousCloseString)
 {
     $currentVolume = ""; 
     $averageVolume = "";
@@ -205,7 +209,11 @@ function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts)
        $currentVolume = $etradeAPIData->total_volume; 
        $averageVolume = $etradeAPIData->ten_day_volume; 
        $lastTrade = floatval($etradeAPIData->last_trade);
-       $previousClose = floatval($etradeAPIData->prev_close);
+       $prevClose = floatval($etradeAPIData->prev_close);
+       if ($prevClose <= 0.00)
+       {
+          $prevClose = $previousCloseString; 
+       }
        $eTradeLowValue = floatval($etradeAPIData->low);
 
        if ($lowValue == 0.0)
@@ -251,7 +259,7 @@ function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts)
        }
        else
        {
-         $percentLow = number_format((($previousClose-$low)/$previousClose)*100, 2);  
+         $percentLow = number_format((($prevClose-$low)/$prevClose)*100, 2);  
        }
     }
 
@@ -516,7 +524,7 @@ if (isset($which_website) && ($which_website == "marketwatch"))
 {
   $checkBigCharts = 0; // we're not checking bigCharts first time around 
 
-  $statistics = getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts);
+  $statistics = getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts, $previousCloseString);
   $statisticsJSON = json_decode($statistics); 
 
   $companyName = $statisticsJSON->companyName;
@@ -546,12 +554,15 @@ elseif ($symbols != null)
       $checkBigCharts = $symbol->checkBigCharts; 
       $cikNumber = $symbol->cikNumber; 
 
+      // the previous closing price that we are grabbing from the order stub (i.e. not grabbing it from E*TRADE API)
+      $previousCloseString = $symbol->previousCloseString; 
+
       if (isset($symbol->originalSymbol))
       {
           $originalSymbol = $symbol->originalSymbol; 
       }
 
-      $returnArray[$index]['statistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts);
+      $returnArray[$index]['statistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts, $previousCloseString);
       $statisticsJSON = json_decode($returnArray[$index]['statistics']); 
 
 

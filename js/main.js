@@ -124,6 +124,23 @@ function checkSecond(sec) {
   return sec;
 }
 
+// Grab the previous close price from the order string 
+
+function getPreviousCloseString(currentId)
+{
+		var orderStub = $("#orderInput" + currentId).val();
+		var symbol = $("#symbol" + currentId).val();  
+
+console.log("Inside getPreviousCloseString, orderStub is " + symbol + " " + orderStub); 
+
+		var orderStringSplit = orderStub.split(" "); 
+  	var previousCloseString = orderStringSplit[5]; 
+  	previousCloseString = parseFloat(previousCloseString.replace("$", "")); 
+
+  	return previousCloseString; 
+}
+
+
 function calculateBigChartsDifference(currentId, bigChartsPrice)
 {
 		var orderStub = $("#orderInput" + currentId).val(); 
@@ -440,7 +457,7 @@ Not using the individual refresh anymore but I'll keep it here just in case
 // (the marketwatch main content table, the marketwatch partner headlines table, 
 // and the marketwatch pr headlines table).
 
-function storeOriginalStateOfNews(originalSymbol, modifiedSymbol, currentId){
+function storeOriginalStateOfNews(originalSymbol, modifiedSymbol, currentId, previousCloseString){
 
 var yahooFound = "";     		// was the symbol even found on the yahoo website? 
 var yahooCompanyName = "";      // the company name parsed out of the yahoo page
@@ -497,6 +514,7 @@ var cikNumber = $("#cikNumber" + currentId).html();
 	    url: "newsproxy.php",
 	    data: {modifiedSymbol: modifiedSymbol,
 	    			originalSymbol: originalSymbol, 
+						previousCloseString: previousCloseString, 
 	    	   which_website: "marketwatch", 
 	    	   host_name: "www.marketwatch.com",
 	    	 	 checkSec: checkSec,
@@ -854,6 +872,7 @@ function checkAllDivsForNews()
     	checkBigCharts = 0; 
     }
 
+    var previousCloseString = getPreviousCloseString(currentId); 
 		var originalSymbol = $.trim($("#symbol" + currentId).val()); 
 		var offerPrice = $.trim($("#offerPrice" + currentId).val());
 		var positionOfPeriod = originalSymbol.indexOf(".");	
@@ -881,13 +900,9 @@ function checkAllDivsForNews()
 			"idNumber": currentId, 
 			"lowValue": lowValue, 
 			"checkBigCharts": checkBigCharts, 
-			"cikNumber": cikNumber 
+			"cikNumber": cikNumber, 
+			"previousCloseString": previousCloseString
 		});
-
-
-console.log("symbolArray is:"); 
-console.log(symbolArray); 
-
 
 	}); // allDivs.each()
 
@@ -907,12 +922,6 @@ console.log(symbolArray);
 		async: true,	   		
 			dataType: 'json',
 			success:  function (data) {
-
-
-				console.log("Halt string is:"); 
-				console.log(data.haltstring);  
-				console.log("Halt alert is:"); 
-				console.log(data.haltalert); 
 
 				if ((data.haltalert == 1) && $("#checkbox-check-halts").is(":checked"))
 				{
@@ -951,9 +960,6 @@ console.log(symbolArray);
 					currentId = index; 
 
 					var currentSymbol = $("#symbol" + currentId).val(); 
-
-					console.log("currentId is " + currentId); 
-					console.log("currentSymbol is " + currentSymbol); 
 
 					// here we check if the current symbol (with no news and the "halt" button not checked) matches any halted symbols 
 					// for non-news stocks, then we need to alert. 
@@ -1065,19 +1071,25 @@ console.log(symbolArray);
 
 						var highRiskValue = parseInt(document.getElementById('highRiskValueSpan' + currentId).innerHTML);
 
-						if ( ( $("#checkForNewNews" + currentId).prop('checked') || 
+						var currentPercentage = match[1];
+						currentPercentage = currentPercentage.replace("%", ""); 	
+						currentPercentage = parseFloat(currentPercentage);
+
+						
+
+						if ( 
+								($("#checkForNewNews" + currentId).prop('checked') || 
 								 $("#checkForLow" + currentId).prop('checked') || 
 								 $("#turnVolumeRed" + currentId).prop('checked') || 
 								 $("#playVolumeSound" + currentId).prop('checked')
-								 ) && (currentTime > 800) && (highRiskValue > 0) )
+								 ) && (currentTime > 800) && (highRiskValue > 0) 
+									 && (currentPercentage < 60)
+							)
 						{
 							  globalCancelHighRiskTrades = true; 
 						}
 
 						var lowInput = parseFloat($("#lowInput" + currentId).val());
-						var currentPercentage = match[1];
-						currentPercentage = currentPercentage.replace("%", ""); 	
-						currentPercentage = parseFloat(currentPercentage);
 						var currentMinusLow = currentPercentage - lowInput;
 
 						if ((currentMinusLow) < percentLow)
@@ -1580,7 +1592,9 @@ $(document.body).on('click', ".controlButton", function(){
 				modifiedSymbol = originalSymbol;    		
 		   	}
 
-			storeOriginalStateOfNews(originalSymbol, modifiedSymbol, currentId); 
+		  var previousCloseString = getPreviousCloseString(currentId); 
+
+			storeOriginalStateOfNews(originalSymbol, modifiedSymbol, currentId, previousCloseString); 
 
 			originalSymbol = originalSymbol.replace(/\.p\./gi, ".P"); 
 
