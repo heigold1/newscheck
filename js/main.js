@@ -118,6 +118,11 @@ function playBigCharts(){
 	playHaltedStock.play();
 }
 
+function playFailedToGetPreviousClose(){
+	var playFailedToGetPreviousClose = new Audio('./wav/failed-to-get-previous-close.mp3');
+	playFailedToGetPreviousClose.play(); 
+}
+
 function checkSecond(sec) {
   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
   if (sec < 0) {sec = "59"};
@@ -133,13 +138,19 @@ function getPreviousCloseString(currentId)
 
 console.log("Inside getPreviousCloseString, orderStub is " + symbol + " " + orderStub); 
 
-		var orderStringSplit = orderStub.split(" "); 
-  	var previousCloseString = orderStringSplit[5]; 
-  	previousCloseString = parseFloat(previousCloseString.replace("$", "")); 
+		try {
+				var orderStringSplit = orderStub.split(" "); 
+  			var previousCloseString = orderStringSplit[5]; 
+  			previousCloseString = parseFloat(previousCloseString.replace("$", "")); 
 
-  	return previousCloseString; 
+  			return previousCloseString; 
+
+		} catch (error) {
+  		console.error("Failed to get previous close", error.message);
+			playFailedToGetPreviousClose(); 
+			return 0.00; 
+		}
 }
-
 
 function calculateBigChartsDifference(currentId, bigChartsPrice)
 {
