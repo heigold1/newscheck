@@ -376,7 +376,7 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += "   </div>";
 	newNewsEntry += " 	<div id='volumeAmountDiv" + newIdNumber + "' class='volumeAmountDiv' tabindex='-1'>";
 	newNewsEntry += "	 	<input id='volume30DayInput" + newIdNumber + "' class='volume30DayInput' value='0'>";
-	newNewsEntry += " 		<input id='volumeRatio" + newIdNumber + "' class='volumeRatio' value='1'>";
+	newNewsEntry += " 		<input id='volumeRatio" + newIdNumber + "' class='volumeRatio' value='4.5'>";
 	newNewsEntry += "		<span id='volumeAmountSpan" + newIdNumber + "' class='volumeAmountSpan' tabindex='-1'></span>";
 	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div id='importantDiv" + newIdNumber + "' class='importantDiv' tabindex='-1'>"; 
@@ -1138,12 +1138,12 @@ function checkAllDivsForNews()
    									$("#bigChartsPercentageMain" + currentId).html("$" + bigChartsPrice + " (" + bigChartsPercentage + "%) (" + bigChartsDifference + ")"); 
    								}
 
-   								if ((previousClose < 1.00) && (bigChartsDifference < 12.5))
+   								if ((previousClose < 1.00) && (bigChartsDifference < 11.5))
    								{
    									$("#bigChartsWrapper" + currentId).css("background-color", "FFA1A1");
 										globalBigChartsAlert = true;
    								}
-   								else if ((bigChartsDifference) < 10.00)							
+   								else if ((bigChartsDifference) < 9.50)							
 									{
 										$("#bigChartsWrapper" + currentId).css("background-color", "#FDC7C7");
 										globalBigChartsAlert = true;
