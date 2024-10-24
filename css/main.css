@@ -1277,13 +1277,15 @@
   			position: fixed;
   			z-index: 1000;
   			background-color: white;
-  			top: 25%;
+  			top: 50%;
   			left: 50%;
   			transform: translate(-50%, -50%);
   			width: 50%; /* You can adjust the width based on your needs */
+  			height: 70%;
   			max-width: 600px; /* Add a max-width for better responsiveness */
   			padding: 20px; /* Optional: some padding */
   			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: for a subtle shadow */
+  			overflow: auto;
 		}
 
 			

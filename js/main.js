@@ -1484,16 +1484,16 @@ $("#printButton").click(function(){
 
  				if (highRiskSpike != "")
  				{
- 					highRiskSpike = " -- HIGH RISK: " + highRiskSpike + "%"; 
+ 					highRiskSpike = "<br>-- HIGH RISK: " + highRiskSpike + "%"; 
  				}
 
  				if (offering != "")
  				{
- 					offering = " -- OFFERING at $" + offering; 
+ 					offering = "<br>-- OFFERING at $" + offering; 
  				}
 
 
- 				finalString += "DON'T FORGET TO CANCEL YOUR TRADES<br><br>" +  symbol + " " + orderInput + "<br>-- Low was " + lowValue + " (" + lowValuePercentage +  "%) " + "<br>" + highRiskSpike + offering +  "<br>-- ORDER STAMPS: " + indiviualNotes + "<br>-- NOTES: " + volumeNotes + "<br><br>*****************************<br><br>";
+ 				finalString += "DON'T FORGET TO CANCEL YOUR TRADES<br><br>" +  symbol + " " + orderInput + "<br>-- Low was " + lowValue + " (" + lowValuePercentage +  "%) " + highRiskSpike + offering +  "<br>-- ORDER STAMPS: " + indiviualNotes + "<br>-- NOTES: " + volumeNotes + "<br><br>*****************************<br><br>";
 
 			}); 
 
