@@ -1493,11 +1493,16 @@ $("#printButton").click(function(){
  				}
 
 
- 				finalString += "DON'T FORGET TO CANCEL YOUR TRADES\n\n" +  "*** " + symbol + " " + orderInput + " -- Low was " + lowValue + " (" + lowValuePercentage +  "%) " + highRiskSpike + offering +  "\n--" + indiviualNotes + "\n" + "Volume notes: " + volumeNotes + "\n\n";
+ 				finalString += "DON'T FORGET TO CANCEL YOUR TRADES<br><br>" +  symbol + " " + orderInput + "<br>-- Low was " + lowValue + " (" + lowValuePercentage +  "%) " + "<br>" + highRiskSpike + offering +  "<br>-- ORDER STAMPS: " + indiviualNotes + "<br>-- NOTES: " + volumeNotes + "<br><br>*****************************<br><br>";
 
 			}); 
 
-	window.confirm(finalString); 
+	
+			$("#print-orders-inner-div").html(finalString); 
+
+			var printOrdersModal = document.getElementById('print-orders');
+    	printOrdersModal.style.display = "block"; 
+
 }); 
 
 
@@ -2381,6 +2386,11 @@ $("#big-charts-emergency").click(function(){
 
 $("#close-multiple-orders-window").click(function(){
     var bigChartsEmergencyModal = document.getElementById('multiple-orders');
+        bigChartsEmergencyModal.style.display = "none"; 
+}); 
+
+$("#close-print-orders-window").click(function(){
+    var bigChartsEmergencyModal = document.getElementById('print-orders');
         bigChartsEmergencyModal.style.display = "none"; 
 }); 
 
