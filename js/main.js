@@ -1125,7 +1125,7 @@ function checkAllDivsForNews()
   					var previousClose = orderStringSplit[5]; 
   					previousClose = parseFloat(previousClose.replace("$", "")); 
 
-						if (getCurrentTime() > 700)
+						if (getCurrentTime() > 658)
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
