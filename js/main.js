@@ -2211,9 +2211,6 @@ $(document.body).on('paste', ".orderInput", function(){
 					$("#noNewsDiv" + currentId).css("background-color", "#FFA1A1"); 
 				}
 
-				let volume = prompt("Red flag volume amount"); 
-				$("#volume30DayInput" + currentId).val(volume);  
-
 		    orderStub = $.trim($("#orderInput" + currentId).val());
 
     		var orderStubSplit = orderStub.split(" ");
@@ -2237,24 +2234,9 @@ $(document.body).on('paste', ".orderInput", function(){
 				}
 			}); 
 
-/*
-			// prompt to check for volume.  not necessary for now 
-    		if (percentage < 35.00)
-    		{
-				if (confirm(symbol + ': Percentage is ' + percentage + '. Do you want to check for volume?')) 
-				{
-					$("#checkVolume" + currentId).prop( "checked", true );
-					$("#avgVolume" + currentId).val("80,000");
-				} 
-				else 
-				{
-    			// Do nothing!
-				}
-			}
-*/
 
     		if (
-    			((percentage >= 34.00) && (entryPrice > 1.00)) || ((percentage >= 45.00) && (entryPrice < 1.00))
+    			((percentage >= 34.00) && (entryPrice > 1.00)) || ((percentage >= 40.00) && (entryPrice < 1.00))
     			)
     		{
 				$("#orderInput" + currentId).css("background-color", "#FFFFFF"); 
@@ -2262,10 +2244,13 @@ $(document.body).on('paste', ".orderInput", function(){
     		}
     		else 
     		{
-				$("#orderInput" + currentId).css("background-color", "#CCE6FF"); 
-				$("#playVolumeSound" + currentId).prop('checked', true); 
-				$("#turnVolumeRed" + currentId).prop('checked', true);
-				$("#symbol" + currentId).css("background-color", "#CCE6FF");
+					let volume = prompt("Red flag volume amount"); 
+					$("#volume30DayInput" + currentId).val(volume);  
+
+					$("#orderInput" + currentId).css("background-color", "#CCE6FF"); 
+					$("#playVolumeSound" + currentId).prop('checked', true); 
+					$("#turnVolumeRed" + currentId).prop('checked', true);
+					$("#symbol" + currentId).css("background-color", "#CCE6FF");
     		}
 
     		if (percentage > 80.00)
