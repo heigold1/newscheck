@@ -2211,6 +2211,9 @@ $(document.body).on('paste', ".orderInput", function(){
 					$("#noNewsDiv" + currentId).css("background-color", "#FFA1A1"); 
 				}
 
+				let volume = prompt("Red flag volume amount"); 
+				$("#volume30DayInput" + currentId).val(volume);  
+
 		    orderStub = $.trim($("#orderInput" + currentId).val());
 
     		var orderStubSplit = orderStub.split(" ");
