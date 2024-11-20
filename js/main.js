@@ -1844,7 +1844,7 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
   		}
 	}
 
-
+	writeTradeStamp(currentId);	 
 
 }); 
 
