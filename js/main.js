@@ -444,7 +444,7 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += "	 	</div>";
 	newNewsEntry += "	 	<div class='individualNotesDiv' tabindex='-1'>";
 	newNewsEntry += "			<span class='individualNotesLabel' tabindex='-1'>Notes:</span>";
-	newNewsEntry += "			&nbsp;<input type='text' id='individualNotesText" + newIdNumber + "' class='individualNotesText'>";
+	newNewsEntry += "			&nbsp;<textarea id='individualNotesText" + newIdNumber + "' class='individualNotesText'></textarea>";
 	newNewsEntry += "			<input type='text' id='fullOrder" + newIdNumber + "' class='fullOrder'>";  
 	newNewsEntry += "	 	</div>";
 	newNewsEntry += "    </div>";
@@ -1714,11 +1714,6 @@ var prevCloseMinusNewPriceDivPrevClose = prevCloseMinusNewPrice/prevClose;
 
 	var newPercentage = ((previousClose - newPrice)/previousClose)*100.00; 
 	var newPercentage = newPercentage.toFixed(2); 
-
-
-alert("Current Low Price is: " + currentLow + "\n\nNew Price is: " + newPrice + "\n\nPrevious Close is: " + previousClose + "\n\nPrevious Close minus New Price is: "+ prevCloseMinusNewPrice + "\n\nPrevious Close Minuse New Price div Previous Close is: " + prevCloseMinusNewPriceDivPrevClose + "\n\nNew Percentage is : " + newPercentage);
-
-
 
 	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " $" + newPrice + " (" + newPercentage + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
 
