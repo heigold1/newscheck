@@ -224,7 +224,7 @@ function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts,
        else
        {
           // if we are in the pre-market, and therefore ETRADE does not provide the pre-market low: 
-          if ($etradeAPIData->low == 0.0)
+          if ($eTradeLowValue == 0.0)
           {
               if ($lastTrade < $lowValue)
               {
