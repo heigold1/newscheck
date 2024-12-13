@@ -887,7 +887,9 @@ function checkAllDivsForNews()
 		var originalSymbol = $.trim($("#symbol" + currentId).val()); 
 		var offerPrice = $.trim($("#offerPrice" + currentId).val());
 		var positionOfPeriod = originalSymbol.indexOf(".");	
-
+		var orderStub = $("#orderInput" + currentId).val();		
+		var volumeNotes = $("#volumeNotesText" + currentId).val();
+		var individualNotes = $("#individualNotesText" + currentId).val();
 
     if (positionOfPeriod > -1)
     {
@@ -912,7 +914,10 @@ function checkAllDivsForNews()
 			"lowValue": lowValue, 
 			"checkBigCharts": checkBigCharts, 
 			"cikNumber": cikNumber, 
-			"previousCloseString": previousCloseString
+			"previousCloseString": previousCloseString, 
+			"orderStub": orderStub, 
+			"volumeNotes": volumeNotes, 
+			"individualNotes": individualNotes 
 		});
 
 	}); // allDivs.each()
@@ -1125,7 +1130,7 @@ function checkAllDivsForNews()
   					var previousClose = orderStringSplit[5]; 
   					previousClose = parseFloat(previousClose.replace("$", "")); 
 
-						if (getCurrentTime() > 656)
+						if (getCurrentTime() > 655)
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{

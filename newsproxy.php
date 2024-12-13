@@ -184,6 +184,28 @@ function getBigChartsData($symbol, $checkBigCharts)
     return $bigChartsData; 
 }
 
+function saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNotes)
+{
+
+
+    $servername = "localhost";
+    $username = "superuser";
+    $password = "heimer27";
+    $db = "daytrade"; 
+    $mysqli = null;
+    $date = date("Y-m-d"); 
+
+    // Check connection
+    try {
+        $mysqli = new mysqli($servername, $username, $password, $db);
+    } catch (mysqli_sql_exception $e) {
+
+    } 
+
+    $mysqli->query("REPLACE INTO orders (symbol, order_stub, volume_notes, individual_notes, created_at) VALUES ('" . $originalSymbol . "', '" . $orderStub . "', '". $volumeNotes . "', '" . $individualNotes . "', CURRENT_TIMESTAMP)");
+
+}
+
 function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts, $previousCloseString)
 {
     $currentVolume = ""; 
@@ -209,6 +231,7 @@ function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts,
        $currentVolume = $etradeAPIData->total_volume; 
        $averageVolume = $etradeAPIData->ten_day_volume; 
        $lastTrade = floatval($etradeAPIData->last_trade);
+       $premarketLastTrade = floatval($etradeAPIData->extended_hour_last_trade); 
        $prevClose = floatval($etradeAPIData->prev_close);
        if ($prevClose <= 0.00)
        {
@@ -226,10 +249,10 @@ function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts,
           // if we are in the pre-market, and therefore ETRADE does not provide the pre-market low: 
           if ($eTradeLowValue == 0.0)
           {
-              if ($lastTrade < $lowValue)
+              if ($premarketLastTrade < $lowValue)
               {
-                $low = $lastTrade;
-                $lowValue = $lastTrade;
+                $low = $premarketLastTrade;
+                $lowValue = $premarketLastTrade;
               }
               else 
               {
@@ -262,6 +285,9 @@ function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts,
          $percentLow = number_format((($prevClose-$low)/$prevClose)*100, 2);  
        }
     }
+
+
+error_log("final lowValue is " . $lowValue);
 
     $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '", "companyName": "' . $companyName . '", "bigChartsPercentage": "' . $bigChartsPercentage .'", "bigChartsPrice": "' . $bigChartsPrice . '"}'; 
 
@@ -553,6 +579,9 @@ elseif ($symbols != null)
       $lowValue = $symbol->lowValue; 
       $checkBigCharts = $symbol->checkBigCharts; 
       $cikNumber = $symbol->cikNumber; 
+      $orderStub = $symbol->orderStub; 
+      $volumeNotes = $symbol->volumeNotes; 
+      $individualNotes = $symbol->individualNotes; 
 
       // the previous closing price that we are grabbing from the order stub (i.e. not grabbing it from E*TRADE API)
       $previousCloseString = $symbol->previousCloseString; 
@@ -561,6 +590,8 @@ elseif ($symbols != null)
       {
           $originalSymbol = $symbol->originalSymbol; 
       }
+
+      saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNotes); 
 
       $returnArray[$index]['statistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts, $previousCloseString);
       $statisticsJSON = json_decode($returnArray[$index]['statistics']); 
