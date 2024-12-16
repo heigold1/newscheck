@@ -17,11 +17,11 @@
 
     $result = $mysqli->query("select * from orders");
 
-    $html = "";
+    $html = "<div><table style='border: 1px solid black !important;'><tbody>";
 
     if ($result->num_rows > 0) {
 
-        $html = "<div><table style='border: 1px solid black !important;'><tbody>";
+
         $html .= "<tr><th>SYMBOL</th><th>ORDER STUB</th><th>VOLUME NOTES</th><th>NOTES</th></tr>"; 
         // output data of each row
         while($row = $result->fetch_assoc()) {
@@ -33,10 +33,11 @@
             $html .= "<td style='border: 1px solid black !important; width: 500px; font-size: 15px  !important; font-family: arial; '>" . preg_replace("/-- /", "--<br>", $row["individual_notes"]) . "</td>";
             $html .= "</tr>";
         }
-        $html .= "</tbody></table></div>";
     } else {
-        $html = "<span style='font-size: 15px>Nothing yet</span>";
+        $html = "<tr><td colspan = 4><span style='font-size: 15px>Nothing yet</span></td></tr>";
     }
+
+    $html .= "</tbody></table></div>";
 
     echo $html; 
 
