@@ -30,7 +30,7 @@
             $html .= "<td style='border: 1px solid black !important; font-size: 15px !important; font-family: arial; '>" . $row["symbol"] . "</td>";
             $html .= "<td style='border: 1px solid black !important; width: 300px; font-size: 15px !important; font-family: arial; '>" . $row["order_stub"] . "</td>"; 
             $html .= "<td style='border: 1px solid black !important; width: 500px; font-size: 15px  !important; font-family: arial; '>" . $row["volume_notes"] . "</td>"; 
-            $html .= "<td style='border: 1px solid black !important; width: 500px; font-size: 15px  !important; font-family: arial; '>" . $row["individual_notes"] . "</td>";
+            $html .= "<td style='border: 1px solid black !important; width: 500px; font-size: 15px  !important; font-family: arial; '>" . preg_replace("/-- /", "--<br>", $row["individual_notes"]) . "</td>";
             $html .= "</tr>";
         }
         $html .= "</tbody></table></div>";
