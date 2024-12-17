@@ -1566,7 +1566,7 @@ $(document.body).on('click', ".controlButton", function(){
 	{	
 		var currentTime = getCurrentTimeAMPM();
 		var currentNotesVal = $("#volumeNotesText" + currentId).val(); 
-		var newNotesVal = currentNotesVal + " - reset " + currentTime; 
+		var newNotesVal = currentNotesVal + "reset -- " + currentTime; 
 		var checkBigCharts = 0;   // first time around we aren't checking bigCharts 
 		$("#volumeNotesText" + currentId).val(newNotesVal); 
 
@@ -1942,7 +1942,7 @@ $(document.body).on('click', ".haltDiv", function(){
 
 		var currentTime = getCurrentTimeAMPM();
 		var currentNotesVal = $("#volumeNotesText" + currentId).val(); 
-		var newNotesVal = currentNotesVal + " - Halt inspected " + currentTime; 
+		var newNotesVal = currentNotesVal + "Halt inspected " + currentTime + " -- "; 
 		$("#volumeNotesText" + currentId).val(newNotesVal); 
 
 
