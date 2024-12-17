@@ -168,7 +168,7 @@ function calculateBigChartsDifference(currentId, bigChartsPrice)
 }
 
 
-function writeTradeStamp(id)
+function writeTradeStamp(id, type = "") 
 {
 
 	var orderStub = $("#orderInput" + id).val();
@@ -178,7 +178,7 @@ function writeTradeStamp(id)
 	var currentTime = getCurrentTimeAMPM();
 
 	var notes = $("#individualNotesText" + id).val();
-	notes = notes + price + " " + percentage + " " + currentTime + " -- ";
+	notes = notes + price + " " + percentage + " " + currentTime + " " + type + " -- ";
 
 	$("#individualNotesText" + id).val(notes);
 }
@@ -1566,7 +1566,7 @@ $(document.body).on('click', ".controlButton", function(){
 	{	
 		var currentTime = getCurrentTimeAMPM();
 		var currentNotesVal = $("#volumeNotesText" + currentId).val(); 
-		var newNotesVal = currentNotesVal + "reset -- " + currentTime; 
+		var newNotesVal = currentNotesVal + "reset " + currentTime + " -- "; 
 		var checkBigCharts = 0;   // first time around we aren't checking bigCharts 
 		$("#volumeNotesText" + currentId).val(newNotesVal); 
 
@@ -1739,7 +1739,7 @@ var prevCloseMinusNewPriceDivPrevClose = prevCloseMinusNewPrice/prevClose;
 	    alert('Order did not succesfully copy');
   	}
 
-	writeTradeStamp(currentId);	 
+	writeTradeStamp(currentId, "Low");	 
 
 }); 
 
@@ -1844,7 +1844,7 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
   		}
 	}
 
-	writeTradeStamp(currentId);	 
+	writeTradeStamp(currentId, "BigCharts");	 
 
 }); 
 
@@ -2034,7 +2034,7 @@ $(document.body).on('click', ".copyOrderToClipboard", function(){
 	    alert('Order did not succesfully copy');
   	}
 
-	writeTradeStamp(currentId);
+	writeTradeStamp(currentId, "Copy");
 
 });  // Copy current order to clipboard 
 
@@ -2089,7 +2089,7 @@ $(document.body).on('click', ".halfOrder", function(){
 
 	$("#averageDownDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
 
-	writeTradeStamp(currentId);
+	writeTradeStamp(currentId, "Half");
 
 });  // Split the order in half, to average down
 
@@ -2314,7 +2314,7 @@ $(document.body).on('paste', ".orderInput", function(){
 				$("#controlButton" + currentId).click();
 			}
 
-			writeTradeStamp(currentId);
+			writeTradeStamp(currentId, "OriginalPaste");
 
 		}, 200
 		);
