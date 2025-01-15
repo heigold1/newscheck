@@ -2242,6 +2242,11 @@ $(document.body).on('paste', ".orderInput", function(){
 				$("#orderInput" + currentId).css("background-color", "#FFFFFF"); 
 				$("#symbol" + currentId).css("background-color", "#FFFFFF");     			
     		}
+    		elseif (percentage > 98%)
+    		{
+					$("#orderInput" + currentId).css("background-color", "#ECECEC"); 
+					$("#symbol" + currentId).css("background-color", "#ECECEC");     			
+    		}
     		else 
     		{
 					let volume = prompt("Red flag volume amount"); 
