@@ -1130,7 +1130,7 @@ function checkAllDivsForNews()
   					var previousClose = orderStringSplit[5]; 
   					previousClose = parseFloat(previousClose.replace("$", "")); 
 
-						if (getCurrentTime() > 655)
+						if (getCurrentTime() > 652)
 						{
 								if ($("#checkForBigCharts" + currentId).is(':checked'))
 								{
@@ -2235,17 +2235,17 @@ $(document.body).on('paste', ".orderInput", function(){
 			}); 
 
 
-    		if (
+    		if (percentage > 98.00) 
+    		{
+					$("#orderInput" + currentId).css("background-color", "#ECECEC"); 
+					$("#symbol" + currentId).css("background-color", "#ECECEC");     
+    		}
+    		else if (
     			((percentage >= 34.00) && (entryPrice > 1.00)) || ((percentage >= 40.00) && (entryPrice < 1.00))
     			)
     		{
 				$("#orderInput" + currentId).css("background-color", "#FFFFFF"); 
 				$("#symbol" + currentId).css("background-color", "#FFFFFF");     			
-    		}
-    		elseif (percentage > 98%)
-    		{
-					$("#orderInput" + currentId).css("background-color", "#ECECEC"); 
-					$("#symbol" + currentId).css("background-color", "#ECECEC");     			
     		}
     		else 
     		{
