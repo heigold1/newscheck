@@ -1,11 +1,56 @@
 <?php 
 
+require_once("../newslookup/regex-street-insider.php"); 
+
 /* 
 oauth_consumer_key: 874c996f1f6ecaa46c65abb115da9912
 consumer_secret: 886529f1c9d06729e97b6f511a89b4df
 */
 
+$yesterdayDays = 1;
+
 error_reporting(1);
+
+
+
+function get_yahoo_trade_date($daysBack)
+{
+    $trade_date = "";
+
+    $week_day = date('l', strtotime("-" . $daysBack . " days"));
+    $week_day = mb_substr($week_day, 0, 3);
+    $month_day = date(', d M Y', strtotime("-" . $daysBack . " days"));
+    $trade_date = $week_day . $month_day;
+
+    return $trade_date;
+}
+
+
+function get_yahoo_yesterday_trade_date()
+{
+    $yesterday_yahoo_trade_date = "";
+
+    $yesterday_yahoo_trade_week_day = date('l', strtotime("-1 days"));
+    $yesterday_yahoo_trade_week_day = mb_substr($yesterday_yahoo_trade_week_day, 0, 3);
+    $yesterday_yahoo_trade_month_day = date(', d M Y', strtotime("-1 days"));
+    $yesterday_yahoo_trade_date = $yesterday_yahoo_trade_week_day . $yesterday_yahoo_trade_month_day;
+
+    return $yesterday_yahoo_trade_date;
+}
+
+function get_yahoo_todays_trade_date()
+{
+    $todays_yahoo_trade_date = "";
+
+    $todays_yahoo_trade_week_day = date('l');
+    $todays_yahoo_trade_week_day = mb_substr($todays_yahoo_trade_week_day, 0, 3);
+    $todays_yahoo_trade_month_day = date(', d M Y');
+    $todays_yahoo_trade_date = $todays_yahoo_trade_week_day . $todays_yahoo_trade_month_day;
+
+    return $todays_yahoo_trade_date;
+}
+
+
 
 require_once("simple_html_dom.php"); 
 //error_reporting(E_ALL);
@@ -314,19 +359,20 @@ function produce_XML_object_tree($raw_XML) {
     return $xmlTree;
 }
 
-function getStreetInsider($symbol)
+function getStreetInsider($symbol, $yesterdayDays)
 {
+
     $servername = "localhost";
     $username = "superuser";
     $password = "heimer27";
     $db = "daytrade"; 
     $mysqli = null;
     $date = date("Y-m-d"); 
-    $streetInsiderTitle = "";
-    $streetInsiderLink = ""; 
+    $streetInsiderNews = "";
     $link = null; 
     $query = null; 
     $reScrape = false; 
+    $returnArray = []; 
 
     // Check connection
     try {
@@ -335,19 +381,19 @@ function getStreetInsider($symbol)
 
     } 
 
-    $SQL = "SELECT symbol, lastLink, lastTitle, lastUpdated FROM streetinsider WHERE symbol = '" . $symbol . "'"; 
+    $SQL = "SELECT symbol, lastTitle, lastLink, lastUpdated FROM streetinsider WHERE symbol = '" . $symbol . "'"; 
     try 
     {
         $link->set_charset("utf8");
         $query = mysqli_query($link, $SQL);
         if(!$query)
         {
-            echo "Error: " . mysqli_error($link);
+            error_log("Error: " . mysqli_error($link));
         }
     } 
     catch (mysqli_sql_exception $e) 
     {
-        echo "Error when selecting from database is " . $e->errorMessage() . "<br>"; 
+        error_log("Error when selecting from database is " . $e->errorMessage() . "<br>"); 
     } 
 
     $rowCount = mysqli_num_rows($query); 
@@ -363,12 +409,13 @@ function getStreetInsider($symbol)
             $lastUpdatedInt = strtotime($myRow['lastUpdated'] . "- 8 hours");
             $lastUpdated = date('Y-m-d H:i:s', $lastUpdatedInt); 
             $timeDiff = ($currentTimeInt - $lastUpdatedInt)/60; 
-            // If it's newer than 2 minutes then just use what's stored in the database, because
+            // If it's newer than 15 minutes then just use what's stored in the database, because
             // the StreetInsider bot hasn't expired. 
             if ($timeDiff < 15.00)
             {
-                $streetInsiderLink = $myRow['lastLink'];
-                $streetInsiderTitle = $myRow['lastTitle'];
+                $returnArray['link'] = $myRow['lastLink']; 
+                $returnArray['title'] = $myRow['lastTitle']; 
+                return $returnArray; 
             }
             else 
             {
@@ -393,32 +440,142 @@ function getStreetInsider($symbol)
         $streetInsiderLink = mysqli_real_escape_string($link, $streetInsiderLink);
         $streetInsiderTitle = mysqli_real_escape_string($link, $streetInsiderTitle);
 
+        $streetInsiderNews = "<ul class='newsSide'>";
+        $streetInsiderNews .= "<li style='font-size: 20px !important; background-color: #00ff00;'>
+<a style='font-size: 25px' target='_blank' href='https://www.streetinsider.com/stock_lookup.php?LookUp=Get+Quote&q=" . $symbol . "'>StreetInsider News</a> -- <a style='font-size: 25px' target='_blank' href='https://newsquantified.com/" . $symbol . "'>News Quantified</a></li>";
+
+
+        $classActionAdded = false;
+        $j = 0;
+
+        $previousNewsTitle = "";
+        $currentNewsTitle = ""; 
+
+        foreach ($xmlFinalObject->channel->item as $feedItem) {
+            $j++;
+
+            // Convert time from GMT to  AM/PM New York
+            // 14400 is 4 hours X 60 seconds/minute X 60 minutes/hour
+            $publicationDateStrToTime = strtotime($feedItem->pubDate) - 14400;
+
+            $convertedDate = new DateTime(); 
+            $convertedDate->setTimestamp($publicationDateStrToTime);
+
+            $publicationDate = $feedItem->pubDate;
+            $publicationDate = preg_replace("/[0-9][0-9]\:[0-9][0-9]\:[0-9][0-9] \-[0-9][0-9][0-9][0-9]/", "", $publicationDate); 
+            $publicationTime = $convertedDate->format("g:i A");
+
+            $newsTitle = $feedItem->title; 
+            $currentNewsTitle = $newsTitle; 
+            if (strcmp($previousNewsTitle, $currentNewsTitle) == 0)
+            {
+                $j--; 
+                continue; 
+            }
+
+            if (preg_match('/class.action/i', $newsTitle))
+            {
+                if ($classActionAdded == true)
+                {
+                  $j--;
+                  continue;              
+                }
+                else
+                {
+                  $classActionAdded = true;
+                }
+            }
+
+            if (preg_match('/^form.*?4/i', $newsTitle) ||
+               preg_match('/^form.*?sc.*?13/i', $newsTitle)
+                )
+            {
+                continue; 
+            }
+
+            $streetInsiderNews .= "<li "; 
+
+            // red/green highlighting for yesterday/today
+            for ($i = $yesterdayDays; $i >= 1; $i--)
+            {
+                if (preg_match('/(' .  get_yahoo_trade_date($i) . ')/', $publicationDate))
+                {
+                    $publicationTime = preg_replace('/PM/', '<span style="background-color: red; font-size: 18px; ">PM</span>', $publicationTime); 
+                    if ($i == $yesterdayDays) 
+                    {
+                        $publicationTime = preg_replace('/AM/', '<span style="background-color: #00ff00; font-size: 18px; ">AM</span>', $publicationTime); 
+                  
+                    }
+                    else
+                    {
+                        $publicationTime = preg_replace('/AM/', '<span style="background-color: red; font-size: 18px; ">AM</span>', $publicationTime); 
+                    }  
+                }
+            }
+
+            if ($j % 2 == 1)
+            {
+              $streetInsiderNews .=  "style='background-color: #ebd8bd; '"; 
+            };
+            
+            // if the regular expression contains (.*) then we need to do it per title, to avoid greedy regular expressions
+
+            $newsTitle = preg_replace('/ withdrawal(.*?)application/i', '<span style="font-size: 12px; background-color:red; color:black"><b> withdrawal $1 application (55%) </b></span> ', $newsTitle);
+            $newsTitle = preg_replace('/nasdaq rejects(.*?)listing/i', '<span style="font-size: 12px; background-color:red; color:black"><b>Nasdaq rejects $1 listing</span> </b>&nbsp;', $newsTitle);
+            $newsTitle = preg_replace('/ announces(.*?)offering/i', '<span style="font-size: 35px; background-color:red; color:black"><b> ANNOUNCES $1 OFFERING </b></span> ', $newsTitle);
+
+            $streetInsiderNews .=  " ><a target='_blank' href='$feedItem->link'> " . $publicationDate . " " . $publicationTime . " - <br>" . $newsTitle . "</a></li>";
+
+            $previousNewsTitle = $currentNewsTitle; 
+        } // looping through each news channel item 
+
+        $streetInsiderNews .=  "</ul>";
+
+        // light yellow highlighting for - from two weeks ago to a week ago.
+        // light yellow is #fffdaf 
+        for ($daysBack = 14; $daysBack > 6; $daysBack--)
+        {
+            $streetInsiderNews = preg_replace('/(' .  get_yahoo_trade_date($daysBack) . ')/', '<span style="font-size: 12px; background-color:yellow; color:black">$1</span>', $streetInsiderNews);      
+        }
+
+        // yellow highlighting for before yesterday
+        for ($daysBack = 5; $daysBack > $yesterdayDays; $daysBack--)
+        {
+            $streetInsiderNews = preg_replace('/(' .  get_yahoo_trade_date($daysBack) . ')/', '<span style="font-size: 12px; background-color:yellow ; color:black">$1</span>', $streetInsiderNews);      
+        }
+
+        // blue highlighting for yesterday
+        for ($daysBack = $yesterdayDays; $daysBack >= 1; $daysBack--)
+        {
+            $streetInsiderNews = preg_replace('/(' .  get_yahoo_trade_date($daysBack) . ')/', '<span style="font-size: 12px; background-color:#0747a1 ; color:white">$1</span>', $streetInsiderNews);
+        }
+
+        $streetInsiderNews = regexStreetInsider($streetInsiderNews); 
+
         try 
         {
             $link->set_charset("utf8");
 
-            $sqlStatement = "UPDATE streetinsider SET  lastLink = '" . $streetInsiderLink . "', lastTitle = '" . $streetInsiderTitle . "', lastUpdated = NOW() WHERE symbol = '" . $symbol . "'"; 
+            $sqlStatement = "REPLACE INTO streetinsider (symbol, htmltext, lastLink, lastTitle) VALUES ('" . $symbol . "', '" . mysqli_real_escape_string($link, $streetInsiderNews) . "', '" . $streetInsiderLink . "', '" . $streetInsiderTitle . "')"; 
 
             $query = mysqli_query($link, $sqlStatement);
             if(!$query)
             {
-                error_log("Error: " . mysqli_error($link));
+                echo "Error: " . mysqli_error($link);
             }
         } 
         catch (mysqli_sql_exception $e) 
         {
-            error_log("Error when writing to database is " . $e->errorMessage()); 
+            echo "Error when writing to database is " . $e->errorMessage() . "<br>"; 
         } 
-
-    }
-
+    }  // if either we didn't find it in the database, or it hasn't been half an hour since we last scraped it. 
 
     $returnArray['link'] = $streetInsiderLink; 
     $returnArray['title'] = $streetInsiderTitle; 
 
     return $returnArray; 
 
-}
+} // end of getStreetInsider 
 
 function getSEC($originalSymbol, $modifiedSymbol, $companyName, $checkSec, $cikNumber)
 {
@@ -440,7 +597,7 @@ $averageVolume = "";
     $mwMainContentLink1 = $rssSeekingAlpha->channel->item{0}->link;
     $mwMainContentLink1Title = $rssSeekingAlpha->channel->item{0}->title;
 
-    $streetInsider = getStreetInsider($modifiedSymbol);
+    $streetInsider = getStreetInsider($modifiedSymbol, $yesterdayDays);
     $mwPartnerHeadlinesLink1 = $streetInsider['link'];
     $mwPartnerHeadlinesLink1Title = $streetInsider['title']; 
 
