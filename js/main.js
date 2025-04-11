@@ -1767,11 +1767,11 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 
 	if (previousClose < 1.00)
 	{
-		newPrice = bigChartsPrice - bigChartsPrice*0.125;
+		newPrice = bigChartsPrice - bigChartsPrice*0.1251;
 	}
 	else 
 	{
-		newPrice = bigChartsPrice - bigChartsPrice*0.10;
+		newPrice = bigChartsPrice - bigChartsPrice*0.105;
 	}
 
 	if (previousClose >= 1.00)
