@@ -212,8 +212,8 @@ function getBigChartsData($symbol, $checkBigCharts)
 
     if ($checkBigCharts == 1)
     {
-      $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-bigcharts.py ' . $symbol);
-      $bigChartsValues = shell_exec($command);
+      $venv_python = '/var/www/html/newslookup/venv/bin/python3';
+      $command = escapeshellcmd($venv_python . ' ../newslookup/pythonscrape/scrape-bigcharts.py ' . $symbol);
 
       $values = explode('|', $bigChartsValues); 
 
