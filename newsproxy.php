@@ -215,6 +215,8 @@ function getBigChartsData($symbol, $checkBigCharts)
       $venv_python = '/var/www/html/newslookup/venv/bin/python3';
       $command = escapeshellcmd($venv_python . ' ../newslookup/pythonscrape/scrape-bigcharts.py ' . $symbol);
 
+      $bigChartsValues = shell_exec($command);
+
       $values = explode('|', $bigChartsValues); 
 
       $bigChartsPercentage = $values[0];
