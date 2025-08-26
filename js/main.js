@@ -1140,7 +1140,16 @@ function checkAllDivsForNews()
    								}
    								else
    								{
-   									$("#bigChartsPercentageMain" + currentId).html("$" + bigChartsPrice + " (" + bigChartsPercentage + "%) (" + bigChartsDifference + ")"); 
+											var currentBigChartsString = $("#bigChartsPercentageMain" + currentId).html(); 
+											var currnentBigChartsValues = currentBigChartsString.split(" "); 
+											var currentBigChartsPrice = currnentBigChartsValues[0]; 
+											currentBigChartsPrice = bigChartsPrice.replace("$", ""); 
+											currentBigChartsPrice = parseFloat(bigChartsPrice); 
+
+											if (bigChartsPrice < currentBigChartsPrice)
+											{
+   												$("#bigChartsPercentageMain" + currentId).html("$" + bigChartsPrice + " (" + bigChartsPercentage + "%) (" + bigChartsDifference + ")"); 												
+											}
    								}
 
    								if ((previousClose < 1.00) && (bigChartsDifference < 11.5))
