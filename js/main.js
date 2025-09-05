@@ -1143,10 +1143,10 @@ function checkAllDivsForNews()
 											var currentBigChartsString = $("#bigChartsPercentageMain" + currentId).html(); 
 											var currnentBigChartsValues = currentBigChartsString.split(" "); 
 											var currentBigChartsPrice = currnentBigChartsValues[0]; 
-											currentBigChartsPrice = bigChartsPrice.replace("$", ""); 
-											currentBigChartsPrice = parseFloat(bigChartsPrice); 
+											currentBigChartsPrice = currentBigChartsPrice.replace("$", ""); 
+											currentBigChartsPrice = parseFloat(currentBigChartsPrice); 
 
-											if (bigChartsPrice < currentBigChartsPrice)
+											if ((bigChartsPrice < currentBigChartsPrice) || isNaN(currentBigChartsPrice))
 											{
    												$("#bigChartsPercentageMain" + currentId).html("$" + bigChartsPrice + " (" + bigChartsPercentage + "%) (" + bigChartsDifference + ")"); 												
 											}
