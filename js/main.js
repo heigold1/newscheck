@@ -1760,6 +1760,7 @@ $(document.body).on('click', ".bigChartsSeparation", function(){
 	currentId = currentId.replace("bigChartsSeparation", ""); 
 
 	var bigChartsString = $("#bigChartsPercentageMain" + currentId).html(); 
+
 	var bigChartsValues = bigChartsString.split(" "); 
 	var bigChartsPrice = bigChartsValues[0]; 
 	bigChartsPrice = bigChartsPrice.replace("$", ""); 
