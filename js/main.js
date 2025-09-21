@@ -2133,54 +2133,13 @@ $(document.body).on('click', ".emailOrder", function(){
     // Get the big charts delayed quote 
 $(document.body).on('click', ".bigCharts", function(){
 
-
-	var dateObj = new Date(); 
-	var hours = dateObj.getHours(); 
-	var minutes = dateObj.getMinutes();
-	if (minutes < 10)
-	{
-		minutes = "0" + minutes.toString(); 
-	}
-
-	var currentTime = hours.toString().concat(minutes); 
-	currentTime = parseInt(currentTime); 
-
-	if (currentTime < 650)
-	{
-		alert("Too early to call Big Charts"); 
-	}
-	else 
-	{
 		currentId = $(this).attr("id");
 		currentId = currentId.replace("getBigCharts", ""); 
 
-	    var symbol = $("#symbol" + currentId).val(); 
+    var symbol = $("#symbol" + currentId).val(); 
+    var site = "https://www.marketwatch.com/investing/stock/" + symbol; 
+    window.open(site, "_blank");  
 
-	    $.ajax({
-	        url: "../newslookup/proxy.php",
-	        data: {symbol: symbol,
-	            stockOrFund: "stock", 
-	            which_website: "bigcharts", 
-	            host_name: "bigcharts.marketwatch.com"},
-	        async: false, 
-	        dataType: 'html',
-	        success:  function (data) {
-
-	        	var textArray = data.split("|"); 
-	         
-	        	var lastPercentage = textArray[0]; 
-	        	var lastValue = textArray[1]; 
-	        	var time = textArray[2]; 
-
-	        	$("#bigChartsPercentage" + currentId).text(lastPercentage); 
-
-	        	$("#bigChartsLast" + currentId).text(lastValue); 
-
-	        	$("#bigChartsTime" + currentId).text(time); 
-						$("#bigChartsTime" + currentId).css("font-size", "12px"); 
-        	}
-    	});  // end of AJAX call to bigcharts   
-	}
 
 }); 
 
