@@ -579,7 +579,7 @@ var cikNumber = $("#cikNumber" + currentId).html();
 
  				// yahoo main 
 
-				$("#bigchartsLink" + currentId).html("<a target='_blank' href='https://bigcharts.marketwatch.com/quickchart/quickchart.asp?symb=" + originalSymbol + "&insttype=&freq=1&show=&time=8&rand=" + Math.random() + "'>..</a>"); 
+				$("#bigchartsLink" + currentId).html("<a target='_blank' href='https://digital.fidelity.com/prgw/digital/research/quote/dashboard/summary?symbol=" + originalSymbol + "&rand=" + Math.random() + "'>..</a>"); 
 
 				if (yahooFirstLinkTitle != "")
 				{
