@@ -628,7 +628,9 @@ function getYahoo($modifiedSymbol)
     $url = "";
     $urlTitle = "";
 
-      $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-yahoo-finance-newscheck-links.py ' . $modifiedSymbol);
+
+      $venv_python = '/var/www/html/newslookup/venv/bin/python3';
+      $command = escapeshellcmd($venv_python . ' ../newslookup/pythonscrape/scrape-yahoo-finance-newscheck-links.py ' . $modifiedSymbol);
       $returnArray = shell_exec($command);
 
       return $returnArray; 
