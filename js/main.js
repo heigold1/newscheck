@@ -2230,6 +2230,7 @@ $(document.body).on('paste', ".orderInput", function(){
     		if (percentage > 80.00)
     		{
     				$("#checkForBigCharts" + currentId).prop('checked', false); 
+    				$("#checkForNewNews" + currentId).prop('checked', false); 
     		}
 
     		// For penny stocks, I want to start tracing them early, so put them under the radar 
