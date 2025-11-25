@@ -1152,6 +1152,8 @@ function checkAllDivsForNews()
 											}
    								}
 
+
+
    								if ((previousClose < 1.00) && (bigChartsDifference < 11.5))
    								{
    									$("#bigChartsWrapper" + currentId).css("background-color", "FFA1A1");
@@ -2227,7 +2229,7 @@ $(document.body).on('paste', ".orderInput", function(){
 					$("#symbol" + currentId).css("background-color", "#CCE6FF");
     		}
 
-    		if (percentage > 80.00)
+    		if (percentage >= 80.00)
     		{
     				$("#checkForBigCharts" + currentId).prop('checked', false); 
     				$("#checkForNewNews" + currentId).prop('checked', false); 
