@@ -1156,7 +1156,7 @@ function checkAllDivsForNews()
 
    								if ((previousClose < 1.00) && (bigChartsDifference < 11.5))
    								{
-   									$("#bigChartsWrapper" + currentId).css("background-color", "FFA1A1");
+   									$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
 										globalBigChartsAlert = true;
    								}
    								else if ((bigChartsDifference) < 9.50)							
