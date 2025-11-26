@@ -2227,7 +2227,7 @@ $(document.body).on('paste', ".orderInput", function(){
 					$("#symbol" + currentId).css("background-color", "#CCE6FF");
     		}
 
-    		if (percentage >= 80.00)
+    		if (percentage >= 70.00)
     		{
     				$("#checkForBigCharts" + currentId).prop('checked', false); 
     				$("#checkForNewNews" + currentId).prop('checked', false); 
