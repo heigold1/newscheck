@@ -1152,14 +1152,12 @@ function checkAllDivsForNews()
 											}
    								}
 
-
-
-   								if ((previousClose < 1.00) && (bigChartsDifference < 11.5))
+   								if ((previousClose < 1.00) && ((bigChartsDifference < 11.5) && (bigChartsDifference > 0))) 
    								{
    									$("#bigChartsWrapper" + currentId).css("background-color", "#FFA1A1");
 										globalBigChartsAlert = true;
    								}
-   								else if ((bigChartsDifference) < 9.50)							
+   								else if (((bigChartsDifference) < 9.50)	&& (bigChartsDifference > 0))
 									{
 										$("#bigChartsWrapper" + currentId).css("background-color", "#FDC7C7");
 										globalBigChartsAlert = true;
