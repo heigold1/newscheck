@@ -870,6 +870,7 @@ function checkAllDivsForNews()
  		var currentId = currentId.replace("div", "");
  		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
 		var lowValue = $.trim($("#lowValue" + currentId).val()); 
+		var lowValuePercentage = $("#lowInput" + currentId).html(); 
 		var cikNumber= $.trim($("#cikNumber" + currentId).html()); 
     var checkBigCharts; 
 
@@ -912,6 +913,7 @@ function checkAllDivsForNews()
 			"checkNews" : checkNews, 
 			"idNumber": currentId, 
 			"lowValue": lowValue, 
+			"lowPercentage" : lowValuePercentage, 
 			"checkBigCharts": checkBigCharts, 
 			"cikNumber": cikNumber, 
 			"previousCloseString": previousCloseString, 
@@ -930,6 +932,10 @@ function checkAllDivsForNews()
 	var globalCancelHighRiskTrades = false; 
 	var globalVolumeAlert = false;
 	var globalBigChartsAlert = false; 
+
+console.log("Everything is:"); 
+console.log(symbolArray); 
+
 
 	$.ajax({
    		url: "newsproxy.php",
@@ -1091,15 +1097,9 @@ function checkAllDivsForNews()
 						currentPercentage = currentPercentage.replace("%", ""); 	
 						currentPercentage = parseFloat(currentPercentage);
 
-						
-
 						if ( 
-								($("#checkForNewNews" + currentId).prop('checked') || 
-								 $("#checkForLow" + currentId).prop('checked') || 
-								 $("#turnVolumeRed" + currentId).prop('checked') || 
-								 $("#playVolumeSound" + currentId).prop('checked')
-								 ) && (currentTime > 800) && (highRiskValue > 0) 
-									 && (currentPercentage < 60)
+									($("#highRiskValueDiv" + currentId).css("background-color") === "rgb(0, 255, 0)")
+ 									&& (currentTime > 800)
 							)
 						{
 							  globalCancelHighRiskTrades = true; 

@@ -231,7 +231,7 @@ function getBigChartsData($symbol, $checkBigCharts)
     return $bigChartsData; 
 }
 
-function saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNotes)
+function saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNotes, $lowPrice, $lowPercentage)
 {
 
 
@@ -241,6 +241,9 @@ function saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNot
     $db = "daytrade"; 
     $mysqli = null;
     $date = date("Y-m-d"); 
+    $lowPrice = ($lowPrice === '' || $lowPrice === null) ? 'NULL' : $lowPrice;
+    $lowPercentage = ($lowPercentage === '' || $lowPercentage === null) ? 'NULL' : $lowPercentage;
+
 
     // Check connection
     try {
@@ -249,7 +252,15 @@ function saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNot
 
     } 
 
-    $mysqli->query("REPLACE INTO orders (symbol, order_stub, volume_notes, individual_notes, created_at) VALUES ('" . $originalSymbol . "', '" . $orderStub . "', '". $volumeNotes . "', '" . $individualNotes . "', CURRENT_TIMESTAMP)");
+    $mysqli->query(
+        "REPLACE INTO orders (symbol, order_stub, volume_notes, individual_notes, low_price, low_percentage, created_at) VALUES ('"
+        . $originalSymbol . "', '"
+        . $orderStub . "', '"
+        . $volumeNotes . "', '"
+        . $individualNotes . "', "
+        . $lowPrice . ", "
+        . $lowPercentage . ", CURRENT_TIMESTAMP)"
+    );
 
 }
 
@@ -738,6 +749,7 @@ elseif ($symbols != null)
       $modifiedSymbol = $symbol->modifiedSymbol;
       $checkNews = $symbol->checkNews; 
       $lowValue = $symbol->lowValue; 
+      $lowPercentage = $symbol->lowPercentage; 
       $checkBigCharts = $symbol->checkBigCharts; 
       $cikNumber = $symbol->cikNumber; 
       $orderStub = $symbol->orderStub; 
@@ -752,7 +764,7 @@ elseif ($symbols != null)
           $originalSymbol = $symbol->originalSymbol; 
       }
 
-      saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNotes); 
+      saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNotes, $lowValue, $lowPercentage); 
 
       $returnArray[$index]['statistics'] = getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts, $previousCloseString);
       $statisticsJSON = json_decode($returnArray[$index]['statistics']); 
