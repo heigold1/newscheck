@@ -870,7 +870,7 @@ function checkAllDivsForNews()
  		var currentId = currentId.replace("div", "");
  		var checkNews = $("#checkForNewNews" + currentId).is(':checked')? "1": "0";
 		var lowValue = $.trim($("#lowValue" + currentId).val()); 
-		var lowValuePercentage = $("#lowInput" + currentId).html(); 
+		var lowValuePercentage = $("#low" + currentId).html(); 
 		var cikNumber= $.trim($("#cikNumber" + currentId).html()); 
     var checkBigCharts; 
 
@@ -1493,6 +1493,7 @@ $("#printButton").click(function(){
  				var highRiskSpike = $("#highRiskValueDiv" + currentId).text(); 
 				var offering = $("#offerPrice" + currentId).val(); 
 				var volumeNotes = $("#volumeNotesText" + currentId).val(); 
+
 
  				highRiskSpike = highRiskSpike.trim(); 
 
