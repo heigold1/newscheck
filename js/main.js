@@ -2242,6 +2242,12 @@ $(document.body).on('paste', ".orderInput", function(){
     			$("#pennyDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
     		}
 
+    		if (percentage >= 80)
+    		{
+    			$("#lowInput" + currentId).val("15"); 
+    		}
+
+
 			var dateObj = new Date(); 
 			var hours = dateObj.getHours(); 
 			var minutes = dateObj.getMinutes();
