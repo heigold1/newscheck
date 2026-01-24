@@ -123,6 +123,11 @@ function playFailedToGetPreviousClose(){
 	playFailedToGetPreviousClose.play(); 
 }
 
+function playCheckTradeHalts(){
+	var playCheckTradeHalts = new Audio('./wav/check-trade-halts.mp3');
+	playCheckTradeHalts.play(); 
+}
+
 function checkSecond(sec) {
   if (sec < 10 && sec >= 0) {sec = "0" + sec}; // add zero in front of numbers < 10
   if (sec < 0) {sec = "59"};
@@ -949,6 +954,12 @@ console.log(symbolArray);
 				{
 					playHaltAlert(); 
 				}
+
+				if (data.newHalts == 1)
+				{
+						playCheckTradeHalts(); 
+				}
+
 
 				var haltSymbolList = data.halt_symbol_list; 
 

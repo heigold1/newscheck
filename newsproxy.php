@@ -672,14 +672,43 @@ function getYahoo($modifiedSymbol)
 } // if ($which_website == "yahoo")
 
 
-
 function getTradeHalts()
 {
+    /* ----------------------------
+       DB: Get all symbols you already have orders for
+    ---------------------------- */
+
+    $servername = "localhost";
+    $username = "superuser";
+    $password = "heimer27";
+    $db = "daytrade"; 
+
+    $orderSymbols = [];
+
+    try {
+        $mysqli = new mysqli($servername, $username, $password, $db);
+        $result = $mysqli->query("SELECT DISTINCT symbol FROM orders");
+
+        while ($row = $result->fetch_assoc()) {
+            $orderSymbols[] = strtoupper(trim($row['symbol']));
+        }
+
+    } catch (mysqli_sql_exception $e) {
+        // optional logging
+    }
+
+    /* ----------------------------
+       NASDAQ HALTS FEED
+    ---------------------------- */
+
     $rss_feed = simplexml_load_file("https://www.nasdaqtrader.com/rss.aspx?feed=tradehalts");
 
+    $returnArray = [];
     $returnArray['haltstring'] = ""; 
     $returnArray['haltalert'] = 0; 
-    $haltSymbolList = array(); 
+    $returnArray['newHalts'] = 0;   // 👈 flag only
+
+    $haltSymbolList = []; 
 
     $dateTime = new DateTime(); 
     $dateTime->modify('-8 hours'); 
@@ -687,36 +716,39 @@ function getTradeHalts()
 
     foreach ($rss_feed->channel->item as $feed_item) {
 
-      $ns = $feed_item->getNamespaces(true); 
-      $child = $feed_item->children($ns["ndaq"]);
+        $ns = $feed_item->getNamespaces(true); 
+        $child = $feed_item->children($ns["ndaq"]);
 
-      $date = $child->HaltDate; 
-      $resumptionTime = $child->ResumptionTradeTime; 
-      $symbol = trim($feed_item->title); 
-      $reasonCode = trim($child->ReasonCode); 
-      $ignoreArray = array(''); 
+        $date = (string)$child->HaltDate; 
+        $resumptionTime = (string)$child->ResumptionTradeTime; 
+        $symbol = strtoupper(trim($feed_item->title)); 
+        $reasonCode = trim($child->ReasonCode); 
 
+        $returnArray['haltstring'] .= "symbol=$symbol date=$date resume=*{$resumptionTime}* reason=*{$reasonCode}* "; 
 
-      $returnArray['haltstring'] .= "symbol is " . $symbol . ", date is " . $date . ", currentDate is " . $currentDate . ", child->ResumptionTradeTime is *" . $resumptionTime . "* and reasonCode is *" . $reasonCode . "* "; 
+        if (($date == $currentDate) && ($resumptionTime == "")) {
 
-      if (($date == $currentDate) && ($resumptionTime == ""))
-      {
-        if (!in_array($symbol, $ignoreArray)) {
             $returnArray['haltalert'] = 1; 
-            $returnArray['haltstring'] .= " *********************************** HALT ALERT\n"; 
-            array_push($haltSymbolList, $symbol); 
+            $haltSymbolList[] = $symbol;
+
+            // ✅ NEW LOGIC: halted and NOT already in orders
+            if (!in_array($symbol, $orderSymbols)) {
+                $returnArray['newHalts'] = 1;
+                // optional early exit if you want speed:
+                // break;
+            }
+
+            $returnArray['haltstring'] .= " HALT\n"; 
+
+        } else {
+            $returnArray['haltstring'] .= " NO HALT\n"; 
         }
-
-      }
-      else 
-      {
-            $returnArray['haltstring'] .= " NO HALT ALERT\n"; 
-      }
-
     }
+
     $returnArray['halt_symbol_list'] = json_encode($haltSymbolList); 
     return $returnArray; 
 }
+
 
 if (isset($which_website) && ($which_website == "marketwatch"))
 {
