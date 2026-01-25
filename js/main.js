@@ -103,11 +103,6 @@ function playCancelHighRiskTrades(){
 	carDriveBy.play();
 }
 
-function playHaltAlert(){
-	var carDriveBy = new Audio('./wav/halt-alert.wav');
-	carDriveBy.play();
-}
-
 function playOrderHasHaltedStock(){
 	var playHaltedStock = new Audio('./wav/order-has-halted-stock.wav');
 	playHaltedStock.play();
@@ -959,7 +954,6 @@ console.log(symbolArray);
 				var haltSymbolList = data.halt_symbol_list; 
 
 				delete data.haltstring;
-				delete data.haltalert; 
 				delete data.halt_symbol_list; 
 
 
