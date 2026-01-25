@@ -728,7 +728,6 @@ function getTradeHalts()
 
         if (($date == $currentDate) && ($resumptionTime == "")) {
 
-            $returnArray['haltalert'] = 1; 
             $haltSymbolList[] = $symbol;
 
             // ✅ NEW LOGIC: halted and NOT already in orders

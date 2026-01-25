@@ -950,11 +950,6 @@ console.log(symbolArray);
 			dataType: 'json',
 			success:  function (data) {
 
-				if ((data.haltalert == 1) && $("#checkbox-check-halts").is(":checked"))
-				{
-					playHaltAlert(); 
-				}
-
 				if ((data.newHalts == 1) && $("#checkbox-check-halts").is(":checked"))
 				{
 						playCheckTradeHalts(); 
