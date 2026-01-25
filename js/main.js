@@ -955,7 +955,7 @@ console.log(symbolArray);
 					playHaltAlert(); 
 				}
 
-				if (data.newHalts == 1)
+				if ((data.newHalts == 1) && $("#checkbox-check-halts").is(":checked"))
 				{
 						playCheckTradeHalts(); 
 				}
