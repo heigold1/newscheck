@@ -646,29 +646,6 @@ function getYahoo($modifiedSymbol)
 
       return $returnArray; 
 
-/*
-      $rss = simplexml_load_file("http://feeds.finance.yahoo.com/rss/2.0/headline?s=$symbol&region=US&lang=en-US");
-
-        if (preg_match('/RSS feed not found/i', $rss->channel->item{0}->title))
-        {   // the symbol was not found by yahoo finance 
-          $url = "";
-          $urlTitle = "";
-        }
-        else
-        {
-          $url = $rss->channel->item{0}->link;
-          $urlTitle = $rss->channel->item{0}->title;
-          $urlTitle = str_replace('"', "", $urlTitle);
-          $urlTitle = str_replace('&quot;', "", $urlTitle);
-        } // if the symbol is found by yahoo finance
-
-      $returnArray = '{"yahooInfo":{"urlTitle":"' . $urlTitle . '","url":"' . $url . '"}}';
-
-    return $returnArray; 
-
-
-*/
-
 } // if ($which_website == "yahoo")
 
 
