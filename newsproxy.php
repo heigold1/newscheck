@@ -141,7 +141,7 @@ $header=array('GET /1575051 HTTP/1.1',
     curl_setopt($ch,CURLOPT_COOKIEJAR,'cookies.txt');
     curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
 
-    curl_setopt($ch, CURLOPT_VERBOSE, true);
+    curl_setopt($ch, CURLOPT_VERBOSE, false);
     curl_setopt($ch, CURLOPT_STDERR,$f = fopen(__DIR__ . "/error.log", "w+"));
 
 
@@ -244,13 +244,17 @@ function saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNot
     $lowPrice = ($lowPrice === '' || $lowPrice === null) ? 'NULL' : $lowPrice;
     $lowPercentage = ($lowPercentage === '' || $lowPercentage === null) ? 'NULL' : $lowPercentage;
 
-
     // Check connection
     try {
         $mysqli = new mysqli($servername, $username, $password, $db);
     } catch (mysqli_sql_exception $e) {
 
     } 
+
+    $originalSymbol   = $mysqli->real_escape_string($originalSymbol);
+    $orderStub        = $mysqli->real_escape_string($orderStub);
+    $volumeNotes      = $mysqli->real_escape_string($volumeNotes);
+    $individualNotes  = $mysqli->real_escape_string($individualNotes);
 
     $mysqli->query(
         "REPLACE INTO orders (symbol, order_stub, volume_notes, individual_notes, low_price, low_percentage, created_at) VALUES ('"
@@ -343,9 +347,6 @@ function getStatistics($originalSymbol, $offerPrice, $lowValue, $checkBigCharts,
          $percentLow = number_format((($prevClose-$low)/$prevClose)*100, 2);  
        }
     }
-
-
-error_log("final lowValue is " . $lowValue);
 
     $returnArray = '{"currentVolume":"' . $currentVolume . '", "averageVolume":"'. $averageVolume . '", "percentLow":"' . $percentLow . '", "lowValue":"' . $lowValue . '", "companyName": "' . $companyName . '", "bigChartsPercentage": "' . $bigChartsPercentage .'", "bigChartsPrice": "' . $bigChartsPrice . '"}'; 
 
@@ -808,6 +809,9 @@ elseif ($symbols != null)
     $returnArray['haltstring'] = $tradeHaltsArray["haltstring"]; 
     $returnArray['haltalert'] = $tradeHaltsArray["haltalert"]; 
     $returnArray['halt_symbol_list'] = $tradeHaltsArray['halt_symbol_list']; 
+
+
+file_put_contents(__DIR__ . "/debug.txt", print_r($returnArray, true));
 
     echo (json_encode($returnArray)); 
 }

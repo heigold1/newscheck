@@ -136,8 +136,6 @@ function getPreviousCloseString(currentId)
 		var orderStub = $("#orderInput" + currentId).val();
 		var symbol = $("#symbol" + currentId).val();  
 
-console.log("Inside getPreviousCloseString, orderStub is " + symbol + " " + orderStub); 
-
 		try {
 				var orderStringSplit = orderStub.split(" "); 
   			var previousCloseString = orderStringSplit[5]; 
@@ -933,9 +931,9 @@ function checkAllDivsForNews()
 	var globalVolumeAlert = false;
 	var globalBigChartsAlert = false; 
 
-console.log("Everything is:"); 
+console.log("************************************"); 
+console.log("symbolArray going to the back end is:");
 console.log(symbolArray); 
-
 
 	$.ajax({
    		url: "newsproxy.php",
@@ -950,6 +948,7 @@ console.log(symbolArray);
 						playCheckTradeHalts(); 
 				}
 
+console.log("Back from the back-end"); 
 
 				var haltSymbolList = data.halt_symbol_list; 
 
@@ -1027,7 +1026,17 @@ console.log(symbolArray);
 						secFilingLink1Title = mktWatchSECData.secFiling.urlTitle;
 					}
 
-					statisticsData = JSON.parse(item.statistics);
+console.log("symbol is: " + currentSymbol); 
+console.log("statistics data is: "); 
+console.log(item.statistics); 
+console.log("------------------------------"); 
+
+					if (item.statistics && item.statistics !== "undefined") {
+					    statisticsData = JSON.parse(item.statistics);
+					} else {
+					    console.warn("Skipping item with no statistics:", item);
+					    return; // or continue;
+					}
 
    				currentVolume = statisticsData.currentVolume; 
    				averageVolume = statisticsData.averageVolume; 
