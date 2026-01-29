@@ -74,7 +74,7 @@ function playRailroadCrossing(){
 }
 
 function playCancelTrades(){
-  var audioRailroad = new Audio('./wav/cancel-existing-trades.wav');
+  var audioRailroad = new Audio('./wav/cancel-existing-trades.mp3');
   audioRailroad.play();
 }
 
@@ -99,7 +99,7 @@ function playCarDriveBy(){
 }
 
 function playCancelHighRiskTrades(){
-	var carDriveBy = new Audio('./wav/cancel-high-risk-trades.wav');
+	var carDriveBy = new Audio('./wav/cancel-high-risk-trades.mp3');
 	carDriveBy.play();
 }
 
@@ -945,12 +945,18 @@ console.log(symbolArray);
 
 				if ((data.newHalts == 1) && $("#checkbox-check-halts").is(":checked"))
 				{
+console.log("passed the playCheckTradeHalts checklist");
 						playCheckTradeHalts(); 
 				}
 
 console.log("Back from the back-end"); 
 
 				var haltSymbolList = data.halt_symbol_list; 
+
+console.log("data.newHalts is *" + data.newHalts + "*"); 
+console.log("haltSymbolList is"); 
+console.log(haltSymbolList); 
+console.log(" "); 
 
 				delete data.haltstring;
 				delete data.halt_symbol_list; 

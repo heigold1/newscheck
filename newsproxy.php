@@ -711,8 +711,10 @@ function getTradeHalts()
             // ✅ NEW LOGIC: halted and NOT already in orders
             if (!in_array($symbol, $orderSymbols)) {
                 $returnArray['newHalts'] = 1;
-                // optional early exit if you want speed:
-                // break;
+            }
+            else 
+            {
+                $returnArray['newHalts'] = 0;
             }
 
             $returnArray['haltstring'] .= " HALT\n"; 
@@ -809,6 +811,7 @@ elseif ($symbols != null)
     $returnArray['haltstring'] = $tradeHaltsArray["haltstring"]; 
     $returnArray['haltalert'] = $tradeHaltsArray["haltalert"]; 
     $returnArray['halt_symbol_list'] = $tradeHaltsArray['halt_symbol_list']; 
+    $returnArray['newHalts'] = $tradeHaltsArray['newHalts']; 
 
 
 file_put_contents(__DIR__ . "/debug.txt", print_r($returnArray, true));
