@@ -181,6 +181,32 @@ function writeTradeStamp(id, type = "")
 	$("#individualNotesText" + id).val(notes);
 }
 
+function normalizeText(text) {
+    return text
+        .toLowerCase()
+        .normalize("NFD")               // separate accented chars
+        .replace(/[\u0300-\u036f]/g, "") // remove accents
+        .replace(/[’']/g, "")            // remove apostrophes
+        .replace(/[^a-z0-9\s]/g, "");    // remove other punctuation
+}
+
+function isUselessArticle(title) {
+    if (!title) return true;
+
+    const cleanTitle = normalizeText(title);
+
+    const rawUselessPhrases = [
+        "midday movers",
+        "earnings call transcript",
+        "earnings call highlights",
+        "stocks to watch", 
+    ];
+
+    return rawUselessPhrases.some(phrase =>
+        cleanTitle.includes(normalizeText(phrase))
+    );
+}
+
 // expand all the divs so that you can see everything 
 
 function expandAll(){
@@ -852,6 +878,9 @@ function checkAllDivsForNews()
 		if ((checkNews == 1) && (textFound != -1))
 		{
 			symbolNotFound = true; 
+			currentSymbol = $.trim($("#symbol" + currentId).val()); 
+			currentSymbol = currentSymbol.toUpperCase(); 
+			console.log("Symbol not found is: " + currentSymbol); 
 		}
 	}); // allDivs.each()
 
@@ -1177,11 +1206,11 @@ console.log(symbolArray);
 
 					}
 
-		 			if (
-		 				   (yahooFirstLinkTitle != "") 
-		 				&& (yahooFirstLinkTitle.toLowerCase().search("midday movers") == -1)
-		 				)
-	 					{
+						if (
+						       yahooFirstLinkTitle !== "" 
+						    && !isUselessArticle(yahooFirstLinkTitle)
+						)
+						{
 			 				// then if there was currently no news stored, 
 	 						if ($("#storedYahooLink" + currentId).html() == "No news")     
 				 				{
@@ -1212,10 +1241,10 @@ console.log(symbolArray);
 	 					}  // if we bring back a yahoo link 
 
 		 			// if we bring back a marketwatch main table link 
-	 				if (
-	 					   (mwMainContentLink1Title != "") 
-	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
-	 					)
+					if (
+					       mwMainContentLink1Title !== "" 
+					    && !isUselessArticle(mwMainContentLink1Title)
+						)
 	 					{
 			 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
 	 						{
@@ -1246,10 +1275,10 @@ console.log(symbolArray);
 	 					}  // if we bring back a marketwatch main link  
 
 	 				// if we bring back a marketwatch partner headlines link 
-	 				if (
-	 					   (mwPartnerHeadlinesLink1Title != "")  
-	 					&& (mwMainContentLink1Title.toLowerCase().search("midday movers") == -1)
-	 					)
+					if (
+					       mwPartnerHeadlinesLink1Title !== "" 
+					    && !isUselessArticle(mwPartnerHeadlinesLink1Title)
+						)
 	 					{
 							if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
 	 						{	
