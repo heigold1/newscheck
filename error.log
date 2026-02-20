@@ -1,33 +1,52 @@
-* Hostname in DNS cache was stale, zapped
-*   Trying 2600:1406:21:38a::886...
-* Connected to www.marketwatch.com (2600:1406:21:38a::886) port 443 (#0)
-* Cipher selection: ALL:!EXPORT:!EXPORT40:!EXPORT56:!aNULL:!LOW:!RC4:@STRENGTH
-* NPN, negotiated HTTP1.1
-* SSL connection using TLSv1.2 / ECDHE-RSA-AES256-GCM-SHA384
+* Host www.streetinsider.com:443 was resolved.
+* IPv6: 2a06:98c1:3103::6812:2898, 2606:4700:4401::ac40:9368
+* IPv4: 172.64.147.104, 104.18.40.152
+*   Trying 172.64.147.104:443...
+* Connected to www.streetinsider.com (172.64.147.104) port 443
+* ALPN: curl offers h2,http/1.1
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / X25519 / id-ecPublicKey
+* ALPN: server accepted h2
 * Server certificate:
-* 	 subject: C=US; ST=New Jersey; L=Princeton; O=Dow Jones and Company; OU=Dow Jones and Company; CN=accounts.dowjones.com
-* 	 start date: 2019-04-26 00:00:00 GMT
-* 	 expire date: 2019-10-12 12:00:00 GMT
-* 	 issuer: C=US; O=DigiCert Inc; CN=DigiCert SHA2 Secure Server CA
-* 	 SSL certificate verify result: unable to get local issuer certificate (20), continuing anyway.
-> GET /investing/stock/ HTTP/1.1
-Host: www.marketwatch.com
-Cookie: kayla=g=af718d6685cf406faf0b0baac3cf06b1
+*  subject: CN=streetinsider.com
+*  start date: Jan 12 19:39:28 2026 GMT
+*  expire date: Apr 12 20:39:23 2026 GMT
+*  issuer: C=US; O=Google Trust Services; CN=WE1
+*  SSL certificate verify result: unable to get local issuer certificate (20), continuing anyway.
+*   Certificate level 0: Public key type EC/prime256v1 (256/128 Bits/secBits), signed using ecdsa-with-SHA256
+*   Certificate level 1: Public key type EC/prime256v1 (256/128 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 2: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using sha256WithRSAEncryption
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://www.streetinsider.com/freefeed.php?ticker=ROLR
+* [HTTP/2] [1] [:method: GET]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: www.streetinsider.com]
+* [HTTP/2] [1] [:path: /freefeed.php?ticker=ROLR]
+* [HTTP/2] [1] [accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8]
+* [HTTP/2] [1] [accept-language: en-US,en;q=0.8]
+* [HTTP/2] [1] [cache-control: max-age=0]
+* [HTTP/2] [1] [user-agent: brent@heigoldinvestments.com]
+> GET /freefeed.php?ticker=ROLR HTTP/2
+Host: www.streetinsider.com
 Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
 Accept-Language:en-US,en;q=0.8
 Cache-Control:max-age=0
 Connection:keep-alive
-User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.116 Safari/537.36
+User-Agent:brent@heigoldinvestments.com
 
-< HTTP/1.1 301 Moved Permanently
-< Content-Type: text/html
-< Content-Length: 178
-< Server: nginx
-< Location: http://www.marketwatch.com/investing/stock
-< Expires: Mon, 24 Jun 2019 19:23:00 GMT
-< Cache-Control: max-age=0, no-cache, no-store
-< Pragma: no-cache
-< Date: Mon, 24 Jun 2019 19:23:00 GMT
-< Connection: keep-alive
+* old SSL session ID is stale, removing
+< HTTP/2 200 
+< date: Mon, 26 Jan 2026 13:54:54 GMT
+< content-type: application/xml
+< cf-ray: 9c4081403a421571-PDX
+< expires: Thu, 19 Nov 1981 08:52:00 GMT
+< cache-control: no-store, no-cache, must-revalidate
+< pragma: no-cache
+* Added cookie PHPSESSID="aso9a5ieapuf1trt8f6qdhcgeh" for domain www.streetinsider.com, path /, expire 0
+< set-cookie: PHPSESSID=aso9a5ieapuf1trt8f6qdhcgeh; path=/
+* Added cookie __cf_bm="OxTk5ssX6vIk.gqGH6vkK7IdgzQroIsGTRlCL978PPI-1769435694-1.0.1.1-67pjtKCKMg82Z2vNdsshuRhLx2yYzv7ajfYDqFNhPp_ozvQb1LAmq1LCID.OXanrMgN98qI.t6TGrMsew50HH7AKsK6mPqjkOIaAQdNXe3Q" for domain streetinsider.com, path /, expire 1769437494
+< set-cookie: __cf_bm=OxTk5ssX6vIk.gqGH6vkK7IdgzQroIsGTRlCL978PPI-1769435694-1.0.1.1-67pjtKCKMg82Z2vNdsshuRhLx2yYzv7ajfYDqFNhPp_ozvQb1LAmq1LCID.OXanrMgN98qI.t6TGrMsew50HH7AKsK6mPqjkOIaAQdNXe3Q; path=/; expires=Mon, 26-Jan-26 14:24:54 GMT; domain=.streetinsider.com; HttpOnly; Secure; SameSite=None
+< cf-cache-status: DYNAMIC
+< server: cloudflare
 < 
-* Connection #0 to host www.marketwatch.com left intact
+* Connection #0 to host www.streetinsider.com left intact
+* WARNING: failed to save cookies in cookies.txt: Failed writing received data to disk/application

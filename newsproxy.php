@@ -141,10 +141,6 @@ $header=array('GET /1575051 HTTP/1.1',
     curl_setopt($ch,CURLOPT_COOKIEJAR,'cookies.txt');
     curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
 
-    curl_setopt($ch, CURLOPT_VERBOSE, false);
-    curl_setopt($ch, CURLOPT_STDERR,$f = fopen(__DIR__ . "/error.log", "w+"));
-
-
     $returnHTML = curl_exec($ch); 
 
 if($errno = curl_errno($ch)) {
@@ -617,7 +613,7 @@ $averageVolume = "";
 
         // now we do the SEC filing 
 
-        $command = escapeshellcmd('python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $modifiedSymbol . " " . $cikNumber . " " . $companyName);
+        $command = escapeshellcmd('/var/www/html/newslookup/venv/bin/python3 ../newslookup/pythonscrape/scrape-sec-gov-single.py ' . $modifiedSymbol . " " . $cikNumber . " " . $companyName);
         $secValues = shell_exec($command);
 
         $secValuesObject = json_decode($secValues); 
@@ -661,10 +657,16 @@ function getTradeHalts()
     $password = "heimer27";
     $db = "daytrade"; 
 
-    $orderSymbols = [];
-
+    // Check connection
     try {
         $mysqli = new mysqli($servername, $username, $password, $db);
+    } catch (mysqli_sql_exception $e) {
+
+    } 
+
+    $orderSymbols = array(); 
+
+    try {
         $result = $mysqli->query("SELECT DISTINCT symbol FROM orders");
 
         while ($row = $result->fetch_assoc()) {
@@ -674,6 +676,19 @@ function getTradeHalts()
     } catch (mysqli_sql_exception $e) {
         // optional logging
     }
+
+    try {
+        $result = $mysqli->query("SELECT DISTINCT symbol FROM halts");
+
+        while ($row = $result->fetch_assoc()) {
+            $orderSymbols[] = strtoupper(trim($row['symbol']));
+        }
+
+    } catch (mysqli_sql_exception $e) {
+        // optional logging
+    }
+
+    $orderSymbols = array_unique($orderSymbols);
 
     /* ----------------------------
        NASDAQ HALTS FEED

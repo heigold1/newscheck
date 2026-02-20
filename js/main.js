@@ -945,22 +945,13 @@ console.log(symbolArray);
 
 				if ((data.newHalts == 1) && $("#checkbox-check-halts").is(":checked"))
 				{
-console.log("passed the playCheckTradeHalts checklist");
 						playCheckTradeHalts(); 
 				}
 
-console.log("Back from the back-end"); 
-
 				var haltSymbolList = data.halt_symbol_list; 
-
-console.log("data.newHalts is *" + data.newHalts + "*"); 
-console.log("haltSymbolList is"); 
-console.log(haltSymbolList); 
-console.log(" "); 
 
 				delete data.haltstring;
 				delete data.halt_symbol_list; 
-
 
 				$.each(data, function(index,item) {
 
@@ -1031,11 +1022,6 @@ console.log(" ");
 						secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
 						secFilingLink1Title = mktWatchSECData.secFiling.urlTitle;
 					}
-
-console.log("symbol is: " + currentSymbol); 
-console.log("statistics data is: "); 
-console.log(item.statistics); 
-console.log("------------------------------"); 
 
 					if (item.statistics && item.statistics !== "undefined") {
 					    statisticsData = JSON.parse(item.statistics);
@@ -2243,11 +2229,13 @@ $(document.body).on('paste', ".orderInput", function(){
 					$("#symbol" + currentId).css("background-color", "#CCE6FF");
     		}
 
+/*
     		if (percentage >= 70.00)
     		{
     				$("#checkForBigCharts" + currentId).prop('checked', false); 
     				$("#checkForNewNews" + currentId).prop('checked', false); 
     		}
+*/
 
     		// For penny stocks, I want to start tracing them early, so put them under the radar 
     		// for 9% 
