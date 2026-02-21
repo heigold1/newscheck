@@ -1073,10 +1073,15 @@ console.log(symbolArray);
 
    				averageVolume30Day = parseInt($("#volume30DayInput" + currentId).val().toString().replace(/\,/g,""));
    				volumeRatio = parseFloat($("#volumeRatio" + currentId).val());
+
    				percentLow = parseFloat(statisticsData.percentLow); 
+
    				lowValue = parseFloat(statisticsData.lowValue);
 
-					$("#low" + currentId).html(percentLow);
+					if (!Number.isNaN(percentLow)) {
+							$("#low" + currentId).html(percentLow);
+						}
+
 					$("#lowValue" + currentId).val(lowValue);
 
 					var orderInput = $("#orderInput" + currentId).val(); 
