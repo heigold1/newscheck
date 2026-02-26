@@ -200,6 +200,16 @@ function isUselessArticle(title) {
         "earnings call transcript",
         "earnings call highlights",
         "stocks to watch", 
+        "lowered to", 
+        "wall street consolidates", 
+        "investors are dumping", 
+        "asian equities", 
+        "surpass estimates", 
+        "lags estimates", 
+        "revenue growth", 
+        "us equity futures", 
+        "sector update", 
+        "earnings transcript", 
     ];
 
     return rawUselessPhrases.some(phrase =>
