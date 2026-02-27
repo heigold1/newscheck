@@ -195,26 +195,54 @@ function isUselessArticle(title) {
 
     const cleanTitle = normalizeText(title);
 
-    const rawUselessPhrases = [
+    // 1️⃣ Static low-signal phrases
+    const uselessPhrases = [
         "midday movers",
         "earnings call transcript",
-        "earnings call highlights",
-        "stocks to watch", 
-        "lowered to", 
-        "wall street consolidates", 
-        "investors are dumping", 
-        "asian equities", 
-        "surpass estimates", 
-        "lags estimates", 
-        "revenue growth", 
-        "us equity futures", 
-        "sector update", 
-        "earnings transcript", 
+        "earnings highlights",
+        "stocks to watch",
+        "wall street set to open",
+        "most active stocks",
+        "todays movers",
+        "market recap",
+        "pre market movers",
+        "after hours movers",
+        "asian equities",
+        "sector update"
     ];
 
-    return rawUselessPhrases.some(phrase =>
+    // 2️⃣ Dynamic regex patterns
+    const uselessRegexPatterns = [
+        /downgrades?.*to/,
+        /upgrades?.*to/,
+        /raises?.*to/,
+        /lowers?.*to/,
+        /cuts?.*to/,
+        /price target.*to/,
+        /pt.*to/,
+        /(beats?|lags?|misses?|surpasses?).*estimates/,
+        /analyst(s)?.*(says?|said)/,
+        /initiates?.*coverage/,
+        /maintains?.*rating/,
+        /reiterates?.*rating/,
+        /sets?.*price target/
+    ];
+
+    // Check static phrases
+    if (uselessPhrases.some(phrase =>
         cleanTitle.includes(normalizeText(phrase))
-    );
+    )) {
+        return true;
+    }
+
+    // Check regex patterns
+    if (uselessRegexPatterns.some(regex =>
+        regex.test(cleanTitle)
+    )) {
+        return true;
+    }
+
+    return false;
 }
 
 // expand all the divs so that you can see everything 
