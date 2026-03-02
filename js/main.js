@@ -208,7 +208,10 @@ function isUselessArticle(title) {
         "pre market movers",
         "after hours movers",
         "asian equities",
-        "sector update"
+        "sector update", 
+        "exchange-traded funds", 
+        "equity futures", 
+        "lower pre-bell", 
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -225,7 +228,9 @@ function isUselessArticle(title) {
         /initiates?.*coverage/,
         /maintains?.*rating/,
         /reiterates?.*rating/,
-        /sets?.*price target/
+        /sets?.*price target/,
+        /(start|initiat|assum|begin).*at\s+(buy|sell|neutral|overweight|underweight|outperform|underperform)/,
+        /coverage.*at\s+(buy|sell|neutral|overweight|underweight)/, 
     ];
 
     // Check static phrases
