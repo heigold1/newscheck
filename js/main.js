@@ -212,6 +212,13 @@ function isUselessArticle(title) {
         "exchange-traded funds", 
         "equity futures", 
         "lower pre-bell", 
+        "dow jones",
+        "wall street", 
+        "exciting potential", 
+        "earnings call highlights", 
+        "call put ratio", 
+        "top midday", 
+        "announces an investigation of the", 
     ];
 
     // 2️⃣ Dynamic regex patterns
