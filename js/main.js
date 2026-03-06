@@ -219,6 +219,14 @@ function isUselessArticle(title) {
         "call put ratio", 
         "top midday", 
         "announces an investigation of the", 
+        "stifel on", 
+        "bofa on", 
+        "earnings call presentation", 
+        "needham on", 
+        "stock market today", 
+        "best momentum stocks", 
+        "reiterated at", 
+        "inflated stocks", 
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -608,48 +616,47 @@ var cikNumber = $("#cikNumber" + currentId).html();
 	    dataType: 'json',
 	    success:  function (data) {
 
-				mwMainContentLink1 = data.mwMainHeadlines.url; 
-				mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&');
-				mwMainContentLink1Title = data.mwMainHeadlines.urlTitle; 
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/ *(?:&.*;)+ */, ' ');
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, '');  
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&amp;/g, '&'); 
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2019;/g, "’"); 
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2014;/g, "—"); 
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2B;/g, "+"); 
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, "");
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x20AC;/g, "€");
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#39;/g, "'");
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xA0;/g, " ");	
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xE0;/g, "à");
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2018;/g, "‘");
-				mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xE9;/g, "é");
+		// MarketWatch main headline
+		mwMainContentLink1 = String(data.mwMainHeadlines.url || "").replace(/&amp;/g, '&');
+		mwMainContentLink1Title = String(data.mwMainHeadlines.urlTitle || "");
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/ *(?:&.*;)+ */, '');  
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, '');  
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x27;/g, "'"); 
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&amp;/g, '&'); 
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2019;/g, "’"); 
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2014;/g, "—"); 
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2B;/g, "+"); 
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xD;&#xA;/g, "");
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x20AC;/g, "€");
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#39;/g, "'");
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xA0;/g, " ");  
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xE0;/g, "à");
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#x2018;/g, "‘");
+		mwMainContentLink1Title = mwMainContentLink1Title.replace(/&#xE9;/g, "é");
 
+		// Partner headlines
+		mwPartnerHeadlinesLink1 = String(data.mwPartnerHeadLines.url || "").replace(/&amp;/g, '&');
+		mwPartnerHeadlinesLink1Title = String(data.mwPartnerHeadLines.urlTitle || "");
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/ *(?:&.*;)+ */, '');  
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, '');  
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’");
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2B;/g, "+");
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, "");
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x20AC;/g, "€");
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#39;/g, "'");
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xA0;/g, " ");  
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xE0;/g, "à");
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2018;/g, "‘");
+		mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xE9;/g, "é");
 
-				mwPartnerHeadlinesLink1 = data.mwPartnerHeadLines.url; 
-				mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
-				mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines.urlTitle;
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/ *(?:&.*;)+ */, ' ');
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, '');  	
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x27;/g, "'"); 
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&amp;/g, '&'); 
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2019;/g, "’");
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2B;/g, "+");
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xD;&#xA;/g, "");
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x20AC;/g, "€");
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#39;/g, "'");
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xA0;/g, " ");	
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xE0;/g, "à");
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#x2018;/g, "‘");
-				mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&#xE9;/g, "é");
-
-				secFilingLink1 = data.secFiling.url; 
-				secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
-				secFilingLink1Title = data.secFiling.urlTitle;
-				secFilingLink1Title = secFilingLink1Title.replace(/&#xD;&#xA;/g, '');  				
+		// SEC filing
+		secFilingLink1 = String(data.secFiling.url || "").replace(/&amp;/g, '&');
+		secFilingLink1Title = String(data.secFiling.urlTitle || "");
+		secFilingLink1Title = secFilingLink1Title.replace(/&#xD;&#xA;/g, '');  	
 
  				// yahoo main 
 
@@ -788,24 +795,23 @@ function checkIndividualDivForNews(divId)
 	    		dataType: 'json',
 	    		success:  function (data) {
 
-					mwMainContentLink1 = data.mwMainHeadlines.url; 
-					mwMainContentLink1 = mwMainContentLink1.replace(/&amp;/g, '&'); 
-					mwMainContentLink1Title = data.mwMainHeadlines.urlTitle; 
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/ *(?:&.*;)+ */, ' ');
-					mwMainContentLink1Title = mwMainContentLink1Title.replace(/&apos;/g, "'"); 
+				// MarketWatch main headline
+				mwMainContentLink1 = String(data.mwMainHeadlines.url || "").replace(/&amp;/g, '&');
+				mwMainContentLink1Title = String(data.mwMainHeadlines.urlTitle || "")
+				    .replace(/ *(?:&.*;)+ */, ' ')
+				    .replace(/&apos;/g, "'");
 
-					mwPartnerHeadlinesLink1 = data.mwPartnerHeadLines.url; 
-					mwPartnerHeadlinesLink1 = mwPartnerHeadlinesLink1.replace(/&amp;/g, '&'); 
-					mwPartnerHeadlinesLink1Title = data.mwPartnerHeadLines.urlTitle;
+				// Partner headlines
+				mwPartnerHeadlinesLink1 = String(data.mwPartnerHeadLines.url || "").replace(/&amp;/g, '&');
+				mwPartnerHeadlinesLink1Title = String(data.mwPartnerHeadLines.urlTitle || "")
+				    .replace(/ *(?:&.*;)+ */, ' ')
+				    .replace(/&apos;/g, "'");
 
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/ *(?:&.*;)+ */, ' ');
-					mwPartnerHeadlinesLink1Title = mwPartnerHeadlinesLink1Title.replace(/&apos;/g, "'"); 
-
-					secFilingLink1 = data.secFiling.url; 
-					secFilingLink1 = secFilingLink1.replace(/&amp;/g, '&'); 
-					secFilingLink1Title = data.secFiling.urlTitle;
-					secFilingLink1Title = secFilingLink1Title.replace(/ *(?:&.*;)+ */, ' ');
-					secFilingLink1Title = secFilingLink1Title.replace(/&apos;/g, "'"); 
+				// SEC filing
+				secFilingLink1 = String(data.secFiling.url || "").replace(/&amp;/g, '&');
+				secFilingLink1Title = String(data.secFiling.urlTitle || "")
+				    .replace(/ *(?:&.*;)+ */, ' ')
+				    .replace(/&apos;/g, "'");
 
 	 			// if we bring back a yahoo link 
 	 			if (yahooFirstLinkTitle != "")
@@ -1058,6 +1064,11 @@ console.log(symbolArray);
 
 					var currentSymbol = $("#symbol" + currentId).val(); 
 
+					var orderStub = $("#orderInput" + currentId).val();
+					var orderStringSplit = orderStub.split(" "); 
+					var previousClose = orderStringSplit[5]; 
+					previousClose = parseFloat(previousClose.replace("$", "")); 
+
 					// here we check if the current symbol (with no news and the "halt" button not checked) matches any halted symbols 
 					// for non-news stocks, then we need to alert. 
 
@@ -1127,6 +1138,17 @@ console.log(symbolArray);
    				percentLow = parseFloat(statisticsData.percentLow); 
 
    				lowValue = parseFloat(statisticsData.lowValue);
+
+					if (lowValue == 0)
+					{
+							lowValue = $.trim($("#lowValue" + currentId).val()); 
+					}
+
+					if (percentLow == 100)
+					{
+						percentLow = ((previousClose - lowValue) / previousClose) * 100;
+						percentLow = percentLow.toFixed(2); 
+					}
 
 					if (!Number.isNaN(percentLow)) {
 							$("#low" + currentId).html(percentLow);
@@ -1209,11 +1231,6 @@ console.log(symbolArray);
 						var bigChartsDifference = calculateBigChartsDifference(currentId, bigChartsPrice); 
 
 						// We don't start checking BigCharts until 7:00 AM
-
-						var orderStub = $("#orderInput" + currentId).val();
-						var orderStringSplit = orderStub.split(" "); 
-  					var previousClose = orderStringSplit[5]; 
-  					previousClose = parseFloat(previousClose.replace("$", "")); 
 
 						if (getCurrentTime() > 652)
 						{

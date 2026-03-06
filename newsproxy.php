@@ -7,7 +7,7 @@ oauth_consumer_key: 874c996f1f6ecaa46c65abb115da9912
 consumer_secret: 886529f1c9d06729e97b6f511a89b4df
 */
 
-$yesterdayDays = 3;
+$yesterdayDays = 1;
 
 error_reporting(1);
 
@@ -621,12 +621,22 @@ $averageVolume = "";
         $secUrl = $secValuesObject->url;
         $secUrlTitle = $secValuesObject->url_title; 
 
+        $returnArray = [
+            "mwMainHeadlines" => [
+                "url" => (string) $mwMainContentLink1,
+                "urlTitle" => (string) $mwMainContentLink1Title
+            ],
+            "mwPartnerHeadLines" => [
+                "url" => (string) $mwPartnerHeadlinesLink1,
+                "urlTitle" => (string) $mwPartnerHeadlinesLink1Title
+            ],
+            "secFiling" => [
+                "url" => (string) $secUrl,
+                "urlTitle" => (string) $secUrlTitle
+            ]
+        ];
 
-        $returnArray = '{"mwMainHeadlines":{"url":"' . $mwMainContentLink1 . '","urlTitle":"' . $mwMainContentLink1Title . '"},' . 
-              '"mwPartnerHeadLines":{"url":"' . $mwPartnerHeadlinesLink1 . '","urlTitle":"' . $mwPartnerHeadlinesLink1Title . '"},' . 
-              '"secFiling":{"url":"' . $secUrl . '","urlTitle":"' . $secUrlTitle . '"}}'; 
-
-        return $returnArray;
+        return json_encode($returnArray, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
 }
 
