@@ -249,12 +249,21 @@ function isUselessArticle(title) {
         "announces an investigation of the", 
         "stifel on", 
         "bofa on", 
-        "earnings call presentation", 
+        "earnings call", 
         "needham on", 
         "stock market today", 
         "best momentum stocks", 
         "reiterated at", 
         "inflated stocks", 
+        "shareholder alert", 
+        "td cowen on", 
+        "analysts mull", 
+        "regains nasdaq compliance", 
+        "global energy markets", 
+        "crashed today", 
+        "beneficial ownership", 
+        "unusual option volume", 
+        "put option volume", 
     ];
 
     // 2️⃣ Dynamic regex patterns
