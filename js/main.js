@@ -264,6 +264,7 @@ function isUselessArticle(title) {
         "beneficial ownership", 
         "unusual option volume", 
         "put option volume", 
+        "earnings transcript", 
     ];
 
     // 2️⃣ Dynamic regex patterns
