@@ -265,6 +265,9 @@ function isUselessArticle(title) {
         "unusual option volume", 
         "put option volume", 
         "earnings transcript", 
+        "stocks mostly rise", 
+        "stocks climb", 
+        "european equities", 
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -506,7 +509,7 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += "		<span id='highRiskValueSpan" + newIdNumber + "' class='highRiskValueSpan' tabindex='-1'></span>"; 
 	newNewsEntry += "	</div>"; 
 	newNewsEntry += "	<div id='lowVolumeDiv" + newIdNumber+ "' class='lowVolumeDiv' tabindex='-1'>";
-	newNewsEntry += "		<span class='lowVolumeSpan' tabindex='-1'>L</span>"; 
+	newNewsEntry += "		<span class='lowVolumeSpan' tabindex='-1'>C</span>"; 
 	newNewsEntry += "	</div>";
 	newNewsEntry += "	<div id='offeringDiv" + newIdNumber + "' class='offeringDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='offeringSpan' tabindex='-1'>O</span>";
