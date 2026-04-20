@@ -268,6 +268,8 @@ function isUselessArticle(title) {
         "stocks mostly rise", 
         "stocks climb", 
         "european equities", 
+        "chemical stocks", 
+        "stocks decline", 
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -287,6 +289,7 @@ function isUselessArticle(title) {
         /sets?.*price target/,
         /(start|initiat|assum|begin).*at\s+(buy|sell|neutral|overweight|underweight|outperform|underperform)/,
         /coverage.*at\s+(buy|sell|neutral|overweight|underweight)/, 
+        /best performing?.*stocks/,
     ];
 
     // Check static phrases
@@ -1889,8 +1892,6 @@ $(document.body).on('click', ".lowVolumeDiv", function(){
 	
 	currentId = $(this).attr("id"); 
  	currentId = currentId.replace("lowVolumeDiv", ""); 
-
-	$("#volume30DayInput" + currentId).val("100,000"); 
 
     if ($("#lowVolumeDiv" + currentId).css("background-color") == "rgb(235, 235, 224)")
     {  
