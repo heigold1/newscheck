@@ -270,6 +270,7 @@ function isUselessArticle(title) {
         "european equities", 
         "chemical stocks", 
         "stocks decline", 
+        "stock movers", 
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -521,7 +522,8 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += " 	<div class='newsContainer'>"; 
 	newNewsEntry += "		<div class='symbolCheckBox' tabindex='-1'>"
 	newNewsEntry +=	"			<span class='symbolCheckBoxLabel'>" 
-	newNewsEntry += "				<input type='checkbox' id='stripLastCharacterCheckbox" + newIdNumber + "' value='1' checked='checked'>Trunc 'W/R/Z', '.WS' '.PD''"; 
+    newNewsEntry += "               <button id='phaseOne" + newIdNumber + "' class='recalcPhaseOne' type='button'>Phase 1</button>"; 
+    newNewsEntry += "               <button id='phaseTwo" + newIdNumber + "' class='recalcPhaseTwo' type='button'>Phase 2</button>"; 
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
@@ -1902,6 +1904,153 @@ $(document.body).on('click', ".lowVolumeDiv", function(){
     		$("#lowVolumeDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
 });  // on clicking high risk box with the "L"
+
+
+
+$(document.body).on('click', ".recalcPhaseOne", function(){
+
+    currentId = $(this).attr("id");
+    currentId = currentId.replace("phaseOne", "");
+
+    var amountUsing = 700;
+
+    // Get previous close directly
+    var prevCloseFromString = parseFloat($("#prevClose" + currentId).html());
+
+    // Calculate new 52.5% drop price
+    var newPrice = prevCloseFromString * 0.475;
+
+    // Round display price
+    newPrice = parseFloat(newPrice.toFixed(2));
+
+    // Calculate shares
+    var finalNumShares = amountUsing / newPrice;
+
+    // Round to nearest 50
+    var finalNumSharesRounded = Math.round(finalNumShares / 50) * 50;
+
+    // If rounding produced 0 or under 100 shares,
+    // fall back to nearest 10
+    if(finalNumSharesRounded < 100)
+    {
+        finalNumSharesRounded = Math.floor(finalNumShares / 10) * 10;
+
+        // minimum 5 shares
+        if(finalNumSharesRounded < 5)
+        {
+            finalNumSharesRounded = 5;
+        }
+    }
+
+    // Build new order string
+    var newOrderString =
+        "BUY " +
+        finalNumSharesRounded +
+        " $" +
+        newPrice.toFixed(2) +
+        " (52.50%) -- $" +
+        prevCloseFromString.toFixed(2);
+
+    // Write back
+    $("#orderInput" + currentId).val(newOrderString);
+
+    $("#fullOrder" + currentId).val(
+        $("#symbol" + currentId).val() +
+        " " +
+        $("#orderInput" + currentId).val()
+    );
+
+    var copyTextarea = $("#fullOrder" + currentId);
+
+    copyTextarea.select();
+
+    try
+    {
+        var successful = document.execCommand('copy');
+
+        alert($("#fullOrder" + currentId).val() + " successfully copied.");
+    }
+    catch(err)
+    {
+        alert('Order did not succesfully copy');
+    }
+
+    writeTradeStamp(currentId, "Copy");
+
+});
+
+$(document.body).on('click', ".recalcPhaseTwo", function(){
+
+    currentId = $(this).attr("id");
+    currentId = currentId.replace("phaseTwo", "");
+
+    var amountUsing = 700;
+
+    // Get previous close directly
+    var prevCloseFromString = parseFloat($("#prevClose" + currentId).html());
+
+    // Calculate new 52.5% drop price
+    var newPrice = prevCloseFromString * 0.375;
+
+    // Round display price
+    newPrice = parseFloat(newPrice.toFixed(2));
+
+    // Calculate shares
+    var finalNumShares = amountUsing / newPrice;
+
+    // Round to nearest 50
+    var finalNumSharesRounded = Math.round(finalNumShares / 50) * 50;
+
+    // If rounding produced 0 or under 100 shares,
+    // fall back to nearest 10
+    if(finalNumSharesRounded < 100)
+    {
+        finalNumSharesRounded = Math.floor(finalNumShares / 10) * 10;
+
+        // minimum 5 shares
+        if(finalNumSharesRounded < 5)
+        {
+            finalNumSharesRounded = 5;
+        }
+    }
+
+    // Build new order string
+    var newOrderString =
+        "BUY " +
+        finalNumSharesRounded +
+        " $" +
+        newPrice.toFixed(2) +
+        " (52.50%) -- $" +
+        prevCloseFromString.toFixed(2);
+
+    // Write back
+    $("#orderInput" + currentId).val(newOrderString);
+
+    $("#fullOrder" + currentId).val(
+        $("#symbol" + currentId).val() +
+        " " +
+        $("#orderInput" + currentId).val()
+    );
+
+    var copyTextarea = $("#fullOrder" + currentId);
+
+    copyTextarea.select();
+
+    try
+    {
+        var successful = document.execCommand('copy');
+
+        alert($("#fullOrder" + currentId).val() + " successfully copied.");
+    }
+    catch(err)
+    {
+        alert('Order did not succesfully copy');
+    }
+
+    writeTradeStamp(currentId, "Copy");
+
+});
+
 
 $(document.body).on('click', ".checkPK", function(){
 	
