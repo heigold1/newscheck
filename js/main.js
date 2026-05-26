@@ -275,6 +275,7 @@ function isUselessArticle(title) {
         "before the stock market opens", 
         "stock plunged today", 
         "decline after", 
+        "this year"
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -295,6 +296,7 @@ function isUselessArticle(title) {
         /(start|initiat|assum|begin).*at\s+(buy|sell|neutral|overweight|underweight|outperform|underperform)/,
         /coverage.*at\s+(buy|sell|neutral|overweight|underweight)/, 
         /best performing?.*stocks/,
+        /why is?.*falling/,
     ];
 
     // Check static phrases
