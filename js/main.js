@@ -14,12 +14,13 @@ function normalizeHeadline(str) {
     if (!str) return "";
 
     return String(str)
-        .replace(/\\'/g, "'")          // remove escaped quotes
-        .replace(/[‘’]/g, "'")         // normalize smart quotes
+        .replace(/\\'/g, "'")
+        .replace(/[‘’]/g, "'")
+        .replace(/[“”]/g, '"')   // normalize smart double quotes
         .replace(/&#39;|&#x27;|&apos;/g, "'")
         .replace(/&amp;/g, '&')
         .replace(/&nbsp;/g, ' ')
-        .replace(/[–—]/g, "-")         // normalize dashes
+        .replace(/[–—]/g, "-")
         .replace(/\s+/g, ' ')
         .trim()
         .toLowerCase();
@@ -271,6 +272,9 @@ function isUselessArticle(title) {
         "chemical stocks", 
         "stocks decline", 
         "stock movers", 
+        "before the stock market opens", 
+        "stock plunged today", 
+        "decline after", 
     ];
 
     // 2️⃣ Dynamic regex patterns
