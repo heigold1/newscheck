@@ -7,7 +7,7 @@ oauth_consumer_key: 874c996f1f6ecaa46c65abb115da9912
 consumer_secret: 886529f1c9d06729e97b6f511a89b4df
 */
 
-$yesterdayDays = 4;
+$yesterdayDays = 1;
 
 error_reporting(1);
 
@@ -251,6 +251,16 @@ function saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNot
     $orderStub        = $mysqli->real_escape_string($orderStub);
     $volumeNotes      = $mysqli->real_escape_string($volumeNotes);
     $individualNotes  = $mysqli->real_escape_string($individualNotes);
+
+error_log("SQL Query: " . 
+        "REPLACE INTO orders (symbol, order_stub, volume_notes, individual_notes, low_price, low_percentage, created_at) VALUES ('"
+        . $originalSymbol . "', '"
+        . $orderStub . "', '"
+        . $volumeNotes . "', '"
+        . $individualNotes . "', "
+        . $lowPrice . ", "
+        . $lowPercentage . ", CURRENT_TIMESTAMP)"); 
+
 
     $mysqli->query(
         "REPLACE INTO orders (symbol, order_stub, volume_notes, individual_notes, low_price, low_percentage, created_at) VALUES ('"

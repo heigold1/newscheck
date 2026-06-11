@@ -275,7 +275,9 @@ function isUselessArticle(title) {
         "before the stock market opens", 
         "stock plunged today", 
         "decline after", 
-        "this year"
+        "this year",
+        "rating downgrade", 
+        "registration now open" 
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -1995,7 +1997,7 @@ $(document.body).on('click', ".recalcPhaseTwo", function(){
     // Get previous close directly
     var prevCloseFromString = parseFloat($("#prevClose" + currentId).html());
 
-    // Calculate new 52.5% drop price
+    // Calculate new 62.5% drop price
     var newPrice = prevCloseFromString * 0.375;
 
     // Round display price
@@ -2227,6 +2229,154 @@ $(document.body).on('click', ".tierThreeButton", function(){
  	$("#volumeNotesText" + currentId).val("THREE_TIER"); 
 });  
 
+function processOrder(currentId, orderStub, symbol, entryPrice, percentage, isNews, volAmt) {
+
+    $(".symbolTextInput").each(function() {
+        if ($(this).val() == symbol) {
+            alert("You already have an order placed for " + symbol);
+            $("#orderInput" + currentId).val("");
+        }
+    }); 
+
+    if (!isNews) {
+        $("#noNewsDiv" + currentId).css("background-color", "#FFA1A1"); 
+    }
+
+    if (percentage > 98.00) 
+    {
+        $("#orderInput" + currentId).css("background-color", "#ECECEC"); 
+        $("#symbol"     + currentId).css("background-color", "#ECECEC");     
+    }
+    else if (
+        ((percentage >= 34.00) && (entryPrice > 1.00)) || ((percentage >= 40.00) && (entryPrice < 1.00))
+    )
+    {
+        $("#orderInput" + currentId).css("background-color", "#FFFFFF"); 
+        $("#symbol"     + currentId).css("background-color", "#FFFFFF");                
+    }
+    else 
+    {
+        $("#orderInput"      + currentId).css("background-color", "#CCE6FF"); 
+        $("#playVolumeSound" + currentId).prop('checked', true); 
+        $("#turnVolumeRed"   + currentId).prop('checked', true);
+        $("#symbol"          + currentId).css("background-color", "#CCE6FF");
+    }
+
+    if (volAmt !== "") {
+        $("#volume30DayInput" + currentId).val(volAmt);  
+    }
+
+    if (percentage >= 80)
+    {
+        $("#lowInput" + currentId).val("15"); 
+    }
+
+    var dateObj     = new Date(); 
+    var hours       = dateObj.getHours(); 
+    var minutes     = dateObj.getMinutes();
+    if (minutes < 10) { minutes = "0" + minutes.toString(); }
+    var currentTime = parseInt(hours.toString().concat(minutes)); 
+
+    if (currentTime < 630)
+    {
+        $("#symbol" + currentId).css("background-color", "orange"); 
+    }
+    else if (currentTime < 650)
+    {
+        $("#symbol" + currentId).css("background-color", "yellow"); 
+    }
+
+    if (orderStub.search("HR_") != -1) {
+        $("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
+        var highRiskValue = orderStub.toString().match(/HR_(.*) /g); 
+        highRiskValue = highRiskValue[0]; 
+        highRiskValue = highRiskValue.replace(/HR_/, ""); 
+        $("#highRiskValueSpan" + currentId).html(highRiskValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")); 
+    }
+
+    var cikRegex      = /CIK_(\d+|NOT_FOUND)/;
+    var cikRegexMatch = orderStub.match(cikRegex); 
+    $("#cikNumber" + currentId).html(cikRegexMatch[1]); 
+    orderStub = orderStub.replace(cikRegex, '').trim(); 
+
+    calcPrevClose(currentId);       
+    orderStub = orderStub.replace(/(.*)BUY/, "BUY"); 
+    orderStub = orderStub.replace(/HR_\d+/, ""); 
+    $("#orderInput" + currentId).val(orderStub);        
+
+    if ($.trim($("#symbol" + currentId).val()) == "")
+    {
+        $("#symbol"        + currentId).val(symbol);
+        $("#controlButton" + currentId).click();
+    }
+
+    writeTradeStamp(currentId, "OriginalPaste");
+
+}
+
+$(document).on('click', '#paste-modal-yes', function() {
+    var currentId  = $('#paste-options-modal').data('currentId');
+    var orderStub  = $('#paste-options-modal').data('orderStub');
+    var symbol     = $('#paste-options-modal').data('symbol');
+    var entryPrice = $('#paste-options-modal').data('entryPrice');
+    var percentage = $('#paste-options-modal').data('percentage');
+    $('#paste-modal-vol-input').val('');
+    $('#paste-options-modal').hide();
+    processOrder(currentId, orderStub, symbol, entryPrice, percentage, true, '');
+});
+
+$(document).on('click', '#paste-modal-no', function() {
+    $('#paste-modal-no').css({ background:'#2196F3', color:'#fff' });
+    $('#paste-modal-yes').css({ background:'#e0e0e0', color:'#333' });
+    $('#paste-modal-vol-input').val('');
+    $('#paste-modal-nonews-section').show();
+});
+
+$(document).on('click', '#paste-modal-continue', function() {
+    var currentId  = $('#paste-options-modal').data('currentId');
+    var orderStub  = $('#paste-options-modal').data('orderStub');
+    var symbol     = $('#paste-options-modal').data('symbol');
+    var entryPrice = $('#paste-options-modal').data('entryPrice');
+    var percentage = $('#paste-options-modal').data('percentage');
+    var volAmt     = $.trim($('#paste-modal-vol-input').val());
+
+    if ($('#paste-modal-bounce-check').is(':checked')) {
+        if (entryPrice >= 1.00) {
+            $("#lowInput" + currentId).val("33");
+        } else {
+            $("#lowInput" + currentId).val("48");
+        }
+    } else {
+        if (entryPrice < 1.00) {
+            $("#lowInput" + currentId).val("5");
+        }
+    }
+
+    $('#paste-modal-bounce-check').prop('checked', false);
+    $('#paste-options-modal').hide();
+    $('#paste-modal-vol-input').val('');
+    processOrder(currentId, orderStub, symbol, entryPrice, percentage, false, volAmt);
+});
+
+$(document).on('change', '#paste-modal-vol-check', function() {
+    if ($(this).is(':checked')) {
+        $('#paste-modal-vol-section').show();
+        $('#paste-modal-vol-input').focus();
+    } else {
+        $('#paste-modal-vol-section').hide();
+        $('#paste-modal-vol-input').val('');
+    }
+});
+
+$(document).on('keydown', '#paste-options-modal', function(e) {
+    if (e.key === 'Enter') {
+        if ($('#paste-modal-nonews-section').is(':hidden')) {
+            $('#paste-modal-yes').trigger('click');
+        } else {
+            $('#paste-modal-continue').trigger('click');
+        }
+    }
+});
 
 $(document.body).on('paste', ".orderInput", function(){
 
@@ -2237,135 +2387,29 @@ $(document.body).on('paste', ".orderInput", function(){
 	var symbol;
 	var entryPrice; 
 
-	setTimeout(
-		function() 
-		{
-				if (!confirm("Is this a news stock?"))
-				{
-					$("#noNewsDiv" + currentId).css("background-color", "#FFA1A1"); 
-				}
+    setTimeout(function() {
 
-		    orderStub = $.trim($("#orderInput" + currentId).val());
+        var orderStub  = $.trim($("#orderInput" + currentId).val());
+        var orderStubSplit = orderStub.split(" ");
+        var symbol     = orderStubSplit[0];
+        var entryPrice = parseFloat(orderStubSplit[3].toString().replace(/\$/g, ""));
+        var percentage = parseFloat(orderStubSplit[4].toString().replace(/[()%]/g, ""));
 
-    		var orderStubSplit = orderStub.split(" ");
-    		var percentage = orderStubSplit[4];
-    		symbol = orderStubSplit[0];
-    		entryPrice = orderStubSplit[3]; 
+        $('#paste-modal-yes').css({ background:'#2196F3', color:'#fff' });
+        $('#paste-modal-no').css({ background:'#e0e0e0', color:'#333' });
+        $('#paste-modal-nonews-section').hide();
+        $('#paste-modal-vol-input').val('');
 
-    		entryPrice = entryPrice.toString().replace(/\$/g, ""); 
-    		entryPrice = parseFloat(entryPrice); 
+        $('#paste-options-modal')
+            .data('currentId',  currentId)
+            .data('orderStub',  orderStub)
+            .data('symbol',     symbol)
+            .data('entryPrice', entryPrice)
+            .data('percentage', percentage)
+            .show()
+            .focus();
 
-    		percentage = percentage.toString().replace(/\(/g, ""); 
-    		percentage = percentage.toString().replace(/\)/g, ""); 
-    		percentage = percentage.toString().replace(/\%/g, ""); 
-
-			$(".symbolTextInput").each(function()
-			{
-				if ($(this).val() == symbol)
-				{
-					alert("You already have an order placed for " + symbol);
-					$("#orderInput" + currentId).val("");
-				}
-			}); 
-
-
-    		if (percentage > 98.00) 
-    		{
-					$("#orderInput" + currentId).css("background-color", "#ECECEC"); 
-					$("#symbol" + currentId).css("background-color", "#ECECEC");     
-    		}
-    		else if (
-    			((percentage >= 34.00) && (entryPrice > 1.00)) || ((percentage >= 40.00) && (entryPrice < 1.00))
-    			)
-    		{
-				$("#orderInput" + currentId).css("background-color", "#FFFFFF"); 
-				$("#symbol" + currentId).css("background-color", "#FFFFFF");     			
-    		}
-    		else 
-    		{
-					let volume = prompt("Red flag volume amount"); 
-					$("#volume30DayInput" + currentId).val(volume);  
-
-					$("#orderInput" + currentId).css("background-color", "#CCE6FF"); 
-					$("#playVolumeSound" + currentId).prop('checked', true); 
-					$("#turnVolumeRed" + currentId).prop('checked', true);
-					$("#symbol" + currentId).css("background-color", "#CCE6FF");
-    		}
-
-/*
-    		if (percentage >= 70.00)
-    		{
-    				$("#checkForBigCharts" + currentId).prop('checked', false); 
-    				$("#checkForNewNews" + currentId).prop('checked', false); 
-    		}
-*/
-
-    		// For penny stocks, I want to start tracing them early, so put them under the radar 
-    		// for 9% 
-    		if (entryPrice < 1.00)
-    		{
-    			$("#lowInput" + currentId).val("4"); 
-    			$("#pennyDiv" + currentId).css("background-color", "rgb(255, 165, 0)"); 
-    		}
-
-    		if (percentage >= 80)
-    		{
-    			$("#lowInput" + currentId).val("15"); 
-    		}
-
-
-			var dateObj = new Date(); 
-			var hours = dateObj.getHours(); 
-			var minutes = dateObj.getMinutes();
-			if (minutes < 10)
-			{
-				minutes = "0" + minutes.toString(); 
-			}
-			var currentTime = hours.toString().concat(minutes); 
-			currentTime = parseInt(currentTime); 
-
-			if (currentTime < 630)
-			{
-				$("#symbol" + currentId).css("background-color", "orange"); 
-			}
-			else 
-			if (currentTime < 650)
-			{
-				$("#symbol" + currentId).css("background-color", "yellow"); 
-			}
-
-    	// Handle high-risk previous day spike-ups
-    	if (orderStub.search("HR_") != -1) {
-    		$("#highRiskValueDiv" + currentId).css("background-color", "rgb(0, 255, 0)"); 
-    		highRiskValue = orderStub.toString().match(/HR_(.*) /g); 
-
-    		highRiskValue = highRiskValue[0]; 
-    		highRiskValue = highRiskValue.replace(/HR_/, ""); 
-    		$("#highRiskValueSpan" + currentId).html(highRiskValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")); 
-    	}
-
-
-    	// Grab the cik number from the string 
-			var cikRegex = /CIK_(\d+|NOT_FOUND)/;
-			var cikRegexMatch = orderStub.match(cikRegex); 
-			$("#cikNumber" + currentId).html(cikRegexMatch[1]); 
-			orderStub = orderStub.replace(cikRegex, '').trim(); 
-
-	    calcPrevClose(currentId);    	
-    	orderStub = orderStub.replace(/(.*)BUY/, "BUY"); 
-    	orderStub = orderStub.replace(/HR_\d+/, ""); 
-			$("#orderInput" + currentId).val(orderStub);    	
-
-			if ($.trim($("#symbol" + currentId).val()) == "")
-			{
-				$("#symbol" + currentId).val(symbol);
-				$("#controlButton" + currentId).click();
-			}
-
-			writeTradeStamp(currentId, "OriginalPaste");
-
-		}, 200
-		);
+    }, 200);
 
 });  // when you past the order into the orderInput text field.
 
