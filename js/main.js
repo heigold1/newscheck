@@ -1854,6 +1854,7 @@ $(document.body).on('click', ".offeringDiv", function(){
     {
     		$("#offeringDiv" + currentId).css("background-color", "rgb(235, 235, 224)"); 
     }	
+
 });  // on clicking offering box with the "O"
 
 $(document.body).on('click', ".haltDiv", function(){
@@ -2028,7 +2029,7 @@ $(document.body).on('click', ".recalcPhaseTwo", function(){
         finalNumSharesRounded +
         " $" +
         newPrice.toFixed(2) +
-        " (52.50%) -- $" +
+        " (62.50%) -- $" +
         prevCloseFromString.toFixed(2);
 
     // Write back
@@ -2242,28 +2243,21 @@ function processOrder(currentId, orderStub, symbol, entryPrice, percentage, isNe
         $("#noNewsDiv" + currentId).css("background-color", "#FFA1A1"); 
     }
 
-    if (percentage > 98.00) 
+    if (!isNews && percentage < 79.00)
     {
-        $("#orderInput" + currentId).css("background-color", "#ECECEC"); 
-        $("#symbol"     + currentId).css("background-color", "#ECECEC");     
+        $("#orderInput" + currentId).css("background-color", "#CCE6FF"); 
+        $("#symbol"     + currentId).css("background-color", "#CCE6FF");
     }
-    else if (
-        ((percentage >= 34.00) && (entryPrice > 1.00)) || ((percentage >= 40.00) && (entryPrice < 1.00))
-    )
+    else
     {
         $("#orderInput" + currentId).css("background-color", "#FFFFFF"); 
-        $("#symbol"     + currentId).css("background-color", "#FFFFFF");                
-    }
-    else 
-    {
-        $("#orderInput"      + currentId).css("background-color", "#CCE6FF"); 
-        $("#playVolumeSound" + currentId).prop('checked', true); 
-        $("#turnVolumeRed"   + currentId).prop('checked', true);
-        $("#symbol"          + currentId).css("background-color", "#CCE6FF");
+        $("#symbol"     + currentId).css("background-color", "#FFFFFF");
     }
 
     if (volAmt !== "") {
         $("#volume30DayInput" + currentId).val(volAmt);  
+        $("#turnVolumeRed"    + currentId).prop('checked', true);
+        $("#playVolumeSound"  + currentId).prop('checked', true);
     }
 
     if (percentage >= 80)
