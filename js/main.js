@@ -277,7 +277,8 @@ function isUselessArticle(title) {
         "decline after", 
         "this year",
         "rating downgrade", 
-        "registration now open" 
+        "registration now open", 
+        "value stock to own" 
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -2263,6 +2264,10 @@ function processOrder(currentId, orderStub, symbol, entryPrice, percentage, isNe
     if (percentage >= 80)
     {
         $("#lowInput" + currentId).val("15"); 
+    }
+    else if (percentage >= 60)
+    {
+        $("#lowInput" + currentId).val("8"); 
     }
 
     var dateObj     = new Date(); 

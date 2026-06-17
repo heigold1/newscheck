@@ -486,6 +486,8 @@ function getStreetInsider($symbol, $yesterdayDays)
             $publicationTime = $convertedDate->format("g:i A");
 
             $newsTitle = $feedItem->title; 
+            $newsTitle = regexStreetInsider($newsTitle);
+
             $currentNewsTitle = $newsTitle; 
             if (strcmp($previousNewsTitle, $currentNewsTitle) == 0)
             {
@@ -544,7 +546,7 @@ function getStreetInsider($symbol, $yesterdayDays)
             $newsTitle = preg_replace('/nasdaq rejects(.*?)listing/i', '<span style="font-size: 12px; background-color:red; color:black"><b>Nasdaq rejects $1 listing</span> </b>&nbsp;', $newsTitle);
             $newsTitle = preg_replace('/ announces(.*?)offering/i', '<span style="font-size: 35px; background-color:red; color:black"><b> ANNOUNCES $1 OFFERING </b></span> ', $newsTitle);
 
-            $streetInsiderNews .=  " ><a target='_blank' href='$feedItem->link'> " . $publicationDate . " " . $publicationTime . " - <br>" . $newsTitle . "</a></li>";
+            $streetInsiderNews .=  " ><a target='_blank' href='$feedItem->link'> " . $publicationDate . " " . $publicationTime . " - <br>" . $newsTitle . "</a><button onclick=\"prepareChatGPTQuestion('$feedItem->link')\" style='margin-left:5px;'>ChatGPT</button> <button onclick=\"prepareChatGPTEarn('$feedItem->link')\">EARN</button> <button onclick=\"prepareChatGPTMisc('$feedItem->link')\">MISC</button></li>";
 
             $previousNewsTitle = $currentNewsTitle; 
         } // looping through each news channel item 
@@ -553,13 +555,13 @@ function getStreetInsider($symbol, $yesterdayDays)
 
         // light yellow highlighting for - from two weeks ago to a week ago.
         // light yellow is #fffdaf 
-        for ($daysBack = 14; $daysBack > 6; $daysBack--)
+        for ($daysBack = 14; $daysBack >= 7; $daysBack--)
         {
             $streetInsiderNews = preg_replace('/(' .  get_yahoo_trade_date($daysBack) . ')/', '<span style="font-size: 12px; background-color:yellow; color:black">$1</span>', $streetInsiderNews);      
         }
 
         // yellow highlighting for before yesterday
-        for ($daysBack = 5; $daysBack > $yesterdayDays; $daysBack--)
+        for ($daysBack = 6; $daysBack > $yesterdayDays; $daysBack--)
         {
             $streetInsiderNews = preg_replace('/(' .  get_yahoo_trade_date($daysBack) . ')/', '<span style="font-size: 12px; background-color:yellow ; color:black">$1</span>', $streetInsiderNews);      
         }
@@ -570,7 +572,7 @@ function getStreetInsider($symbol, $yesterdayDays)
             $streetInsiderNews = preg_replace('/(' .  get_yahoo_trade_date($daysBack) . ')/', '<span style="font-size: 12px; background-color:#0747a1 ; color:white">$1</span>', $streetInsiderNews);
         }
 
-        $streetInsiderNews = regexStreetInsider($streetInsiderNews); 
+//        $streetInsiderNews = regexStreetInsider($streetInsiderNews); 
 
         try 
         {
