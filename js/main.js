@@ -278,7 +278,10 @@ function isUselessArticle(title) {
         "this year",
         "rating downgrade", 
         "registration now open", 
-        "value stock to own" 
+        "value stock to own",
+        "stock has rallied", 
+        "buy gold stocks", 
+        "investors hit sell button" 
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -535,6 +538,7 @@ Not using the individual refresh anymore but I'll keep it here just in case
     newNewsEntry += "               <button id='phaseTwo" + newIdNumber + "' class='recalcPhaseTwo' type='button'>Phase 2</button>"; 
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
+    newNewsEntry += "           <input type='text' id='amountSpending"  + newIdNumber + "' class='amountSpending' value='700'>"; 
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
@@ -1122,7 +1126,15 @@ console.log(symbolArray);
 			 				// then if there was currently no news stored, 
 	 						if ($("#storedYahooLink" + currentId).html() == "No news")     
 				 				{
-									$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                    if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
+
+									   $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                                    }
+                                    else
+                                    {
+                                        $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                    }
+
 	 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a> - " + getCurrentTimeAMPM());
 									if ($("#controlButton" + currentId).html().toString() == 'Stop')
 									{
@@ -1134,7 +1146,16 @@ console.log(symbolArray);
 		 						}  // or what just came back is different than what was previously stored
 	 							else if (normalizeHeadline(yahooFirstLinkTitle) != normalizeHeadline(storedLinkYahooTitle)) 
 	 							{
-									$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                    if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
+
+                                       $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                                    }
+                                    else
+                                    {
+                                        $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                    }
+
+
 	 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + yahooFirstLink + "'>" + yahooFirstLinkTitle + " - Yahoo</a> - " + getCurrentTimeAMPM());
 									if ($("#controlButton" + currentId).html().toString() == 'Stop')
 									{
@@ -1156,7 +1177,15 @@ console.log(symbolArray);
 	 					{
 			 				if ($("#storedMarketWatchMainLink" + currentId).html() == "No news")
 	 						{
-								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
+
+                                   $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                                }
+                                else
+                                {
+                                    $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                }
+
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - Seeking Alpha</a> - " + getCurrentTimeAMPM());
 								if ($("#controlButton" + currentId).html().toString() == 'Stop')
 								{
@@ -1167,7 +1196,15 @@ console.log(symbolArray);
 	 						}
 	 						else if (normalizeHeadline(mwMainContentLink1Title) != normalizeHeadline(storedLinkMWTitle)) 
 	 						{
-								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
+
+                                   $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                                }
+                                else
+                                {
+                                    $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                }
+
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwMainContentLink1 + "'>" + mwMainContentLink1Title + " - Seeking Alpha</a> - " + getCurrentTimeAMPM());
 								if ($("#controlButton" + currentId).html().toString() == 'Stop')
 								{
@@ -1190,7 +1227,15 @@ console.log(symbolArray);
 							if ($("#storedMarketWatchPartnerLink" + currentId).html() == "No news")
 	 						{	
 
-								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
+
+                                   $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                                }
+                                else
+                                {
+                                    $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                }
+
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - Street Insider</a> - " + getCurrentTimeAMPM());
 								if ($("#controlButton" + currentId).html().toString() == 'Stop')
 								{
@@ -1201,7 +1246,15 @@ console.log(symbolArray);
 	 						}
 	 						else if (normalizeHeadline(mwPartnerHeadlinesLink1Title) != normalizeHeadline(storedLinkMWPartnerTitle)) 
 	 						{
-								$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
+
+                                   $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                                }
+                                else
+                                {
+                                    $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                                }
+
 								$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + mwPartnerHeadlinesLink1 + "'>" + mwPartnerHeadlinesLink1Title + " - Street Insider</a> - " + getCurrentTimeAMPM());
 								if ($("#controlButton" + currentId).html().toString() == 'Stop')
 								{
@@ -1218,7 +1271,15 @@ console.log(symbolArray);
 					{
 						if ($("#storedSECFilingLink" + currentId).html() == "No news")
 	 					{
-							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                            if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
+
+                               $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                            }
+                            else
+                            {
+                                $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                            }
+
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 							if ($("#controlButton" + currentId).html().toString() == 'Stop')
 							{
@@ -1230,7 +1291,16 @@ console.log(symbolArray);
 	 					else if (secFilingLink1Title != $("#storedSECFilingLink" + currentId).find("a:first").text()) 
 	 					{
 							var storedSECFilingLinkTitle = $("#storedSECFilingLink" + currentId).find("a:first").text(); 
-							$("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+
+                            if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
+
+                               $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                            }
+                            else
+                            {
+                                $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
+                            }
+
 							$("#newsStatusLabel" + currentId).html("<a target='_blank' href='" + secFilingLink1 + "'>" + secFilingLink1Title + " - SEC</a>");
 							if ($("#controlButton" + currentId).html().toString() == 'Stop')
 							{
@@ -1627,67 +1697,72 @@ $(document.body).on('click', ".doubleButton", function(){
 
 }); 
 
+
+function smartRound(shares) {
+    if (shares >= 1000) {
+        return Math.round(shares / 100) * 100;  // Round to nearest 100
+    } else if (shares >= 200) {
+        return Math.round(shares / 50) * 50;    // Round to nearest 50
+    } else if (shares >= 50) {
+        return Math.round(shares / 10) * 10;    // Round to nearest 10
+    } else {
+        return Math.round(shares / 5) * 5;      // Round to nearest 5
+    }
+}
+
 // When the user clicks on the "L" button for 10 percent below the current low button, to bump it down 10% past whatever the 
 // current low-of-the-day is, if it recovered 5% ore more from it 
 $(document.body).on('click', ".lowSeparation", function(){
+    currentId = $(this).attr("id"); 
+    currentId = currentId.replace("lowSeparation", ""); 
+    var orderStub = $("#orderInput" + currentId).val();
+    var orderStringSplit = orderStub.split(" "); 
+    var currentLow = parseFloat($("#lowValue" + currentId).val()); 
+    var newPrice = currentLow - currentLow*0.1;
+    var previousClose = orderStringSplit[5]; 
+    previousClose = parseFloat(previousClose.replace("$", "")); 
+    if (newPrice >= 1.00)
+    {
+        newPrice = newPrice.toFixed(2);
+    }
+    else 
+    {
+        if (previousClose >= 1.00)
+        {
+            newPrice = newPrice.toFixed(2);
+        }
+        else 
+        {
+            newPrice = newPrice.toFixed(4); 
+        }
+    }
 
-	currentId = $(this).attr("id"); 
-	currentId = currentId.replace("lowSeparation", ""); 
+    // Grab amountSpending and calculate optimally rounded number of shares
+    var amountSpending = parseFloat($("#amountSpending" + currentId).val());
+    var rawShares = amountSpending / parseFloat(newPrice);
+    var newShares = smartRound(rawShares);
 
-	var orderStub = $("#orderInput" + currentId).val();
-
-	var orderStringSplit = orderStub.split(" "); 
-
-  var currentLow = parseFloat($("#lowValue" + currentId).val()); 
-  var newPrice = currentLow - currentLow*0.1;
-
-  var previousClose = orderStringSplit[5]; 
-  previousClose = parseFloat(previousClose.replace("$", "")); 
-
-  if (newPrice >= 1.00)
-  {
-  		newPrice = newPrice.toFixed(2);
-  }
-  else 
-  {
-  		if (previousClose >= 1.00)
-  		{
-  				newPrice = newPrice.toFixed(2);
-  		}
-  		else 
-  		{
-  				newPrice = newPrice.toFixed(4); 
-  		}
-  }
-
-var prevCloseMinusNewPrice = previousClose - newPrice;
-var prevCloseMinusNewPriceDivPrevClose = prevCloseMinusNewPrice/prevClose; 
-
-	var newPercentage = ((previousClose - newPrice)/previousClose)*100.00; 
-	var newPercentage = newPercentage.toFixed(2); 
-
-	var newOrderStub = orderStringSplit[0] + " " + orderStringSplit[1] + " $" + newPrice + " (" + newPercentage + "%) " + orderStringSplit[4] + " " + orderStringSplit[5]; 
-
-	$("#orderInput" + currentId).val(newOrderStub); 
-
- 	$("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
-
-  	var copyTextarea = $("#fullOrder" + currentId);
-  	copyTextarea.select();
-  	try 
-  	{
-	    var successful = document.execCommand('copy');
-	    var msg = successful ? 'successful' : 'unsuccessful';
-		  alert($("#fullOrder" + currentId).val() + " successfully copied");
-  	} 
-  	catch (err) 
-  	{
-	    alert('Order did not succesfully copy');
-  	}
-
-	writeTradeStamp(currentId, "Low");	 
-
-}); 
+    var prevCloseMinusNewPrice = previousClose - newPrice;
+    var prevCloseMinusNewPriceDivPrevClose = prevCloseMinusNewPrice/previousClose; 
+    var newPercentage = ((previousClose - newPrice)/previousClose)*100.00; 
+    var newPercentage = newPercentage.toFixed(2); 
+    var newOrderStub = orderStringSplit[0] + " " + newShares + " $" + newPrice + " (" + newPercentage + "%) " + orderStringSplit[4] + " " + orderStringSplit[5];
+    $("#orderInput" + currentId).val(newOrderStub); 
+    $("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + $("#orderInput" + currentId).val());
+    var copyTextarea = $("#fullOrder" + currentId);
+    copyTextarea.select();
+    try 
+    {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        alert($("#fullOrder" + currentId).val() + " successfully copied");
+    } 
+    catch (err) 
+    {
+        alert('Order did not succesfully copy');
+    }
+    writeTradeStamp(currentId, "Low");   
+});
 
 // When the user clicks on the "B" button for 10 percent big charts separation button, to bump it down 10% past whatever the 
 // last bigcharts value was 

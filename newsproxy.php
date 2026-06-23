@@ -7,7 +7,7 @@ oauth_consumer_key: 874c996f1f6ecaa46c65abb115da9912
 consumer_secret: 886529f1c9d06729e97b6f511a89b4df
 */
 
-$yesterdayDays = 1;
+$yesterdayDays = 4;
 
 error_reporting(1);
 
@@ -546,7 +546,7 @@ function getStreetInsider($symbol, $yesterdayDays)
             $newsTitle = preg_replace('/nasdaq rejects(.*?)listing/i', '<span style="font-size: 12px; background-color:red; color:black"><b>Nasdaq rejects $1 listing</span> </b>&nbsp;', $newsTitle);
             $newsTitle = preg_replace('/ announces(.*?)offering/i', '<span style="font-size: 35px; background-color:red; color:black"><b> ANNOUNCES $1 OFFERING </b></span> ', $newsTitle);
 
-            $streetInsiderNews .=  " ><a target='_blank' href='$feedItem->link'> " . $publicationDate . " " . $publicationTime . " - <br>" . $newsTitle . "</a><button onclick=\"prepareChatGPTQuestion('$feedItem->link')\" style='margin-left:5px;'>ChatGPT</button> <button onclick=\"prepareChatGPTEarn('$feedItem->link')\">EARN</button> <button onclick=\"prepareChatGPTMisc('$feedItem->link')\">MISC</button></li>";
+            $streetInsiderNews .=  " ><a target='_blank' href='$feedItem->link'> " . $publicationDate . " " . $publicationTime . " - <br>" . $newsTitle . "</a><button onclick=\"prepareChatGPTQuestion('$feedItem->link')\" style='margin-left:5px;'>ChatGPT</button> <button onclick=\"prepareChatGPTEarn('$feedItem->link')\">EARN</button> <button onclick=\"prepareChatGPTMisc('$symbol', '$feedItem->link')\">MISC</button></li>";
 
             $previousNewsTitle = $currentNewsTitle; 
         } // looping through each news channel item 
