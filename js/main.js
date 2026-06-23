@@ -538,6 +538,7 @@ Not using the individual refresh anymore but I'll keep it here just in case
     newNewsEntry += "               <button id='phaseTwo" + newIdNumber + "' class='recalcPhaseTwo' type='button'>Phase 2</button>"; 
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
+    newNewsEntry += "           <label for='amountSpending" + newIdNumber+ "''>$ Spend</label>"; 
     newNewsEntry += "           <input type='text' id='amountSpending"  + newIdNumber + "' class='amountSpending' value='700'>"; 
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
