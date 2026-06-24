@@ -281,7 +281,8 @@ function isUselessArticle(title) {
         "value stock to own",
         "stock has rallied", 
         "buy gold stocks", 
-        "investors hit sell button" 
+        "investors hit sell button", 
+        "worst day"
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -2389,22 +2390,11 @@ function processOrder(currentId, orderStub, symbol, entryPrice, percentage, isNe
 
 }
 
-$(document).on('click', '#paste-modal-yes', function() {
-    var currentId  = $('#paste-options-modal').data('currentId');
-    var orderStub  = $('#paste-options-modal').data('orderStub');
-    var symbol     = $('#paste-options-modal').data('symbol');
-    var entryPrice = $('#paste-options-modal').data('entryPrice');
-    var percentage = $('#paste-options-modal').data('percentage');
-    $('#paste-modal-vol-input').val('');
-    $('#paste-options-modal').hide();
-    processOrder(currentId, orderStub, symbol, entryPrice, percentage, true, '');
-});
 
 $(document).on('click', '#paste-modal-no', function() {
     $('#paste-modal-no').css({ background:'#2196F3', color:'#fff' });
     $('#paste-modal-yes').css({ background:'#e0e0e0', color:'#333' });
     $('#paste-modal-vol-input').val('');
-    $('#paste-modal-nonews-section').show();
 });
 
 $(document).on('click', '#paste-modal-continue', function() {
@@ -2414,8 +2404,10 @@ $(document).on('click', '#paste-modal-continue', function() {
     var entryPrice = $('#paste-options-modal').data('entryPrice');
     var percentage = $('#paste-options-modal').data('percentage');
     var volAmt     = $.trim($('#paste-modal-vol-input').val());
+    var isNews = true; 
 
     if ($('#paste-modal-bounce-check').is(':checked')) {
+        $('#lowVolumeDiv' + currentId).css('background-color', 'yellow');
         if (entryPrice >= 1.00) {
             $("#lowInput" + currentId).val("33");
         } else {
@@ -2427,10 +2419,20 @@ $(document).on('click', '#paste-modal-continue', function() {
         }
     }
 
+    if ($('#paste-modal-change-entry').is(':checked')){
+        $('#lowVolumeDiv' + currentId).css('background-color', 'yellow');
+    }
+
+
+    if ($('#paste-modal-no').css('background-color') === 'rgb(33, 150, 243)') {
+        isNews = false; 
+    }
+
     $('#paste-modal-bounce-check').prop('checked', false);
+    $('#paste-modal-change-entry').prop('checked', false); 
     $('#paste-options-modal').hide();
     $('#paste-modal-vol-input').val('');
-    processOrder(currentId, orderStub, symbol, entryPrice, percentage, false, volAmt);
+    processOrder(currentId, orderStub, symbol, entryPrice, percentage, isNews, volAmt);
 });
 
 $(document).on('change', '#paste-modal-vol-check', function() {
@@ -2440,6 +2442,19 @@ $(document).on('change', '#paste-modal-vol-check', function() {
     } else {
         $('#paste-modal-vol-section').hide();
         $('#paste-modal-vol-input').val('');
+    }
+});
+
+$(document).on('click', '.noNewsDiv', function() {
+    var currentId = $(this).attr("id");
+    currentId = currentId.replace("orderInput", "");
+    
+    var currentColor = $(this).css('background-color');
+    
+    if (currentColor === 'rgb(235, 235, 224)') {
+        $(this).css('background-color', 'rgb(255, 161, 161)');
+    } else {
+        $(this).css('background-color', 'rgb(235, 235, 224)');
     }
 });
 
@@ -2472,7 +2487,6 @@ $(document.body).on('paste', ".orderInput", function(){
 
         $('#paste-modal-yes').css({ background:'#2196F3', color:'#fff' });
         $('#paste-modal-no').css({ background:'#e0e0e0', color:'#333' });
-        $('#paste-modal-nonews-section').hide();
         $('#paste-modal-vol-input').val('');
 
         $('#paste-options-modal')
