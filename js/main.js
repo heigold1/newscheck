@@ -858,10 +858,10 @@ console.log(symbolArray);
 			dataType: 'json',
 			success:  function (data) {
 
-				if ((data.newHalts == 1) && $("#checkbox-check-halts").is(":checked"))
-				{
-						playCheckTradeHalts(); 
-				}
+				if (((data.newHalts == 1) || (data.resumingToday == 1)) && $("#checkbox-check-halts").is(":checked"))
+                {
+                    playCheckTradeHalts(); 
+                }
 
 				var haltSymbolList = data.halt_symbol_list; 
 
