@@ -7,7 +7,7 @@ oauth_consumer_key: 874c996f1f6ecaa46c65abb115da9912
 consumer_secret: 886529f1c9d06729e97b6f511a89b4df
 */
 
-$yesterdayDays = 1;
+$yesterdayDays = 3;
 
 error_reporting(1);
 
@@ -240,6 +240,11 @@ function saveOrderInfo($originalSymbol, $orderStub, $volumeNotes, $individualNot
     $lowPrice = ($lowPrice === '' || $lowPrice === null) ? 'NULL' : $lowPrice;
     $lowPercentage = ($lowPercentage === '' || $lowPercentage === null) ? 'NULL' : $lowPercentage;
 
+    // Before building the query — coerce invalid/NaN to NULL
+    if (!is_numeric($lowPercentage) || $lowPercentage === 'NaN') {
+        $lowPercentage = 'NULL';   // or '0' if you'd rather store zero
+    }
+
     // Check connection
     try {
         $mysqli = new mysqli($servername, $username, $password, $db);
@@ -260,7 +265,6 @@ error_log("SQL Query: " .
         . $individualNotes . "', "
         . $lowPrice . ", "
         . $lowPercentage . ", CURRENT_TIMESTAMP)"); 
-
 
     $mysqli->query(
         "REPLACE INTO orders (symbol, order_stub, volume_notes, individual_notes, low_price, low_percentage, created_at) VALUES ('"

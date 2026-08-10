@@ -282,7 +282,8 @@ function isUselessArticle(title) {
         "stock has rallied", 
         "buy gold stocks", 
         "investors hit sell button", 
-        "worst day"
+        "worst day",
+        "upcoming stock splits"  
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -858,11 +859,13 @@ console.log(symbolArray);
 			dataType: 'json',
 			success:  function (data) {
 
-				if (((data.newHalts == 1) || (data.resumingToday == 1)) && $("#checkbox-check-halts").is(":checked"))
-                {
-                    playCheckTradeHalts(); 
+                if ((data.newHalts == 1) || (data.resumingToday == 1)) {
+                    console.log("ALARM CONDITION MET");
+                    if ($("#checkbox-check-halts").is(":checked")) {
+                        console.log("PLAYING SOUND");
+                        playCheckTradeHalts();
+                    }
                 }
-
 				var haltSymbolList = data.halt_symbol_list; 
 
 				delete data.haltstring;
