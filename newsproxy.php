@@ -7,7 +7,7 @@ oauth_consumer_key: 874c996f1f6ecaa46c65abb115da9912
 consumer_secret: 886529f1c9d06729e97b6f511a89b4df
 */
 
-$yesterdayDays = 3;
+$yesterdayDays = 1;
 
 error_reporting(1);
 
@@ -743,6 +743,10 @@ function getTradeHalts()
         $resumptionTime = (string)$child->ResumptionTradeTime; 
         $symbol         = strtoupper(trim($feed_item->title)); 
         $reasonCode     = trim($child->ReasonCode); 
+
+        if (strpos($symbol, '-') !== false || strpos($symbol, '.') !== false) {
+          continue;
+        }
 
         // ---- extra fields needed for red detection ----
         $resumptionDateStr = trim($child->ResumptionDate);
