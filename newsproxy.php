@@ -487,6 +487,7 @@ function getStreetInsider($symbol, $yesterdayDays)
 
             $publicationDate = $feedItem->pubDate;
             $publicationDate = preg_replace("/[0-9][0-9]\:[0-9][0-9]\:[0-9][0-9] \-[0-9][0-9][0-9][0-9]/", "", $publicationDate); 
+            error_log("[SI-DEBUG] symbol=$symbol rawPubDate='" . $feedItem->pubDate . "' strippedPubDate='" . $publicationDate . "' todayString='" .    get_yahoo_todays_trade_date() . "'"); 
             $publicationTime = $convertedDate->format("g:i A");
 
             $newsTitle = $feedItem->title; 
