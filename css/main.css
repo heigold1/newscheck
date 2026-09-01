@@ -572,7 +572,7 @@
 		.haltDiv{
 			position: relative;
 			height: 24;
-			width: 24;
+			width: 19;
 			margin-top: 1px;
 			margin-left: 0px ;
 			border: 1px solid #333;
@@ -629,7 +629,7 @@
 		.noNewsDiv{
 			position: relative;
 			height: 24;
-			width: 40;
+			width: 19;
 			margin-top: 1px;
 			margin-left: 0px ;
 			border: 1px solid #333;
@@ -641,12 +641,37 @@
 			font-weight: bold;  
 		}	
 
+		.haltedTDiv{
+			position: relative;
+			height: 24;
+			width: 19;
+			margin-top: 1px;
+			margin-left: 0px ;
+			border: 1px solid #333;
+			display: inline-block;
+			vertical-align: top;
+			background-color: #EBEBE0;   
+			font-weight: bold;  
+		}
+
 		.noNewsSpan{
 			position: relative;
 			height: 22px;
-			width: 36px;
+			width: 17px;
 			margin-top: 1px;
-			margin-left: 5px ;
+			margin-left: 2px ;
+			display: inline-block;
+			font-size: 20px;   
+			vertical-align: top;
+			font-weight: bold;			
+		}
+
+		.haltedTSpan{
+			position: relative;
+			height: 22px;
+			width: 17px;
+			margin-top: 1px;
+			margin-left: 2px ;
 			display: inline-block;
 			font-size: 20px;   
 			vertical-align: top;
@@ -654,12 +679,13 @@
 		}
 
 
+
 		.haltSpan{
 			position: relative;
 			height: 22px;
-			width: 21px;
+			width: 17px;
 			margin-top: 1px;
-			margin-left: 5px ;
+			margin-left: 2px ;
 			display: inline-block;
 			font-size: 20px;   
 			vertical-align: top;

@@ -472,10 +472,10 @@ function createNewNewsEntry() {
 	newNewsEntry += "	<div class='checkForLowWrapper'>";
 	newNewsEntry += "&nbsp;<input type='checkbox' id='checkForLow" + newIdNumber + "' class='checkForLow' checked>";
 	newNewsEntry += "	</div>";
-  newNewsEntry += "&nbsp;<div class='bigChartsInfo'>"; 
-  newNewsEntry += "&nbsp;<input type='checkbox' id='checkForBigCharts" + newIdNumber + "' class='checkForBigCharts' checked>"; 
+    newNewsEntry += "&nbsp;<div class='bigChartsInfo'>"; 
+    newNewsEntry += "&nbsp;<input type='checkbox' id='checkForBigCharts" + newIdNumber + "' class='checkForBigCharts' checked>"; 
 	newNewsEntry += "  <div id='bigChartsWrapper" + newIdNumber+ "' class='bigChartsWrapper'>"; 
-  newNewsEntry += "		 &nbsp;<span id='bigChartsPercentageMain" + newIdNumber + "' class='bigChartsPercentageMain'></span>"; 
+    newNewsEntry += "		 &nbsp;<span id='bigChartsPercentageMain" + newIdNumber + "' class='bigChartsPercentageMain'></span>"; 
 	newNewsEntry += "		</div>"; 
 	newNewsEntry += "</div>"; 
 	newNewsEntry += "	<div class='checkForNewNewsWrapper'>"; 
@@ -485,8 +485,11 @@ function createNewNewsEntry() {
 	newNewsEntry += "		<button id='controlButton" + newIdNumber + "' class='controlButton' type='button'>Start</button>"; 
 	newNewsEntry += " 	</div>"; 
 	newNewsEntry += " 	<div id='noNewsDiv" + newIdNumber + "' class='noNewsDiv' tabindex='-1'>";  
-	newNewsEntry += " 			<span class='noNewsSpan' tabindex='-1'>NN</span>"; 
-  newNewsEntry += "		</div>"; 
+	newNewsEntry += " 			<span class='noNewsSpan' tabindex='-1'>N</span>"; 
+    newNewsEntry += "		</div>"; 
+    newNewsEntry += "   <div id='haltedTDiv" + newIdNumber + "' class='haltedTDiv' tabindex='-1'>";  
+    newNewsEntry += "      <span class='noNewsSpan' tabindex='-1'>T</span>"; 
+    newNewsEntry += "   </div>"; 
 	newNewsEntry += "	<div id='haltDiv" + newIdNumber + "' class='haltDiv' tabindex='-1'>"; 
 	newNewsEntry += "		<span class='haltSpan' tabindex='-1'>H</span>";
 	newNewsEntry += "	</div>";
@@ -1133,6 +1136,9 @@ console.log(symbolArray);
 
 									   $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
                                     }
+                                    else if ($("#haltedTDiv" + currentId).css("background-color") === "rgb(144, 213, 255)") {
+                                        $("#newsResultsDiv" + currentId).css("background-color", "rgb(144, 213, 255)"); 
+                                    }
                                     else
                                     {
                                         $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
@@ -1152,6 +1158,9 @@ console.log(symbolArray);
                                     if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
 
                                        $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                                    }
+                                    else if ($("#haltedTDiv" + currentId).css("background-color") === "rgb(144, 213, 255)") {
+                                        $("#newsResultsDiv" + currentId).css("background-color", "rgb(144, 213, 255)"); 
                                     }
                                     else
                                     {
@@ -1184,6 +1193,9 @@ console.log(symbolArray);
 
                                    $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
                                 }
+                                else if ($("#haltedTDiv" + currentId).css("background-color") === "rgb(144, 213, 255)") {
+                                   $("#newsResultsDiv" + currentId).css("background-color", "rgb(144, 213, 255)"); 
+                                }
                                 else
                                 {
                                     $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
@@ -1202,6 +1214,9 @@ console.log(symbolArray);
                                 if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
 
                                    $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                                }
+                                else if ($("#haltedTDiv" + currentId).css("background-color") === "rgb(144, 213, 255)") {
+                                   $("#newsResultsDiv" + currentId).css("background-color", "rgb(144, 213, 255)"); 
                                 }
                                 else
                                 {
@@ -1234,6 +1249,9 @@ console.log(symbolArray);
 
                                    $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
                                 }
+                                else if ($("#haltedTDiv" + currentId).css("background-color") === "rgb(144, 213, 255)") {
+                                   $("#newsResultsDiv" + currentId).css("background-color", "rgb(144, 213, 255)"); 
+                                }
                                 else
                                 {
                                     $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
@@ -1252,6 +1270,9 @@ console.log(symbolArray);
                                 if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
 
                                    $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                                }
+                                else if ($("#haltedTDiv" + currentId).css("background-color") === "rgb(144, 213, 255)") {
+                                   $("#newsResultsDiv" + currentId).css("background-color", "rgb(144, 213, 255)"); 
                                 }
                                 else
                                 {
@@ -1278,6 +1299,9 @@ console.log(symbolArray);
 
                                $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
                             }
+                            else if ($("#haltedTDiv" + currentId).css("background-color") === "rgb(144, 213, 255)") {
+                               $("#newsResultsDiv" + currentId).css("background-color", "rgb(144, 213, 255)"); 
+                            }
                             else
                             {
                                 $("#newsResultsDiv" + currentId).css("background-color", "#FFA1A1"); 
@@ -1298,6 +1322,9 @@ console.log(symbolArray);
                             if ($("#lowVolumeDiv" + currentId).css("background-color") === "rgb(255, 255, 0)") {
 
                                $("#newsResultsDiv" + currentId).css("background-color", "rgb(255, 255, 0)"); 
+                            }
+                            else if ($("#haltedTDiv" + currentId).css("background-color") === "rgb(144, 213, 255)") {
+                               $("#newsResultsDiv" + currentId).css("background-color", "rgb(144, 213, 255)"); 
                             }
                             else
                             {
@@ -2454,6 +2481,19 @@ $(document).on('click', '.noNewsDiv', function() {
     
     if (currentColor === 'rgb(235, 235, 224)') {
         $(this).css('background-color', 'rgb(255, 161, 161)');
+    } else {
+        $(this).css('background-color', 'rgb(235, 235, 224)');
+    }
+});
+
+$(document).on('click', '.haltedTDiv', function() {
+    var currentId = $(this).attr("id");
+    currentId = currentId.replace("orderInput", "");
+    
+    var currentColor = $(this).css('background-color');
+    
+    if (currentColor === 'rgb(235, 235, 224)') {
+        $(this).css('background-color', 'rgb(144, 213, 255)');
     } else {
         $(this).css('background-color', 'rgb(235, 235, 224)');
     }
