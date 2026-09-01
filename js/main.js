@@ -12,9 +12,9 @@ var railroad1300 = 0;
 
 function normalizeHeadline(str) {
     if (!str) return "";
-
     return String(str)
         .replace(/\\'/g, "'")
+        .replace(/\\"/g, '"')    // unescape escaped double quotes
         .replace(/[‘’]/g, "'")
         .replace(/[“”]/g, '"')   // normalize smart double quotes
         .replace(/&#39;|&#x27;|&apos;/g, "'")
@@ -25,16 +25,14 @@ function normalizeHeadline(str) {
         .trim()
         .toLowerCase();
 }
-
-
 // ---------------------------
 // Normalize links
 // ---------------------------
 function normalizeLink(str) {
     if (!str) return "";
-
     return String(str)
         .replace(/\\'/g, "'")        // remove escaped quotes
+        .replace(/\\"/g, '"')        // unescape escaped double quotes
         .replace(/&amp;/g, '&')
         .replace(/&nbsp;/g, ' ')
         .replace(/&#xD;&#xA;/g, "")
