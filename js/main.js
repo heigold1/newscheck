@@ -14,10 +14,11 @@ function normalizeHeadline(str) {
     if (!str) return "";
     return String(str)
         .replace(/\\'/g, "'")
-        .replace(/\\"/g, '"')    // unescape escaped double quotes
+        .replace(/\\"/g, '"')
         .replace(/[‘’]/g, "'")
-        .replace(/[“”]/g, '"')   // normalize smart double quotes
+        .replace(/[“”]/g, '"')
         .replace(/&#39;|&#x27;|&apos;/g, "'")
+        .replace(/&quot;|&#34;|&#x22;/gi, '"')
         .replace(/&amp;/g, '&')
         .replace(/&nbsp;/g, ' ')
         .replace(/[–—]/g, "-")
@@ -311,7 +312,7 @@ function isUselessArticle(title) {
     )) {
         return true;
     }
-
+ww
     // Check regex patterns
     if (uselessRegexPatterns.some(regex =>
         regex.test(cleanTitle)
@@ -1124,6 +1125,9 @@ console.log(symbolArray);
 
 						var storedLinkYahooTitle = $("#storedYahooLink" + currentId).find("a:first").text();
 
+console.log("normalizeHeadline(yahooFirstLinkTitle) is " + normalizeHeadline(yahooFirstLinkTitle)); 
+console.log("normalizeHeadline(storedLinkYahooTitle) is " +  normalizeHeadline(storedLinkYahooTitle)); 
+
 						if (
 						       yahooFirstLinkTitle !== "" 
 						    && !isUselessArticle(yahooFirstLinkTitle)
@@ -1181,6 +1185,9 @@ console.log(symbolArray);
 
 					var storedLinkMWTitle = $("#storedMarketWatchMainLink" + currentId).find("a:first").text(); 
 
+console.log("normalizeHeadline(mwMainContentLink1Title) is " + normalizeHeadline(mwMainContentLink1Title));
+console.log("normalizeHeadline(storedLinkMWTitle) is " + normalizeHeadline(storedLinkMWTitle));  
+
 		 			// if we bring back a marketwatch main table link 
 					if (
 					       mwMainContentLink1Title !== "" 
@@ -1235,6 +1242,9 @@ console.log(symbolArray);
 	 					}  // if we bring back a marketwatch main link  
 
 					var storedLinkMWPartnerTitle = $("#storedMarketWatchPartnerLink" + currentId).find("a:first").text(); 
+
+console.log("normalizeHeadline(mwPartnerHeadlinesLink1Title) is " + normalizeHeadline(mwPartnerHeadlinesLink1Title));
+console.log("normalizeHeadline(storedLinkMWPartnerTitle) is " + normalizeHeadline(storedLinkMWPartnerTitle)); 
 
 	 				// if we bring back a marketwatch partner headlines link 
 					if (
