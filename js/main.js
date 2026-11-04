@@ -282,7 +282,11 @@ function isUselessArticle(title) {
         "buy gold stocks", 
         "investors hit sell button", 
         "worst day",
-        "upcoming stock splits"  
+        "upcoming stock splits",
+        "surprising stock",
+        "option volume leaders",
+        "stocks crushed", 
+        "bitcoin rises"
     ];
 
     // 2️⃣ Dynamic regex patterns
@@ -304,6 +308,8 @@ function isUselessArticle(title) {
         /coverage.*at\s+(buy|sell|neutral|overweight|underweight)/, 
         /best performing?.*stocks/,
         /why is?.*falling/,
+        /impact on the?.*sector/,
+        /why?.*dropped today/ 
     ];
 
     // Check static phrases
@@ -312,7 +318,7 @@ function isUselessArticle(title) {
     )) {
         return true;
     }
-ww
+
     // Check regex patterns
     if (uselessRegexPatterns.some(regex =>
         regex.test(cleanTitle)
