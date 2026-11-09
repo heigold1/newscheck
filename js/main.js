@@ -286,7 +286,9 @@ function isUselessArticle(title) {
         "surprising stock",
         "option volume leaders",
         "stocks crushed", 
-        "bitcoin rises"
+        "bitcoin rises",
+        "and more stocks",
+        "more challeng"
     ];
 
     // 2️⃣ Dynamic regex patterns
