@@ -908,18 +908,23 @@
 			display: inline-block;
 		}
 
-		.chartDiv{
-			position: relative; 
-			border: 1px solid #333;
-			margin-left: 1px; 
-			margin-top: 1px; 
-			height: 239px; 
-/*			border-radius: 10px;  */
-			width: 412px;
-			background-color: #F5F5F0;
-			overflow: hidden;
-			display: inline-block;
-			vertical-align: top; 
+		.aiNotesDiv {
+		    position: absolute;
+		    left: 785px;                 /* was 868px; moves it closer to the news section */
+		    top: 34px;
+		    right: 6px;
+		    bottom: 6px;
+		}
+		.aiNotesText {
+		    width: 100%;
+		    height: 100%;
+		    font-size: 15px;
+		    font-family: Arial, sans-serif;
+		    background: #ffffff;         /* white, to match the other controls */
+		    border: 1px solid #333;      /* thin dark border, like your other boxes */
+		    padding: 6px;
+		    box-sizing: border-box;
+		    resize: none;
 		}
 
 		#radarContainer{
