@@ -383,6 +383,24 @@ function produce_XML_object_tree($raw_XML) {
     return $xmlTree;
 }
 
+// untouched copy of one StreetInsider headline for newslookup's Claude dump (before any highlighting rules)
+function siCleanItem($title, $link, $pubDate)
+{
+    $item = array('source' => 'StreetInsider', 'title' => trim((string) $title), 'link' => trim((string) $link),
+                  'pub_date_raw' => trim((string) $pubDate), 'date_et' => '', 'time_et' => '', 'epoch' => null);
+    if ($item['pub_date_raw'] !== '')
+    {
+        try {
+            $dt = new DateTime($item['pub_date_raw']);
+            $item['epoch'] = $dt->getTimestamp();                     // seconds since 1970, for headline-age math
+            $dt->setTimezone(new DateTimeZone('America/New_York'));
+            $item['date_et'] = $dt->format('D, d M Y');
+            $item['time_et'] = $dt->format('g:i A T');
+        } catch (Exception $e) { }
+    }
+    return $item;
+}
+
 function getStreetInsider($symbol, $yesterdayDays)
 {
 
@@ -475,15 +493,14 @@ function getStreetInsider($symbol, $yesterdayDays)
         $previousNewsTitle = "";
         $currentNewsTitle = ""; 
 
+        $siClean = array();     // untouched headlines for newslookup's Claude dump
+
         foreach ($xmlFinalObject->channel->item as $feedItem) {
             $j++;
 
-            // Convert time from GMT to  AM/PM New York
-            // 14400 is 4 hours X 60 seconds/minute X 60 minutes/hour
-            $publicationDateStrToTime = strtotime($feedItem->pubDate) - 14400;
-
-            $convertedDate = new DateTime(); 
-            $convertedDate->setTimestamp($publicationDateStrToTime);
+            // Convert time from GMT to AM/PM New York (handles EST/EDT automatically)
+            $convertedDate = new DateTime((string) $feedItem->pubDate);
+            $convertedDate->setTimezone(new DateTimeZone('America/New_York'));
 
             $publicationDate = $feedItem->pubDate;
             $publicationDate = preg_replace("/[0-9][0-9]\:[0-9][0-9]\:[0-9][0-9] \-[0-9][0-9][0-9][0-9]/", "", $publicationDate); 
@@ -519,6 +536,10 @@ function getStreetInsider($symbol, $yesterdayDays)
             {
                 continue; 
             }
+
+
+            // untouched copy for newslookup's Claude dump - saved BEFORE the title regex rules below
+            $siClean[] = siCleanItem($feedItem->title, $feedItem->link, $feedItem->pubDate);
 
             $streetInsiderNews .= "<li "; 
 
@@ -579,6 +600,8 @@ function getStreetInsider($symbol, $yesterdayDays)
         {
             $streetInsiderNews = preg_replace('/(' .  get_yahoo_trade_date($daysBack) . ')/', '<span style="font-size: 12px; background-color:#0747a1 ; color:white">$1</span>', $streetInsiderNews);
         }
+
+        $streetInsiderNews .= "<!--CLEAN_SI_JSON-->" . json_encode($siClean);   // clean list for newslookup's Claude dump (newscheck ignores it)
 
 //        $streetInsiderNews = regexStreetInsider($streetInsiderNews); 
 
