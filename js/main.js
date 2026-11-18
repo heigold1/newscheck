@@ -289,7 +289,8 @@ function isUselessArticle(title) {
         "bitcoin rises",
         "and more stocks",
         "more challeng", 
-        "buy this" 
+        "buy this",
+        "should you buy"
     ];
 
     // 2️⃣ Dynamic regex patterns
