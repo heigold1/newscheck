@@ -164,12 +164,14 @@
 
 	 		 		<div class="symbolCheckBox" tabindex="-1">
 						<span class="symbolCheckBoxLabel" >
-							<button id="phaseOne1" class="recalcPhaseOne" type="button">Phase 1</button>
-							<button id="phaseTwo1" class="recalcPhaseTwo" type="button">Phase 2</button>
+							<input type="text" id="newPercentage1" class="newPercentage" placeholder="%" title="New % below the previous close" style="width:40px;">
+							<button id="recalcNewPercentage1" class="recalcNewPercentage" type="button" title="Recalculate the order at this % below the previous close">%</button>
+							<input type="text" id="newPrice1" class="newPrice" placeholder="$" title="New entry price" style="width:55px;">
+							<button id="recalcNewPrice1" class="recalcNewPrice" type="button" title="Recalculate the order at this price">$</button>
 						</span> 
 						&nbsp;
 							<label for="amountSpending1">$ Spend</label>
-							<input type="text" id="amountSpending1" class="amountSpending" value="700">
+							<input type="text" id="amountSpending1" class="amountSpending" value="250">
 							<input type="checkbox" class="checkPK" id="checkPK1" value="1">PK
 							<input type="checkbox" class="checkBB" id="checkBB1" value="1">BB
 							<button class="copyOrderToClipboard" id="copyOrderToClipboard1" type="button">Copy</button>

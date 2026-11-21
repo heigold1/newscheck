@@ -548,12 +548,14 @@ Not using the individual refresh anymore but I'll keep it here just in case
 	newNewsEntry += " 	<div class='newsContainer'>"; 
 	newNewsEntry += "		<div class='symbolCheckBox' tabindex='-1'>"
 	newNewsEntry +=	"			<span class='symbolCheckBoxLabel'>" 
-    newNewsEntry += "               <button id='phaseOne" + newIdNumber + "' class='recalcPhaseOne' type='button'>Phase 1</button>"; 
-    newNewsEntry += "               <button id='phaseTwo" + newIdNumber + "' class='recalcPhaseTwo' type='button'>Phase 2</button>"; 
+    newNewsEntry += "               <input type='text' id='newPercentage" + newIdNumber + "' class='newPercentage' placeholder='%' title='New % below the previous close' style='width:40px;'>";
+    newNewsEntry += "               <button id='recalcNewPercentage" + newIdNumber + "' class='recalcNewPercentage' type='button' title='Recalculate the order at this % below the previous close'>%</button>";
+    newNewsEntry += "               <input type='text' id='newPrice" + newIdNumber + "' class='newPrice' placeholder='$' title='New entry price' style='width:55px;'>";
+    newNewsEntry += "               <button id='recalcNewPrice" + newIdNumber + "' class='recalcNewPrice' type='button' title='Recalculate the order at this price'>$</button>";
 	newNewsEntry += "			</span> "; 
 	newNewsEntry += "			&nbsp;";
     newNewsEntry += "           <label for='amountSpending" + newIdNumber+ "''>$ Spend</label>"; 
-    newNewsEntry += "           <input type='text' id='amountSpending"  + newIdNumber + "' class='amountSpending' value='700'>"; 
+    newNewsEntry += "           <input type='text' id='amountSpending"  + newIdNumber + "' class='amountSpending' value='250'>"; 
 	newNewsEntry += "			<input type='checkbox' class='checkPK' id='checkPK" + newIdNumber + "' value='1'>PK";
 	newNewsEntry += "			<input type='checkbox' class='checkBB' id='checkBB" + newIdNumber + "' value='1'>BB"; 
 	newNewsEntry += "			<button class='copyOrderToClipboard' id='copyOrderToClipboard" + newIdNumber + "' type='button'>Copy</button>";
@@ -2042,148 +2044,98 @@ $(document.body).on('click', ".lowVolumeDiv", function(){
 
 
 
-$(document.body).on('click', ".recalcPhaseOne", function(){
+// ---------- NEW % / NEW PRICE boxes: recalculate the order stub on the spot ----------
+// Stub format: "BUY 800 $0.2975 (60.86%) -- $0.76"   (the last $ value is the previous close)
+// New % -> works out the price.  New price -> works out the %.  Shares come from that row's $ Spend box.
 
-    currentId = $(this).attr("id");
-    currentId = currentId.replace("phaseOne", "");
+function getPrevCloseForRow(currentId) {
+    var stub = $.trim($("#orderInput" + currentId).val() || "");
+    var m = stub.match(/--\s*\$([\d.,]+)\s*$/);                          // " -- $0.76" at the end of the stub
+    if (m) {
+        var v = parseFloat(m[1].replace(/,/g, ""));
+        if (v > 0) return {value: v, text: m[1].replace(/,/g, "")};      // keep it exactly as pasted
+    }
+    var stored = parseFloat($("#prevClose" + currentId).html());          // fallback: the stored value
+    if (stored > 0) return {value: stored, text: stored.toFixed(stored < 1 ? 4 : 2)};
+    return null;
+}
 
-    var amountUsing = 700;
-
-    // Get previous close directly
-    var prevCloseFromString = parseFloat($("#prevClose" + currentId).html());
-
-    // Calculate new 52.5% drop price
-    var newPrice = prevCloseFromString * 0.475;
-
-    // Round display price
-    newPrice = parseFloat(newPrice.toFixed(2));
-
-    // Calculate shares
-    var finalNumShares = amountUsing / newPrice;
-
-    // Round to nearest 50
-    var finalNumSharesRounded = Math.round(finalNumShares / 50) * 50;
-
-    // If rounding produced 0 or under 100 shares,
-    // fall back to nearest 10
-    if(finalNumSharesRounded < 100)
-    {
-        finalNumSharesRounded = Math.floor(finalNumShares / 10) * 10;
-
-        // minimum 5 shares
-        if(finalNumSharesRounded < 5)
-        {
-            finalNumSharesRounded = 5;
-        }
+function recalcOrderFromInput(currentId, mode) {          // mode: "pct" or "price"
+    var prevClose = getPrevCloseForRow(currentId);
+    if (!prevClose) {
+        alert("Can't find the previous close for this row - paste the order stub first.");
+        return;
     }
 
-    // Build new order string
-    var newOrderString =
-        "BUY " +
-        finalNumSharesRounded +
-        " $" +
-        newPrice.toFixed(2) +
-        " (52.50%) -- $" +
-        prevCloseFromString.toFixed(2);
+    var box   = mode === "pct" ? "#newPercentage" + currentId : "#newPrice" + currentId;
+    var raw   = $.trim($(box).val()).replace(/[%$,\s]/g, "");
+    var value = parseFloat(raw);
+    var newPrice, priceText;
 
-    // Write back
-    $("#orderInput" + currentId).val(newOrderString);
+    if (mode === "pct") {
+        if (!(value > 0 && value < 100)) {
+            alert("Type a percentage between 0 and 100 (e.g. 60 = 60% below the previous close of $" + prevClose.text + ").");
+            return;
+        }
+        newPrice = prevClose.value * (1 - value / 100);
+        // same decimals rule as the L button: 4 decimals only when both the price and the previous close are under $1.00
+        priceText = newPrice.toFixed((newPrice < 1 && prevClose.value < 1) ? 4 : 2);
+    } else {
+        if (!(value > 0 && value < prevClose.value)) {
+            alert("Type a price above $0 and below the previous close ($" + prevClose.text + ").");
+            return;
+        }
+        var typedDecimals = (raw.split(".")[1] || "").length;              // keep your price as typed (2 to 4 decimals)
+        priceText = value.toFixed(Math.min(4, Math.max(2, typedDecimals)));
+    }
+    newPrice = parseFloat(priceText);
 
-    $("#fullOrder" + currentId).val(
-        $("#symbol" + currentId).val() +
-        " " +
-        $("#orderInput" + currentId).val()
-    );
+    var amountSpending = parseFloat($("#amountSpending" + currentId).val());
+    if (!(amountSpending > 0)) {
+        alert("The $ Spend box is empty or not a number.");
+        return;
+    }
+    var rawShares = amountSpending / newPrice;
+    var newShares = smartRound(rawShares);
+    if (newShares < 1) newShares = Math.max(1, Math.floor(rawShares));    // very high-priced stock: at least 1 share
+
+    var newPercentage = ((prevClose.value - newPrice) / prevClose.value * 100).toFixed(2);
+
+    var stub = $.trim($("#orderInput" + currentId).val() || "");
+    var side = stub.split(" ")[0] || "BUY";
+    var newOrderStub = side + " " + newShares + " $" + priceText + " (" + newPercentage + "%) -- $" + prevClose.text;
+
+    $("#orderInput" + currentId).val(newOrderStub);
+    $("#prevClose" + currentId).html(prevClose.value);                    // keep the stored value in step with the stub
+    $("#fullOrder" + currentId).val($("#symbol" + currentId).val() + " " + newOrderStub);
 
     var copyTextarea = $("#fullOrder" + currentId);
-
     copyTextarea.select();
-
-    try
-    {
-        var successful = document.execCommand('copy');
-
+    try {
+        document.execCommand('copy');
         alert($("#fullOrder" + currentId).val() + " successfully copied.");
-    }
-    catch(err)
-    {
+    } catch (err) {
         alert('Order did not succesfully copy');
     }
 
-    writeTradeStamp(currentId, "Copy");
+    writeTradeStamp(currentId, mode === "pct" ? "Pct" : "Price");
+}
 
+$(document.body).on('click', ".recalcNewPercentage", function () {
+    recalcOrderFromInput($(this).attr("id").replace("recalcNewPercentage", ""), "pct");
 });
 
-$(document.body).on('click', ".recalcPhaseTwo", function(){
+$(document.body).on('click', ".recalcNewPrice", function () {
+    recalcOrderFromInput($(this).attr("id").replace("recalcNewPrice", ""), "price");
+});
 
-    currentId = $(this).attr("id");
-    currentId = currentId.replace("phaseTwo", "");
-
-    var amountUsing = 700;
-
-    // Get previous close directly
-    var prevCloseFromString = parseFloat($("#prevClose" + currentId).html());
-
-    // Calculate new 62.5% drop price
-    var newPrice = prevCloseFromString * 0.375;
-
-    // Round display price
-    newPrice = parseFloat(newPrice.toFixed(2));
-
-    // Calculate shares
-    var finalNumShares = amountUsing / newPrice;
-
-    // Round to nearest 50
-    var finalNumSharesRounded = Math.round(finalNumShares / 50) * 50;
-
-    // If rounding produced 0 or under 100 shares,
-    // fall back to nearest 10
-    if(finalNumSharesRounded < 100)
-    {
-        finalNumSharesRounded = Math.floor(finalNumShares / 10) * 10;
-
-        // minimum 5 shares
-        if(finalNumSharesRounded < 5)
-        {
-            finalNumSharesRounded = 5;
-        }
-    }
-
-    // Build new order string
-    var newOrderString =
-        "BUY " +
-        finalNumSharesRounded +
-        " $" +
-        newPrice.toFixed(2) +
-        " (62.50%) -- $" +
-        prevCloseFromString.toFixed(2);
-
-    // Write back
-    $("#orderInput" + currentId).val(newOrderString);
-
-    $("#fullOrder" + currentId).val(
-        $("#symbol" + currentId).val() +
-        " " +
-        $("#orderInput" + currentId).val()
-    );
-
-    var copyTextarea = $("#fullOrder" + currentId);
-
-    copyTextarea.select();
-
-    try
-    {
-        var successful = document.execCommand('copy');
-
-        alert($("#fullOrder" + currentId).val() + " successfully copied.");
-    }
-    catch(err)
-    {
-        alert('Order did not succesfully copy');
-    }
-
-    writeTradeStamp(currentId, "Copy");
-
+// Enter in either box = same as clicking its button
+$(document.body).on('keydown', ".newPercentage, .newPrice", function (e) {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    var id = $(this).attr("id");
+    if (id.indexOf("newPercentage") === 0) recalcOrderFromInput(id.replace("newPercentage", ""), "pct");
+    else                                   recalcOrderFromInput(id.replace("newPrice", ""), "price");
 });
 
 
