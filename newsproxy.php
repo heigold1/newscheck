@@ -2,6 +2,11 @@
 
 require_once("../newslookup/regex-street-insider.php"); 
 
+// E*TRADE SDK, borrowed from newslookup - for the halt price check in getTradeHalts()
+include_once(__DIR__ . '/../newslookup/Samples/config.php');
+require_once(__DIR__ . '/../newslookup/Common/Common.php');
+require_once(__DIR__ . '/../newslookup/Market/MarketClient.class.php');
+
 /* 
 oauth_consumer_key: 874c996f1f6ecaa46c65abb115da9912
 consumer_secret: 886529f1c9d06729e97b6f511a89b4df
@@ -699,6 +704,64 @@ function getYahoo($modifiedSymbol)
 } // if ($which_website == "yahoo")
 
 
+// Asks E*TRADE for the current price and previous close of a list of symbols (25 per call).
+// Returns array('SYM' => array('current' => 1.23, 'prev_close' => 1.50)).
+// Symbols E*TRADE gives no usable price for are left out, so the caller keeps them (better than missing a real one).
+function getHaltQuotes($symbols)
+{
+    $quotes  = array();
+    $symbols = array_values(array_unique($symbols));
+    if (count($symbols) == 0) return $quotes;
+
+    $ini = @parse_ini_file(__DIR__ . '/../newslookup/etrade.ini', true);    // same token file newslookup uses
+    if ($ini === false) return $quotes;
+
+    $consumer = new etOAuthConsumer($ini['OAuth']['oauth_consumer_key'], $ini['OAuth']['consumer_secret']);
+    $consumer->oauth_token        = $ini['OAuth']['oauth_token'];
+    $consumer->oauth_token_secret = $ini['OAuth']['oauth_token_secret'];
+    $client = new MarketClient($consumer);
+
+    // outside 9:30-4:00 ET, use the pre-market / after-hours price if there is one
+    $nowET = new DateTime('now', new DateTimeZone('America/New_York'));
+    $hhmm  = (int) $nowET->format('Hi');
+    $regularHours = ($hhmm >= 930 && $hhmm < 1600);
+
+    foreach (array_chunk($symbols, 25) as $chunk) {
+        try {
+            $params = new getQuoteParams();
+            $params->__set('symbolList', $chunk);
+            $params->__set('afterhourFlag', true);
+            $params->__set('detailFlag', 'All');
+            $xml = @simplexml_load_string($client->getQuote($params));
+        } catch (Exception $e) {
+            continue;                                // this batch failed - those symbols are kept
+        }
+        if (!$xml) continue;
+
+        foreach ($xml->QuoteData as $qd) {
+            $sym  = strtoupper(trim((string) $qd->Product->symbol));
+            $all  = $qd->All;
+            $prev = haltQuoteNum($all->previousClose);
+            $last = haltQuoteNum($all->lastTrade);
+            $ext  = haltQuoteNum($all->ExtendedHourQuoteDetail->lastPrice);
+            $current = (!$regularHours && $ext > 0) ? $ext : $last;
+            if ($sym !== '' && $prev > 0 && $current > 0) {
+                $quotes[$sym] = array('current' => $current, 'prev_close' => $prev);
+            }
+        }
+    }
+    return $quotes;
+}
+
+// E*TRADE sends sub-penny prices like "12E-4" - turns them into 0.0012
+function haltQuoteNum($value)
+{
+    $value = trim((string) $value);
+    if (preg_match('/E-4$/', $value)) return floatval(preg_replace('/E-4$/', '', $value)) / 10000;
+    return floatval($value);
+}
+
+
 function getTradeHalts()
 {
     /* ----------------------------
@@ -831,6 +894,18 @@ function getTradeHalts()
             $returnArray['haltstring'] .= " NO HALT\n"; 
         }
     }
+
+    // ---- only keep halted stocks that are DROPPING: ignore any at or above yesterday's close ----
+    $haltQuotes = getHaltQuotes(array_merge($haltSymbolList, $resumingTodayList));
+    $notDropping = function ($s) use ($haltQuotes) {
+        return isset($haltQuotes[$s]) && $haltQuotes[$s]['current'] >= $haltQuotes[$s]['prev_close'];
+    };
+    $haltSymbolList    = array_values(array_filter($haltSymbolList,    function ($s) use ($notDropping) { return !$notDropping($s); }));
+    $resumingTodayList = array_values(array_filter($resumingTodayList, function ($s) use ($notDropping) { return !$notDropping($s); }));
+
+    // the alarm flags were switched on inside the loop - work them out again from what's left
+    $returnArray['newHalts']      = count(array_diff($haltSymbolList, $orderSymbols)) > 0 ? 1 : 0;
+    $returnArray['resumingToday'] = count($resumingTodayList) > 0 ? 1 : 0;
 
     $returnArray['halt_symbol_list'] = json_encode($haltSymbolList); 
     $returnArray['resuming_today']   = json_encode($resumingTodayList);   // 👈 NEW
