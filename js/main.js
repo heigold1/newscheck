@@ -2338,9 +2338,9 @@ function processOrder(currentId, orderStub, symbol, entryPrice, percentage, isNe
         $("#playVolumeSound"  + currentId).prop('checked', true);
     }
 
-    if (percentage >= 80)
+    if (percentage >= 69)
     {
-        $("#lowInput" + currentId).val("15"); 
+        $("#lowInput" + currentId).val("20"); 
     }
     else if (percentage >= 60)
     {
